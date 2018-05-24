@@ -1,5 +1,7 @@
 package pl.coderslab.entities;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -36,6 +39,16 @@ public class User {
 	@Email
 	@Column(nullable = false, unique = true)
 	private String email;
+	
+	@CreationTimestamp
+	@Column(updatable = false)
+	private Timestamp created;
+	
+	@NotNull
+	@Column(nullable = false)
+	private boolean admin;
+	
+	
 
 	public long getId() {
 		return id;
@@ -76,6 +89,24 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	public Timestamp getCreated() {
+		return created;
+	}
+
+	public void setCreated(Timestamp created) {
+		this.created = created;
+	}
+
+	public boolean isAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
+	}
+	
+	
 	
 	
 	
