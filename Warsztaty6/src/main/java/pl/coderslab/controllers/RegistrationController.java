@@ -14,8 +14,10 @@ import pl.coderslab.entities.User;
 import pl.coderslab.repositories.UserRepository;
 
 @Controller
-public class RegistartionController {
-	@Autowired UserRepository userRepository;
+public class RegistrationController {
+	
+	@Autowired
+	UserRepository userRepository;
 	
 	@GetMapping("/register")
 	public String register(Model model) {
@@ -33,6 +35,7 @@ public class RegistartionController {
 		
 		//zaszygrować i zapisać hasło
 		user.setPassword(BCrypt.hashpw(user.getPassword(),  BCrypt.gensalt()));
+		user.setEnabled(true);
 		userRepository.save(user);
 		
 		return "success";
