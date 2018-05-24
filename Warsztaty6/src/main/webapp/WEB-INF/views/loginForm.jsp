@@ -15,8 +15,8 @@
 	${info}
 	<form method="post">
 	
-		Login<br> 
-		<input type="text" name="login" placeholder="login"><br>
+		Email<br> 
+		<input type="text" name="email" placeholder="email"><br>
 		
 		Password<br>
 		<input type="password" name="password" placeholder="password"><br>

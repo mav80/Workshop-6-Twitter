@@ -19,7 +19,7 @@ public class User {
 	
 	@NotBlank
 	@NotNull
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false)
 	private String username;
 	
 	@NotBlank

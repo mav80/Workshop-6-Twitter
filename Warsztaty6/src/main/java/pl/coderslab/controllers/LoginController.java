@@ -25,18 +25,18 @@ public class LoginController {
 	}
 	
 	@PostMapping("/login")
-	public String login(@RequestParam String login, @RequestParam String password, HttpSession session, Model model) {
+	public String login(@RequestParam String email, @RequestParam String password, HttpSession session, Model model) {
 				
-		User user = userRepository.findFirstByUsername(login);
+		User user = userRepository.findFirstByEmail(email);
 		if(user!=null && BCrypt.checkpw(password,  user.getPassword())) {
 			
-			model.addAttribute("info", "Zalogowano");
+			model.addAttribute("info", "Zalogowano.");
 				//System.out.println("It matches.");
 				session.setAttribute("loggedUser", user);
 			
 		} else {
 			session.setAttribute("loggedUser", null);
-			model.addAttribute("info", "Błędny login lub hasło");
+			model.addAttribute("info", "Podałeś błędny email lub hasło.");
 			//System.out.println("It doesn't match.");
 		}
 		
@@ -48,7 +48,7 @@ public class LoginController {
 	@ResponseBody
 	public String logout(HttpSession session) {
 		session.setAttribute("loggedUser",  null);
-		return "Zostales wylogowany";
+		return "Zostales wylogowany.";
 		
 	}
 	
