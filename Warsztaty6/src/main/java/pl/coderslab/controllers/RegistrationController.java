@@ -23,14 +23,14 @@ public class RegistrationController {
 	public String register(Model model) {
 		model.addAttribute("user", new User());
 		
-		return "userForm";
+		return "userRegisterForm";
 	}
 	
 	@PostMapping("/register")
 	public String register(@Valid User user, BindingResult result) {
 		
 		if(result.hasErrors()) {
-			return "userForm";
+			return "userRegisterForm";
 		}
 		
 		//zaszygrować i zapisać hasło
@@ -38,7 +38,7 @@ public class RegistrationController {
 		user.setEnabled(true);
 		userRepository.save(user);
 		
-		return "success";
+		return "userFormSuccess";
 		
 	}
 	

@@ -21,13 +21,13 @@ public class LoginController {
 	UserRepository userRepository;
 	@GetMapping("/login")
 	public String login() {
-		return "loginForm";
+		return "userLoginForm";
 	}
 	
 	@PostMapping("/login")
-	public String login(@RequestParam String email, @RequestParam String password, HttpSession session, Model model) {
+	public String login(@RequestParam String username, @RequestParam String password, HttpSession session, Model model) {
 				
-		User user = userRepository.findFirstByEmail(email);
+		User user = userRepository.findFirstByUsername(username);
 		if(user!=null && BCrypt.checkpw(password,  user.getPassword())) {
 			
 			model.addAttribute("info", "Zalogowano.");
@@ -36,11 +36,11 @@ public class LoginController {
 			
 		} else {
 			session.setAttribute("loggedUser", null);
-			model.addAttribute("info", "Podałeś błędny email lub hasło.");
+			model.addAttribute("info", "Podałeś błędny login lub hasło.");
 			//System.out.println("It doesn't match.");
 		}
 		
-		return "loginForm";
+		return "userLoginForm";
 	}
 	
 	
