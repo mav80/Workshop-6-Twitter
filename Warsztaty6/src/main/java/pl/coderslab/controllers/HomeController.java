@@ -15,11 +15,8 @@ public class HomeController {
 	public String home(Model model, HttpSession session) {
 		
 		if(session.getAttribute("loggedUser") != null ) {
-			
 			User user = (User)session.getAttribute("loggedUser"); //w sesji zapisujemy obiekty więc musimy zrobić rzutowanie na usera
-			
 			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
-			
 		}
 		return "index";
 	}
