@@ -10,7 +10,8 @@
 <title>userForm</title>
 </head>
 <body>
-	<h1>To jest widok userRegisterForm.jsp</h1>
+	<h1>To jest widok userRegisterForm.jsp</h1><br><br>
+	${error}<br>
 
 	<form:form method="post" modelAttribute="user">
 

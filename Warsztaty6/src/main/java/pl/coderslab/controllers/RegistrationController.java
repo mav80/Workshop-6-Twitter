@@ -27,9 +27,22 @@ public class RegistrationController {
 	}
 	
 	@PostMapping("/register")
-	public String register(@Valid User user, BindingResult result) {
+	public String register(@Valid User user, BindingResult result, Model model) {
 		
-		if(result.hasErrors()) {
+		if(result.hasErrors() || userRepository.findFirstByEmail(user.getEmail()) != null || userRepository.findFirstByUsername(user.getUsername()) != null) {
+			
+			if(userRepository.findFirstByEmail(user.getEmail()) != null) {
+				model.addAttribute("error", "Taki email już istnieje w bazie.");
+			}
+			
+			if(userRepository.findFirstByUsername(user.getUsername()) != null) {
+				if(model.containsAttribute("error")) {
+					model.addAttribute("error", "Taki login oraz email już istnieją w bazie.");
+				} else {
+					model.addAttribute("error", "Taki login już istnieje w bazie.");
+				}
+			}
+			
 			return "userRegisterForm";
 		}
 		
