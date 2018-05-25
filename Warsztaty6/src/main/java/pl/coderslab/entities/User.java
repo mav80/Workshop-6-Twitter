@@ -44,9 +44,16 @@ public class User {
 	@Column(updatable = false)
 	private Timestamp created;
 	
-	@NotNull
 	@Column(nullable = false)
 	private boolean admin;
+	
+	@Column(nullable = false)
+	private int tweeCount;
+	
+	@Column(nullable = false)
+	private int commentCount;
+	
+	
 	
 	
 
@@ -105,6 +112,24 @@ public class User {
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
 	}
+
+	public int getTweeCount() {
+		return tweeCount;
+	}
+
+	public void setTweeCount(int tweeCount) {
+		this.tweeCount = tweeCount;
+	}
+
+	public int getCommentCount() {
+		return commentCount;
+	}
+
+	public void setCommentCount(int commentCount) {
+		this.commentCount = commentCount;
+	}
+	
+	
 	
 	
 	
