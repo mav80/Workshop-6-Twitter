@@ -33,7 +33,6 @@ public class Tweet {
 	@Column(updatable = false)
 	private Timestamp created;
 	
-	@Column(nullable = false)
 	private String receiver; //addresse of the message, if indicated by the @ at the beginning of the message
 	
 	
@@ -91,10 +90,15 @@ public class Tweet {
 
 	
 	
+//	@Override
+//	public String toString() {
+//		return String.format("Dane tweeta (toString): [id=%s, text=%s, created=%s, receiver=%s]", id, text, created, receiver,
+//				user);
+//	}
+	
 	@Override
 	public String toString() {
-		return String.format("Dane tweeta (toString): [id=%s, text=%s, created=%s, receiver=%s, user=%s]", id, text, created, receiver,
-				user);
+		return String.format("Dane tweeta bez usera (toString): [id=%s, text=%s, created=%s, receiver=%s]", id, text, created, receiver);
 	}
 	
 	
