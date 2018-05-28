@@ -1,5 +1,6 @@
 package pl.coderslab.controllers;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,17 +8,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import pl.coderslab.app.Cookies;
 import pl.coderslab.entities.User;
 import pl.coderslab.repositories.TweetRepository;
+import pl.coderslab.repositories.UserRepository;
 
 @Controller
 public class HomeController {
 	
 	@Autowired
 	TweetRepository tweetRepository;
+	@Autowired
+	UserRepository userRepository;
 	
 	@GetMapping("")
-	public String home(Model model, HttpSession session) {
+	public String home(Model model, HttpSession session, HttpServletRequest request) {
+		
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		
 		if(session.getAttribute("loggedUser") != null ) {
 			User user = (User)session.getAttribute("loggedUser");
