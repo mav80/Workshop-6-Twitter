@@ -32,7 +32,7 @@ public class Cookies {
 		}
 
 		if (!userCookieValueDecoded.isEmpty()) {
-			User user = userRepository.findFirstByEmail(userCookieValueDecoded);
+			User user = userRepository.findFirstByUsername(userCookieValueDecoded);
 			if (user != null) {
 				session.setAttribute("loggedUser", user);
 			}
