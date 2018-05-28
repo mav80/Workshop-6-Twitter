@@ -12,10 +12,21 @@
 	<body>
 		<h1>To jest widok index.jsp - Twitter</h1>
 		
+		<c:if test="${not empty info}">
+					
+			<form:form method="post" modelAttribute="tweet">
+				Stwórz nową wiadomość:<br>
+				<form:textarea rows="4" cols="50" path="text" placeholder="treść tweeta"/><br> 
+				<form:errors path="text" style="font-weight: bold; font-style: italic; color: red"/><br>	
+				<input type="submit" value="wyślij">	
+			</form:form>
+			
+		</c:if> 
+		
 
 		
 		
-		Oto wszystkie tweety znajdujące się w bazie: <br><br>
+		<br><br>Oto wszystkie tweety znajdujące się w bazie: <br><br>
 		
 		<table>
 			<c:forEach items="${tweets}" var="tweet">
@@ -25,9 +36,8 @@
 						<td>
 							<list>
 								<ul>
-									<li>Autor tweeta: ${tweet.user.username}</li>
-									<li>Data utworzenia: ${tweet.created}</li>
-									<li>Treść: ${tweet.text}</li>
+									<li>Autor tweeta: <b>${tweet.user.username}</b>, data utworzenia: ${tweet.created}</li>
+									<li>Treść: <pre>${tweet.text}</pre></li>
 									</ul>
 							</list>
 						</td>

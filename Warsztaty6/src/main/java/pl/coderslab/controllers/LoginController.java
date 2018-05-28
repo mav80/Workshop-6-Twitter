@@ -43,7 +43,7 @@ public class LoginController {
 				
 				//cookie section
 				try {
-					Cookie userCookie = new Cookie("userCookie",URLEncoder.encode(user.getEmail(),"utf-8"));
+					Cookie userCookie = new Cookie("userCookie",URLEncoder.encode(user.getUsername(),"utf-8"));
 					userCookie.setPath("/");
 					userCookie.setMaxAge(60 * 60 * 24 * 7 * 4); //set cookie expiry time to ~1 month
 					response.addCookie(userCookie);

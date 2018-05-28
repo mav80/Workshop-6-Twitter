@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
@@ -23,10 +24,9 @@ public class Tweet {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@NotBlank
-	@NotNull
 	@Type(type="text")
 	@Column(nullable = false)
+	@Size(min = 5, max = 280, message="Tweet nie może mieć mniej niż 5 i więcej niż 280 znaków!")
 	private String text;
 	
 	@CreationTimestamp
