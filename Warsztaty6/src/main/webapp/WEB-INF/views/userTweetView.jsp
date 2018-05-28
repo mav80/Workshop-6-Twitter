@@ -12,12 +12,34 @@
 	<body>
 		<br><br>
 		Autor tweeta: <b>${tweet.user.username}</b>, data utworzenia: ${tweet.created}<br><br>
-		Treść: <pre>${tweet.text}</pre><br>
+		Treść: <pre>${tweet.text}</pre>
 		
 		<c:if test="${not empty tweet.receiver}">
-			Adresat: <b>${tweet.receiver}</b>
+			Adresat: <b>${tweet.receiver}</b><br>
 		</c:if> 
-		 
+		
+		<br>
+		
+		<c:if test="${not empty comments}">
+		Komentarze do tweeta:<br>
+		
+		<c:forEach items="${comments}" var="comment">
+				
+			<div class="row">
+				<tr>
+					<td>
+						<list>
+							<ul>
+								<li>Autor komentarza: <b>${comment.user.username}</b>, data utworzenia: ${comment.created}</li>
+								<li>Treść: <pre>${comment.text}</pre></li>
+							</ul>
+						</list>
+					</td>
+				</tr>
+			</div>  <!--  koniec div "row" -->
+	
+		</c:forEach>
+		</c:if>  
 	
 	</body>
 </html>

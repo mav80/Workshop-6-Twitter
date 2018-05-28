@@ -70,6 +70,10 @@ public class User {
 	private List<Tweet> tweets = new ArrayList<>();
 	
 	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Comment> comments = new ArrayList<>();
+	
+	
 
 	public long getId() {
 		return id;
@@ -187,6 +191,20 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	
+
+
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
 	}
 
 

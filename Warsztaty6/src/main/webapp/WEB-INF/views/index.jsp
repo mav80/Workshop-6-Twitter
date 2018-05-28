@@ -39,6 +39,7 @@
 								</ul>
 							</list>
 						</td>
+					</tr>
 				</div>  <!--  koniec div "row" -->
 	
 			</c:forEach>

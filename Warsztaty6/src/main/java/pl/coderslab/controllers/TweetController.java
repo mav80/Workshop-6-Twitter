@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import pl.coderslab.app.Cookies;
 import pl.coderslab.entities.Tweet;
 import pl.coderslab.entities.User;
+import pl.coderslab.repositories.CommentRepository;
 import pl.coderslab.repositories.TweetRepository;
 import pl.coderslab.repositories.UserRepository;
 
@@ -23,6 +24,9 @@ public class TweetController {
 	@Autowired
 	UserRepository userRepository;
 	
+	@Autowired
+	CommentRepository commentRepository;
+	
 	@GetMapping("/tweet/{id}")
 	public String tweetView(Model model, @PathVariable Long id, HttpSession session, HttpServletRequest request) {
 		
@@ -33,6 +37,7 @@ public class TweetController {
 			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
 			
 			model.addAttribute("tweet",tweetRepository.findFirstById(id)); //new tweet to bind with tweet adding form
+			model.addAttribute("comments", commentRepository.findAllByTweetIdOrderByCreatedAsc(id));
 			return "userTweetView";
 		}
 		

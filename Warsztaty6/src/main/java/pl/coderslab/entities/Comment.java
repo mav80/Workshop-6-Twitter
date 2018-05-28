@@ -1,57 +1,46 @@
 package pl.coderslab.entities;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 
-
 @Entity
-public class Tweet {
-	
+public class Comment {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
+	@NotBlank
 	@Type(type="text")
 	@Column(nullable = false)
-	@Size(min = 5, max = 280, message="Tweet nie może mieć mniej niż 5 i więcej niż 280 znaków!")
+	@Size(min = 2, max = 60, message="Komentarz nie może mieć mniej niż 2 i więcej niż 60 znaków!")
 	private String text;
 	
 	@CreationTimestamp
 	@Column(updatable = false)
 	private Timestamp created;
 	
-	private String receiver; //addresse of the message, if indicated by the @ at the beginning of the message
-	
-	
-	
+	private String receiver; //addresse of the comment, if indicated by the @ at the beginning of the comment
 	
 	@ManyToOne
 	@JoinColumn
 	private User user;
 	
-	@OneToMany(mappedBy = "tweet", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
-	private List<Comment> comments = new ArrayList<>();
-	
-	
-	
+	@ManyToOne
+	@JoinColumn
+	private Tweet tweet;
 
 	public long getId() {
 		return id;
@@ -92,33 +81,25 @@ public class Tweet {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
-	public List<Comment> getComments() {
-		return comments;
+
+	public Tweet getTweet() {
+		return tweet;
 	}
 
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
+	public void setTweet(Tweet tweet) {
+		this.tweet = tweet;
 	}
-	
-	
-	
-
-	
-	
-//	@Override
-//	public String toString() {
-//		return String.format("Dane tweeta (toString): [id=%s, text=%s, created=%s, receiver=%s]", id, text, created, receiver,
-//				user);
-//	}
-	
 
 	@Override
 	public String toString() {
-		return String.format("Dane tweeta bez usera (toString): [id=%s, text=%s, created=%s, receiver=%s]", id, text, created, receiver);
+		return String.format("Comment (toString) [id=%s, text=%s, created=%s, receiver=%s]", id, text, created, receiver);
 	}
 	
 	
 	
-
+	
+	
+	
+	
+	
 }
