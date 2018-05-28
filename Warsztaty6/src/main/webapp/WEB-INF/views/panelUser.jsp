@@ -7,11 +7,29 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>success</title>
+<title>Panel użytkownika</title>
 </head>
 <body>
 
-<h3>Gratulacje, dołączyłeś do Twittera :)</h3>
+	<br><br>Oto wszystkie Twoje tweety:<br><br>
+		
+	<table>
+		<c:forEach items="${tweets}" var="tweet">
+			
+			<div class="row">
+				<tr>
+					<td>
+						<list>
+							<ul>
+								<li>Autor tweeta: <b>${tweet.user.username}</b>, data utworzenia: ${tweet.created}</li>
+								<li>Treść: <pre>${tweet.text}</pre></li>
+								</ul>
+						</list>
+					</td>
+			</div>  <!--  koniec div "row" -->
+
+		</c:forEach>
+	</table>
 
 </body>
 </html>

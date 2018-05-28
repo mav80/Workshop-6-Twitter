@@ -10,7 +10,7 @@
 		<title>Twitter</title>
 	</head>
 	<body>
-		<h1>To jest widok index.jsp - Twitter</h1>
+		<h1>Twitter</h1>
 		
 		<c:if test="${not empty info}">
 					
@@ -24,9 +24,7 @@
 		</c:if> 
 		
 
-		
-		
-		<br><br>Oto wszystkie tweety znajdujące się w bazie: <br><br>
+		<br>Oto wszystkie tweety znajdujące się w bazie: <br><br>
 		
 		<table>
 			<c:forEach items="${tweets}" var="tweet">

@@ -16,6 +16,18 @@
 	</head>
 	
 	<body>
-				<b>${info}</b> <a href="login">Logowanie</a> <a href="register">Rejestracja</a> <a href="logout">Wylogowanie</a> <a href="<%out.print(request.getContextPath());%>">Powrót do strony głównej</a>
+			
+		<c:if test="${not empty info}">
+			<b>${info}</b>
+			<a href="panelUser" style="color: blue;">Panel użytkownika</a>
+			<a href="logout">Wyloguj się</a>
+		</c:if> 
+		
+		<c:if test="${empty info}">
+				<a href="login">Logowanie</a>
+				<a href="register">Rejestracja</a>
+		</c:if>
+					
+		<a href="<%out.print(request.getContextPath());%>">Powrót do strony głównej</a>
 	</body>
 </html>
