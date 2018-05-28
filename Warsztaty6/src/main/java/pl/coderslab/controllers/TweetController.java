@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import pl.coderslab.app.Cookies;
-import pl.coderslab.entities.Tweet;
 import pl.coderslab.entities.User;
 import pl.coderslab.repositories.CommentRepository;
 import pl.coderslab.repositories.TweetRepository;
@@ -23,7 +22,6 @@ public class TweetController {
 	TweetRepository tweetRepository;
 	@Autowired
 	UserRepository userRepository;
-	
 	@Autowired
 	CommentRepository commentRepository;
 	

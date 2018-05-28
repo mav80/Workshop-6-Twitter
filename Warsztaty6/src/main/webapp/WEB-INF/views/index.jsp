@@ -30,20 +30,64 @@
 			<c:forEach items="${tweets}" var="tweet">
 				
 				<div class="row">
-					<tr>
-						<td>
-							<list>
-								<ul>
-									<li>Autor tweeta: <b>${tweet.user.username}</b>, data utworzenia: ${tweet.created}</li>
-									<li>Treść: <pre>${tweet.text}</pre></li>
-								</ul>
-							</list>
-						</td>
-					</tr>
+					<table>
+						<tr>
+							<td>
+								<list>
+									<ul>
+										<li>Tweet użytkownika <b>${tweet.user.username}</b>, data utworzenia: ${tweet.created}</li>
+										<li>
+											<pre class="preTweet">${tweet.text}</pre>
+										</li>
+									</ul>
+								</list>					
+							</td>
+						</tr>
+					</table>
 				</div>  <!--  koniec div "row" -->
+				
+				
+		<c:if test="${not empty comments}">
+	
+			
+			<c:forEach items="${comments}" var="comment">
+							
+			
+				<c:if test="${comment.tweet.id == tweet.id}">
+
+				
+					<div class="row" style="margin-left: 5em;">
+						<tr>
+							<td>
+								<list>
+									<ul>
+										<li>Komentarz użytkownika <b>${comment.user.username}</b>, data utworzenia: ${comment.created}s 
+											<pre class="preComment">${comment.text}</pre>
+										</li>
+										
+									</ul>
+								</list>
+							</td>
+						</tr>
+					</div>  <!--  koniec div "row" -->
+				
+				
+				</c:if>
+					
+				
+		
+			</c:forEach>
+			
+		</c:if>  
 	
 			</c:forEach>
 		</table>
+		
+		
 	
 	</body>
 </html>
+
+
+
+

@@ -2,6 +2,10 @@ h1 {
 	color: red;
 }
 
-pre {
+.preTweet {
 	color: green;
+}
+
+.preComment{
+	color: blue;
 }

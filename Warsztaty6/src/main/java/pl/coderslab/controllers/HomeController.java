@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import pl.coderslab.app.Cookies;
 import pl.coderslab.entities.Tweet;
 import pl.coderslab.entities.User;
+import pl.coderslab.repositories.CommentRepository;
 import pl.coderslab.repositories.TweetRepository;
 import pl.coderslab.repositories.UserRepository;
 
@@ -24,6 +25,8 @@ public class HomeController {
 	TweetRepository tweetRepository;
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	CommentRepository commentRepository;
 	
 	@GetMapping("")
 	public String home(Model model, HttpSession session, HttpServletRequest request) {
@@ -37,6 +40,7 @@ public class HomeController {
 		
 		model.addAttribute("tweets", tweetRepository.findAllOrderByCreatedDesc());
 		model.addAttribute("tweet", new Tweet()); //new tweet to bind with tweet adding form
+		model.addAttribute("comments", commentRepository.findAll()); //new tweet to bind with tweet adding form
 		//System.out.println(tweetRepository.findAllOrderByCreatedDesc());
 		
 		return "index";
