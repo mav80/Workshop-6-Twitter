@@ -10,5 +10,7 @@ public interface TweetRepository extends JpaRepository<Tweet, Long>{
 	
 	@Query(value = "SELECT * FROM `Warsztaty6Twitter`.Tweet ORDER BY created DESC", nativeQuery = true)
 	List<Tweet> findAllOrderByCreatedDesc();
+	
+	Tweet findFirstById(long id);
 
 }

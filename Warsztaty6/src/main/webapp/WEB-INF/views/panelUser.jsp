@@ -23,6 +23,7 @@
 							<ul>
 								<li>Autor tweeta: <b>${tweet.user.username}</b>, data utworzenia: ${tweet.created}</li>
 								<li>Treść: <pre>${tweet.text}</pre></li>
+								<li><a href="<%out.print(request.getContextPath());%>/tweet/${tweet.id}">Zobacz szczegóły tweeta</a></li>
 								</ul>
 						</list>
 					</td>

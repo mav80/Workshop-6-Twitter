@@ -14,7 +14,7 @@ import pl.coderslab.entities.User;
 import pl.coderslab.repositories.UserRepository;
 
 @Controller
-public class RegistrationController {
+public class UserRegistrationController {
 	
 	@Autowired
 	UserRepository userRepository;

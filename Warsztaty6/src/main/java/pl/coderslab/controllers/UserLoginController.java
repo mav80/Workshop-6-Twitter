@@ -23,7 +23,7 @@ import pl.coderslab.entities.User;
 import pl.coderslab.repositories.UserRepository;
 
 @Controller
-public class LoginController {
+public class UserLoginController {
 	@Autowired
 	UserRepository userRepository;
 	@GetMapping("/login")

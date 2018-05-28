@@ -36,7 +36,7 @@
 								<ul>
 									<li>Autor tweeta: <b>${tweet.user.username}</b>, data utworzenia: ${tweet.created}</li>
 									<li>Treść: <pre>${tweet.text}</pre></li>
-									</ul>
+								</ul>
 							</list>
 						</td>
 				</div>  <!--  koniec div "row" -->
