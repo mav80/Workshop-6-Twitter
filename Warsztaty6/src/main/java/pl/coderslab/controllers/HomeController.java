@@ -40,7 +40,7 @@ public class HomeController {
 		
 		model.addAttribute("tweets", tweetRepository.findAllOrderByCreatedDesc());
 		model.addAttribute("tweet", new Tweet()); //new tweet to bind with tweet adding form
-		model.addAttribute("comments", commentRepository.findAll()); //new tweet to bind with tweet adding form
+		model.addAttribute("comments", commentRepository.findAllOrderByCreatedAsc());
 		//System.out.println(tweetRepository.findAllOrderByCreatedDesc());
 		
 		return "index";
@@ -68,7 +68,7 @@ public class HomeController {
 		
 		 
 		 if(result.hasErrors()) {
-			 System.out.println(result.getAllErrors());
+			 //System.out.println(result.getAllErrors());
 			 model.addAttribute("tweets", tweetRepository.findAllOrderByCreatedDesc());
 			 return "index";
 		 }

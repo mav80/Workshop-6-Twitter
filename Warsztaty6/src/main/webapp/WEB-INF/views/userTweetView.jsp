@@ -31,8 +31,8 @@
 							<td>
 								<list>
 									<ul>
-										<li>Autor komentarza: <b>${comment.user.username}</b>, data utworzenia: ${comment.created}</li>
-										<li>Treść: <pre class="preComment">${comment.text}</pre></li>
+										<li>Komentarz użytkownika <b>${comment.user.username}</b>, data utworzenia: ${comment.created}</li>
+										<li><pre class="preComment">${comment.text}</pre></li>
 									</ul>
 								</list>
 							</td>
@@ -43,6 +43,19 @@
 			</c:forEach>
 			
 		</c:if>  
+		
+		<!-- comment section -->
+		
+		<c:if test="${not empty info}">
+					
+			<form:form method="post" modelAttribute="comment">
+				Napisz nowy komentarz:<br>
+				<form:textarea rows="4" cols="50" path="text" placeholder="treść komentarza"/><br> 
+				<form:errors path="text" style="font-weight: bold; font-style: italic; color: red"/><br>	
+				<input type="submit" value="wyślij">	
+			</form:form>
+			
+		</c:if> 
 	
 	</body>
 </html>
