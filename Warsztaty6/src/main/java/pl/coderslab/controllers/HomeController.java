@@ -13,9 +13,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import pl.coderslab.app.Cookies;
+import pl.coderslab.entities.Comment;
 import pl.coderslab.entities.Tweet;
 import pl.coderslab.entities.User;
 import pl.coderslab.repositories.CommentRepository;
@@ -46,6 +49,9 @@ public class HomeController {
 		model.addAttribute("tweet", new Tweet()); //new tweet to bind with tweet adding form
 		model.addAttribute("tweetCount", tweetRepository.tweetCount());
 		model.addAttribute("comments", commentRepository.findAllOrderByCreatedAsc());
+		
+		model.addAttribute("comment", new Comment()); //new tweet to bind with tweet adding form
+		
 		//System.out.println(tweetRepository.findAllOrderByCreatedDesc());
 		
 		//comment count section
@@ -95,5 +101,84 @@ public class HomeController {
 		 return "redirect:http://localhost:8080/Warsztaty6-Twitter/";
 		
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@PostMapping("/mainPageAddComment")
+	public String mainPageAddComment(@Valid Comment comment, BindingResult result, Tweet tweet, Model model, HttpSession session, HttpServletRequest request) {
+		
+		comment.setId(0); //if not set to 0 it will overwrite existing comment
+		User user;
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		
+		if(session.getAttribute("loggedUser") != null ) {
+			user = (User)session.getAttribute("loggedUser");
+			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
+			
+			//model.addAttribute("tweet",tweetRepository.findFirstById(id)); //new tweet to bind with tweet adding form
+			
+			if(result.hasErrors()) {
+				model.addAttribute("tweets", tweetRepository.findAllOrderByCreatedDesc());
+				model.addAttribute("comments", commentRepository.findAll());
+				System.out.println(result.getAllErrors());
+				return "index";
+			}
+			 
+			//comment.setTweet(tweetRepository.findFirstById(id));
+			
+			System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" + comment);
+			
+			
+			comment.setUser(user);
+			commentRepository.save(comment);
+			
+			model.addAttribute("tweets", tweetRepository.findAllOrderByCreatedDesc());
+			model.addAttribute("comments", commentRepository.findAll());
+			comment.setText(null); //resets the comment window after post
+			
+			return "redirect:/";
+			
+		} else {
+			
+			return "redirect:http://localhost:8080/Warsztaty6-Twitter/";
+		}
+		
+		
+ 
+	
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

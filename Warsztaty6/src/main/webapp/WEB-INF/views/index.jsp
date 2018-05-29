@@ -94,7 +94,15 @@
 					
 					</list>
 					
-				</c:if>  
+				</c:if>
+				
+				<form:form method="post" modelAttribute="comment" action='mainPageAddComment'>
+					Napisz nowy komentarz:<br>
+					<form:textarea rows="4" cols="50" path="text" placeholder="treść komentarza"/><br> 
+					<form:errors path="text" style="font-weight: bold; font-style: italic; color: red"/><br>
+					<form:hidden path="tweet.id" value="${tweet.id}"/>	
+					<input type="submit" value="wyślij">	
+				</form:form>  
 	
 			</c:forEach>
 		</table>

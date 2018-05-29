@@ -71,6 +71,18 @@ public class AppConfig  implements WebMvcConfigurer {
 	
 	//beany do dzien 3 walidacja
 	
+	
+	@Override
+	public void addFormatters(FormatterRegistry registry) {
+	registry.addConverter(getTweetConverter());
+	}
+	
+	
+	@Bean
+	public TweetConverter getTweetConverter() {
+		return new TweetConverter();
+	}
+	
 	@Bean(name="localeResolver")
 	public LocaleContextResolver getLocaleContextResolver() {
 	SessionLocaleResolver localeResolver = new SessionLocaleResolver();

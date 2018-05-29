@@ -23,6 +23,9 @@ $(document).ready(function(){
             $(commentsLists[i]).children().last().append($('<input type="submit" class="showAllCommentsButton" value="Pokaż wszystkie komentarze">'));
         }
 
+        //add button to show form for adding a new comment to tweet
+        $(commentsLists[i]).children().last().append($('<input type="submit" class="addNewCommentButton" value="Dodaj nowy komentarz">'));
+
     }
 
 
