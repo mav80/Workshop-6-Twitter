@@ -24,7 +24,7 @@
 		</c:if> 
 		
 
-		<br>Oto wszystkie tweety znajdujące się w bazie: <br><br>
+		<br>Oto wszystkie tweety znajdujące się w bazie (razem: ${tweetCount}): <br><br>
 		
 		<table>
 			<c:forEach items="${tweets}" var="tweet">
@@ -38,6 +38,15 @@
 										<li><a href="tweet/${tweet.id}">Tweet użytkownika <b>${tweet.user.username}</b>, data utworzenia: ${tweet.created}</a></li>
 										<li>
 											<pre class="preTweet">${tweet.text}</pre>
+										</li>
+										<li>Liczba komentarzy:
+										
+											<c:forEach items="${commentCountMap}" var="mapEntry">
+												<c:if test="${mapEntry.key == tweet.id}">
+													${mapEntry.value}
+												</c:if>
+											</c:forEach>
+										
 										</li>
 									</ul>
 								</list>					

@@ -1,5 +1,9 @@
 package pl.coderslab.controllers;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -40,8 +44,20 @@ public class HomeController {
 		
 		model.addAttribute("tweets", tweetRepository.findAllOrderByCreatedDesc());
 		model.addAttribute("tweet", new Tweet()); //new tweet to bind with tweet adding form
+		model.addAttribute("tweetCount", tweetRepository.tweetCount());
 		model.addAttribute("comments", commentRepository.findAllOrderByCreatedAsc());
 		//System.out.println(tweetRepository.findAllOrderByCreatedDesc());
+		
+		//comment count section
+		List<Tweet> tweets = tweetRepository.findAllOrderByCreatedDesc();
+		
+		Map<Integer, Integer> commentCountMap = new HashMap<>();
+		for(Tweet tweet: tweets) {
+			commentCountMap.put((int) tweet.getId(), tweetRepository.findCommentCountById(tweet.getId()));
+		}
+		
+		model.addAttribute("commentCountMap", commentCountMap);
+		//end of comment count section
 		
 		return "index";
 	}

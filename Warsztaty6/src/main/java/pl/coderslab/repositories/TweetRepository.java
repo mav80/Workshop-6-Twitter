@@ -12,5 +12,13 @@ public interface TweetRepository extends JpaRepository<Tweet, Long>{
 	List<Tweet> findAllOrderByCreatedDesc();
 	
 	Tweet findFirstById(long id);
+	
+	@Query(value = "SELECT COUNT(*) FROM `Warsztaty6Twitter`.Comment WHERE tweet_id = ?1", nativeQuery = true)
+	int findCommentCountById(long id);
+	
+	@Query(value = "SELECT COUNT(*) FROM `Warsztaty6Twitter`.Tweet", nativeQuery = true)
+	int tweetCount();
+
+	
 
 }
