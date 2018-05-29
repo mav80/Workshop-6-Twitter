@@ -10,8 +10,8 @@
 		
 		<link rel="stylesheet" href="<%out.print(request.getContextPath());%>/static/css/style.css">
 		
-		<script type="text/javascript" src="<%out.print(request.getContextPath());%>/static/js/app.js"></script>
 		<script type="text/javascript" src="<%out.print(request.getContextPath());%>/static/js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="<%out.print(request.getContextPath());%>/static/js/app.js"></script>
 	
 	</head>
 	

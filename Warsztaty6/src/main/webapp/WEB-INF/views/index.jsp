@@ -28,7 +28,9 @@
 		
 		<table>
 			<c:forEach items="${tweets}" var="tweet">
-				
+			
+				<%int counter = 0;%>
+					
 				<div class="row">
 					<table>
 						<tr>
@@ -54,40 +56,45 @@
 						</tr>
 					</table>
 				</div>  <!--  koniec div "row" -->
-				
-				
-		<c:if test="${not empty comments}">
-	
-			
-			<c:forEach items="${comments}" var="comment">
-							
-			
-				<c:if test="${comment.tweet.id == tweet.id}">
-
-				
-					<div class="row" style="margin-left: 5em;">
-						<tr>
-							<td>
-								<list>
-									<ul>
-										<li>Komentarz użytkownika <b>${comment.user.username}</b>, data utworzenia: ${comment.created}s 
-											<pre class="preComment">${comment.text}</pre>
-										</li>
-										
-									</ul>
-								</list>
-							</td>
-						</tr>
-					</div>  <!--  koniec div "row" -->
-				
-				
-				</c:if>
 					
-				
-		
-			</c:forEach>
+					
+				<c:if test="${not empty comments}">
 			
-		</c:if>  
+					<list class="commentListList">
+					
+						<c:forEach items="${comments}" var="comment">
+								
+						
+							<c:if test="${comment.tweet.id == tweet.id}">
+							
+								<% counter = counter +1; %>
+			
+								<div class="row" style="margin-left: 5em;">
+									<tr>
+										<td>
+											
+												<ul>
+													<li class="commentListLi" id="<%=counter%>">Komentarz użytkownika <b>${comment.user.username}</b>, data utworzenia: ${comment.created}s 
+														<pre class="preComment">${comment.text}</pre>
+													</li>
+													
+												</ul>
+											
+										</td>
+									</tr>
+								</div>  <!--  koniec div "row" -->
+							
+							
+							</c:if>
+								
+							
+					
+						</c:forEach>
+						
+					
+					</list>
+					
+				</c:if>  
 	
 			</c:forEach>
 		</table>
