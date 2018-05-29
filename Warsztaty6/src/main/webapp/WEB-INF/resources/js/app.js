@@ -40,6 +40,21 @@ $(document).ready(function(){
 
 
     });
+
+
+    var commentForms = $('.commentForm');
+
+    commentForms.hide();
+    
+    var showCommentFormButtons = $('.addNewCommentButton');
+    
+    showCommentFormButtons.on("click", function(e) {
+
+       $(this).parent().parent().parent().find('form').fadeIn();
+        this.remove();
+
+
+    });
     
     
     

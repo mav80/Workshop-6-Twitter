@@ -96,7 +96,7 @@
 					
 				</c:if>
 				
-				<form:form method="post" modelAttribute="comment" action='mainPageAddComment'>
+				<form:form method="post" modelAttribute="comment" action='mainPageAddComment' class="commentForm" id="${tweet.id}">
 					Napisz nowy komentarz:<br>
 					<form:textarea rows="4" cols="50" path="text" placeholder="treść komentarza"/><br> 
 					<form:errors path="text" style="font-weight: bold; font-style: italic; color: red"/><br>
