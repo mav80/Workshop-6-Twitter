@@ -35,7 +35,7 @@
 							<td>
 								<list>
 									<ul>
-										<li>Tweet użytkownika <b>${tweet.user.username}</b>, data utworzenia: ${tweet.created}</li>
+										<li><a href="tweet/${tweet.id}">Tweet użytkownika <b>${tweet.user.username}</b>, data utworzenia: ${tweet.created}</a></li>
 										<li>
 											<pre class="preTweet">${tweet.text}</pre>
 										</li>
