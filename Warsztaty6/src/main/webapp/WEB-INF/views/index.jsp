@@ -15,11 +15,12 @@
 		<c:if test="${not empty info}">
 					
 			<form:form method="post" modelAttribute="tweet">
-				Stwórz nową wiadomość:<br>
-				<form:textarea rows="4" cols="50" path="text" placeholder="treść tweeta"/><br> 
+				<span class="tweetCharCounter">Stwórz nową wiadomość. Pozostało 280 znaków do wpisania:</span><br>
+				<form:textarea rows="4" cols="50" path="text" placeholder="treść tweeta" class="tweetTextArea"/><br> 
 				<form:errors path="text" style="font-weight: bold; font-style: italic; color: red"/><br>	
 				<input type="submit" value="wyślij">	
 			</form:form>
+
 			
 		</c:if> 
 		
@@ -57,48 +58,47 @@
 					</table>
 				</div>  <!--  koniec div "row" -->
 					
+				<list class="commentListList" id="${tweet.id}">
+				
+					<div class="row" style="margin-left: 5em;">
 					
-				<c:if test="${not empty comments}">
-			
-					<list class="commentListList">
-					
-						<c:forEach items="${comments}" var="comment">
+						<c:if test="${not empty comments}">
+
+							<c:forEach items="${comments}" var="comment">
+									
+							
+								<c:if test="${comment.tweet.id == tweet.id}">
 								
-						
-							<c:if test="${comment.tweet.id == tweet.id}">
-							
-								<% counter = counter +1; %>
-			
-								<div class="row" style="margin-left: 5em;">
-									<tr>
-										<td>
-											
-												<ul>
-													<li class="commentListLi" id="<%=counter%>">Komentarz użytkownika <b>${comment.user.username}</b>, data utworzenia: ${comment.created}s 
-														<pre class="preComment">${comment.text}</pre>
-													</li>
-													
-												</ul>
-											
-										</td>
-									</tr>
-								</div>  <!--  koniec div "row" -->
-							
-							
-							</c:if>
+									<% counter = counter +1; %>
+				
+									
+										<tr>
+											<td>
+												
+													<ul>
+														<li class="commentListLi" id="<%=counter%>">Komentarz użytkownika <b>${comment.user.username}</b>, data utworzenia: ${comment.created}s 
+															<pre class="preComment">${comment.text}</pre>
+														</li>
+														
+													</ul>
+												
+											</td>
+										</tr>
+
 								
-							
-					
-						</c:forEach>
-						
-					
-					</list>
-					
-				</c:if>
+								</c:if>
+
+							</c:forEach>
+									
+						</c:if>
+				
+					</div>  <!--  koniec div "row" -->
+				
+				</list>
 				
 				<form:form method="post" modelAttribute="comment" action='mainPageAddComment' class="commentForm" id="${tweet.id}">
-					Napisz nowy komentarz:<br>
-					<form:textarea rows="4" cols="50" path="text" placeholder="treść komentarza"/><br> 
+					<span class="commentCharCounter">Napisz nowy komentarz. Pozostało 60 znaków do wpisania:</span><br>
+					<form:textarea rows="4" cols="50" path="text" placeholder="treść komentarza" class="commentTextArea"/><br> 
 					<form:errors path="text" style="font-weight: bold; font-style: italic; color: red"/><br>
 					<form:hidden path="tweet.id" value="${tweet.id}"/>	
 					<input type="submit" value="wyślij">	

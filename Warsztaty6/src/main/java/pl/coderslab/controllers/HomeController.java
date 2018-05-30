@@ -70,7 +70,7 @@ public class HomeController {
 	
 	
 	@PostMapping("")
-	public String home(@Valid Tweet tweet, BindingResult result, HttpSession session, Model model, HttpServletRequest request) {
+	public String home(@Valid Tweet tweet, BindingResult result, Comment comment, HttpSession session, Model model, HttpServletRequest request) {
 		
 		User user;
 		
@@ -92,6 +92,7 @@ public class HomeController {
 		 if(result.hasErrors()) {
 			 //System.out.println(result.getAllErrors());
 			 model.addAttribute("tweets", tweetRepository.findAllOrderByCreatedDesc());
+			 model.addAttribute("comments", commentRepository.findAllOrderByCreatedAsc());
 			 return "index";
 		 }
 		 
