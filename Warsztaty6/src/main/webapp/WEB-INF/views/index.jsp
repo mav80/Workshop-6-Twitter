@@ -58,20 +58,21 @@
 					</table>
 				</div>  <!--  koniec div "row" -->
 					
-				<list class="commentListList" id="${tweet.id}">
-				
-					<div class="row" style="margin-left: 5em;">
 					
-						<c:if test="${not empty comments}">
-
-							<c:forEach items="${comments}" var="comment">
-									
+				<c:if test="${not empty comments}">
+			
+					<list class="commentListList" id="${tweet.id}"> <!-- This list and div are before c:if for the js "add comment" button to properly show up -->
+					
+						<div class="row" style="margin-left: 5em;">
 							
-								<c:if test="${comment.tweet.id == tweet.id}">
-								
-									<% counter = counter +1; %>
-				
+							<c:forEach items="${comments}" var="comment">
+							
+								<table>
+							
+									<c:if test="${comment.tweet.id == tweet.id}">
 									
+										<% counter = counter +1; %>
+					
 										<tr>
 											<td>
 												
@@ -84,17 +85,16 @@
 												
 											</td>
 										</tr>
-
-								
-								</c:if>
-
+										
+									</c:if>
+								</table>
+	
 							</c:forEach>
-									
-						</c:if>
-				
-					</div>  <!--  koniec div "row" -->
-				
-				</list>
+						</div>  <!--  koniec div "row" -->
+
+					</list>
+					
+				</c:if>
 				
 				<form:form method="post" modelAttribute="comment" action='mainPageAddComment' class="commentForm" id="${tweet.id}">
 					<span class="commentCharCounter">Napisz nowy komentarz. Pozostało 60 znaków do wpisania:</span><br>

@@ -13,9 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import pl.coderslab.app.Cookies;
 import pl.coderslab.entities.Comment;
@@ -93,6 +91,19 @@ public class HomeController {
 			 //System.out.println(result.getAllErrors());
 			 model.addAttribute("tweets", tweetRepository.findAllOrderByCreatedDesc());
 			 model.addAttribute("comments", commentRepository.findAllOrderByCreatedAsc());
+			 model.addAttribute("tweetCount", tweetRepository.tweetCount());
+			 
+			//comment count section
+			List<Tweet> tweets = tweetRepository.findAllOrderByCreatedDesc();
+			
+			Map<Integer, Integer> commentCountMap = new HashMap<>();
+			for(Tweet tweeto: tweets) {
+				commentCountMap.put((int) tweeto.getId(), tweetRepository.findCommentCountById(tweeto.getId()));
+			}
+			
+			model.addAttribute("commentCountMap", commentCountMap);
+			//end of comment count section
+				
 			 return "index";
 		 }
 		 

@@ -48,7 +48,7 @@
 		
 		<c:if test="${not empty info}">
 					
-			<form:form method="post" modelAttribute="comment">
+			<form:form method="post" modelAttribute="comment" >
 				Napisz nowy komentarz:<br>
 				<form:textarea rows="4" cols="50" path="text" placeholder="treść komentarza"/><br> 
 				<form:errors path="text" style="font-weight: bold; font-style: italic; color: red"/><br>	
