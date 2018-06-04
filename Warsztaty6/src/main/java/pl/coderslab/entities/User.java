@@ -74,6 +74,21 @@ public class User {
 	private List<Comment> comments = new ArrayList<>();
 	
 	
+	
+	
+	
+	
+	@OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
+	private List<Message> sentMessages = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
+	private List<Message> receivedMessages = new ArrayList<>();
+	
+	
+	
+	
+	
+	
 
 	public long getId() {
 		return id;
@@ -205,6 +220,34 @@ public class User {
 
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
+	}
+	
+	
+	
+	
+
+
+
+	public List<Message> getSentMessages() {
+		return sentMessages;
+	}
+
+
+
+	public void setSentMessages(List<Message> sentMessages) {
+		this.sentMessages = sentMessages;
+	}
+
+
+
+	public List<Message> getReceivedMessages() {
+		return receivedMessages;
+	}
+
+
+
+	public void setReceivedMessages(List<Message> receivedMessages) {
+		this.receivedMessages = receivedMessages;
 	}
 
 
