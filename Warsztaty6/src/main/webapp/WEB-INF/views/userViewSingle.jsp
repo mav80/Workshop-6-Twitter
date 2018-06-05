@@ -7,11 +7,26 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Widok użytkownika</title>
+		<title>Widok użytkownika ${viewedUser.username}</title>
 	</head>
 		<body>
 		
-			<br><br>Oto wszystkie tweety użytkownika <b>${tweet.user.username}</b>:<br><br>
+			<c:if test="${not empty viewedUser}">
+				
+				<br><br>
+				<form:form method="post" modelAttribute="message">
+					<span class="messageCharCounter">Napisz wiadomość do <b>${viewedUser.username}</b>. Pozostało 2048 znaków do wpisania:</span><br>
+					<form:input path="topic" placeholder="tytuł, min. 2 znaki, max. 30" class="messageTopicArea"/><br>
+					<form:errors path="topic" style="font-weight: bold; font-style: italic; color: red"/><br>
+					
+					<form:textarea rows="4" cols="50" path="text" placeholder="treść wiadomości, min. 2 znaki, max. 2048" class="messageTextArea"/><br> 
+					<form:errors path="text" style="font-weight: bold; font-style: italic; color: red"/><br>	
+					<input type="submit" value="wyślij">	
+				</form:form>
+				
+			</c:if>
+			
+			<br><br>Oto wszystkie tweety użytkownika <b>${viewedUser.username}</b>:<br><br>
 		
 			<table>
 				<c:forEach items="${tweets}" var="tweet">

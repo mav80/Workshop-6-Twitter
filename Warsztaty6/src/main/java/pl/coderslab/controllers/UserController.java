@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.coderslab.app.Cookies;
 import pl.coderslab.entities.Comment;
+import pl.coderslab.entities.Message;
 import pl.coderslab.entities.Tweet;
 import pl.coderslab.entities.User;
 import pl.coderslab.repositories.TweetRepository;
@@ -63,6 +64,8 @@ public class UserController {
 			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
 			
 			model.addAttribute("tweets", tweetRepository.findByUserIdOrderByCreatedDesc(id));
+			model.addAttribute("viewedUser", userRepository.findFirstById(id));
+			model.addAttribute("message", new Message()); //new message to bind with message adding form
 			
 			//comment count section
 			List<Tweet> tweets = tweetRepository.findByUserIdOrderByCreatedDesc(id);

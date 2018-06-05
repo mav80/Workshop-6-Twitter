@@ -42,7 +42,7 @@ public class TweetController {
 			model.addAttribute("tweet",tweetRepository.findFirstById(id)); //new tweet to bind with tweet adding form
 			model.addAttribute("comments", commentRepository.findAllByTweetIdOrderByCreatedAsc(id));
 			
-			model.addAttribute("comment", new Comment()); //new tweet to bind with tweet adding form
+			model.addAttribute("comment", new Comment()); //new comment to bind with comment adding form
 			
 			return "userTweetView";
 		}
