@@ -10,6 +10,8 @@
 		<title>Tweet</title>
 	</head>
 	<body>
+	
+	
 		<br><br>
 		Autor tweeta: <a href="<%out.print(request.getContextPath());%>/userView/${tweet.user.id}"><b>${tweet.user.username}</b></a>, data utworzenia: ${tweet.created}<br><br>
 		Treść: <pre class="preTweet">${tweet.text}</pre>
