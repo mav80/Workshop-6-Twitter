@@ -9,3 +9,12 @@ h1 {
 .preComment{
 	color: blue;
 }
+
+.messagesList {
+	
+	
+}
+
+.messagesList tr {
+	outline: thin solid;
+}
