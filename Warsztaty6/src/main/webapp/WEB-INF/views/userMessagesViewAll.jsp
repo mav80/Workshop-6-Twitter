@@ -10,6 +10,8 @@
 		<title>Moje wiadomości</title>
 	</head>
 	<body>
+	
+		<h3>Oto wszystkie wiadomości które otrzymałeś:</h3>
 		<table class="messagesList">
 			<tr>
 				<th>nadawca</th>
@@ -21,6 +23,50 @@
 			<c:forEach items="${messages}" var="message">
 				<tr>		
 					<td>${message.sender.username}</td>
+					<td><a href="<%out.print(request.getContextPath());%>/message/${message.id}">
+						
+						<!-- if the message is unread, we make the title bold -->		
+						<c:if test="${message.viewed == false}">
+							<b>
+						</c:if>
+					
+						${message.topic}</a>
+						
+						<c:if test="${message.viewed == false}">
+							</b>
+						</c:if>
+						
+						
+					</td>
+					<td>${message.created}</td>	
+					<td>
+					
+						<c:if test="${message.viewed == false}">
+							nie
+						</c:if>
+						
+						<c:if test="${message.viewed == true}">
+							tak
+						</c:if>
+	
+					</td>				
+				</tr>
+			</c:forEach>
+		</table>
+		
+		<h3>Oto wszystkie wiadomości które wysłałeś:</h3>
+		
+		<table class="messagesList">
+			<tr>
+				<th>odbiorca</th>
+				<th>tytuł</th>
+				<th>data utworzenia</th>
+				<th>przeczytana?</th>
+			</tr>
+			
+			<c:forEach items="${messagesSent}" var="message">
+				<tr>		
+					<td>${message.receiver.username}</td>
 					<td><a href="<%out.print(request.getContextPath());%>/message/${message.id}">
 						
 						<!-- if the message is unread, we make the title bold -->		

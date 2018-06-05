@@ -41,6 +41,7 @@ public class MessageController {
 			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
 			
 			model.addAttribute("messages",messageRepository.findAllByReceiverIdOrderByCreatedDesc(user.getId()));
+			model.addAttribute("messagesSent",messageRepository.findAllBySenderIdOrderByCreatedDesc(user.getId()));
 			
 			return "userMessagesViewAll";
 		}
@@ -65,8 +66,13 @@ public class MessageController {
 			if(messageRepository.findFirstById(id) != null) {
 				
 				model.addAttribute("message",messageToDisplay);
-				messageToDisplay.setViewed(true);
-				messageRepository.save(messageToDisplay);
+				
+				//user can view messages sent by him so we make sure that viewing his own message won't sen "vieved" fild as true
+				if(messageToDisplay.getSender().getId() != user.getId()) {
+					messageToDisplay.setViewed(true);
+					messageRepository.save(messageToDisplay);
+				}
+				
 			}
 			
 			

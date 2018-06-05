@@ -11,7 +11,7 @@
 	</head>
 	<body>
 	
-	<h3>Oto szczegóły otrzymanej wiadomości:</h3>
+	<h3>Oto szczegóły wiadomości:</h3>
 	
 		<table class="messagesSingle">
 			<tr>
