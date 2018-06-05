@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import pl.coderslab.app.Cookies;
+import pl.coderslab.app.MessageUtils;
 import pl.coderslab.entities.Comment;
 import pl.coderslab.entities.User;
 import pl.coderslab.repositories.CommentRepository;
+import pl.coderslab.repositories.MessageRepository;
 import pl.coderslab.repositories.TweetRepository;
 import pl.coderslab.repositories.UserRepository;
 
@@ -29,6 +31,8 @@ public class TweetController {
 	UserRepository userRepository;
 	@Autowired
 	CommentRepository commentRepository;
+	@Autowired
+	MessageRepository messageRepository;
 	
 	@GetMapping("/tweet/{id}")
 	public String tweetView(Model model, @PathVariable Long id, HttpSession session, HttpServletRequest request) {
@@ -38,6 +42,8 @@ public class TweetController {
 		if(session.getAttribute("loggedUser") != null ) {
 			User user = (User)session.getAttribute("loggedUser");
 			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
+			//unread messages counter
+			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
 			
 			model.addAttribute("tweet",tweetRepository.findFirstById(id)); //new tweet to bind with tweet adding form
 			model.addAttribute("comments", commentRepository.findAllByTweetIdOrderByCreatedAsc(id));
@@ -69,6 +75,8 @@ public class TweetController {
 		if(session.getAttribute("loggedUser") != null ) {
 			user = (User)session.getAttribute("loggedUser");
 			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
+			//unread messages counter
+			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
 			
 			model.addAttribute("tweet",tweetRepository.findFirstById(id)); //new tweet to bind with tweet adding form
 			

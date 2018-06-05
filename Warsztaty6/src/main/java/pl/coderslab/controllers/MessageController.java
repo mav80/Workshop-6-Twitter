@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import pl.coderslab.app.Cookies;
-import pl.coderslab.entities.Comment;
+import pl.coderslab.app.MessageUtils;
 import pl.coderslab.entities.Message;
 import pl.coderslab.entities.User;
 import pl.coderslab.repositories.CommentRepository;
@@ -39,6 +39,8 @@ public class MessageController {
 		if(session.getAttribute("loggedUser") != null ) {
 			User user = (User)session.getAttribute("loggedUser");
 			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
+			//unread messages counter
+			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
 			
 			model.addAttribute("messages",messageRepository.findAllByReceiverIdOrderByCreatedDesc(user.getId()));
 			model.addAttribute("messagesSent",messageRepository.findAllBySenderIdOrderByCreatedDesc(user.getId()));
@@ -60,6 +62,8 @@ public class MessageController {
 		if(session.getAttribute("loggedUser") != null ) {
 			User user = (User)session.getAttribute("loggedUser");
 			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
+			//unread messages counter
+			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
 			
 			Message messageToDisplay = messageRepository.findFirstById(id);
 			

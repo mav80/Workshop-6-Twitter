@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.coderslab.app.Cookies;
+import pl.coderslab.app.MessageUtils;
 import pl.coderslab.entities.Comment;
 import pl.coderslab.entities.Message;
 import pl.coderslab.entities.Tweet;
@@ -44,6 +45,8 @@ public class UserController {
 		
 		if(user != null) {
 			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
+			//unread messages counter
+			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
 			
 			model.addAttribute("tweets", tweetRepository.findByUserIdOrderByCreatedDesc(user.getId()));
 			
@@ -68,6 +71,8 @@ public class UserController {
 		
 		if(session.getAttribute("loggedUser") != null ) {
 			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
+			//unread messages counter
+			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
 			
 			model.addAttribute("tweets", tweetRepository.findByUserIdOrderByCreatedDesc(id));
 			model.addAttribute("viewedUser", userRepository.findFirstById(id));

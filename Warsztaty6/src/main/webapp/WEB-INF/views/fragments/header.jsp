@@ -21,7 +21,15 @@
 			<b>${info}</b>
 			<a href="<%out.print(request.getContextPath());%>/panelUser" style="color: blue;">Panel użytkownika</a>
 			<a href="<%out.print(request.getContextPath());%>/logout">Wyloguj się</a>
-			<a href="<%out.print(request.getContextPath());%>/messages">Wiadomości</a>
+			
+			<c:if test="${not empty unreadMessagesNumber}">
+				<a href="<%out.print(request.getContextPath());%>/messages" style="color: green;"><b>Liczba nieprzeczytanych wiadomości: ${unreadMessagesNumber}</b></a>
+			</c:if>
+			
+			<c:if test="${empty unreadMessagesNumber}">
+				<a href="<%out.print(request.getContextPath());%>/messages">Wiadomości</a>
+			</c:if>
+			
 		</c:if> 
 		
 		<c:if test="${empty info}">

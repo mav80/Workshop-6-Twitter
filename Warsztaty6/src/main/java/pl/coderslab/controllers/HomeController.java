@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import pl.coderslab.app.Cookies;
+import pl.coderslab.app.MessageUtils;
 import pl.coderslab.entities.Comment;
 import pl.coderslab.entities.Tweet;
 import pl.coderslab.entities.User;
 import pl.coderslab.repositories.CommentRepository;
+import pl.coderslab.repositories.MessageRepository;
 import pl.coderslab.repositories.TweetRepository;
 import pl.coderslab.repositories.UserRepository;
 
@@ -32,6 +34,8 @@ public class HomeController {
 	UserRepository userRepository;
 	@Autowired
 	CommentRepository commentRepository;
+	@Autowired
+	MessageRepository messageRepository;
 	
 	@GetMapping("")
 	public String home(Model model, HttpSession session, HttpServletRequest request) {
@@ -41,6 +45,10 @@ public class HomeController {
 		if(session.getAttribute("loggedUser") != null ) {
 			User user = (User)session.getAttribute("loggedUser");
 			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
+			
+			//unread messages counter
+			//model.addAttribute("unreadMessagesNumber", messageRepository.howManyUnreadMessagesByUserId(user.getId()));
+			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
 		}
 		
 		model.addAttribute("tweets", tweetRepository.findAllOrderByCreatedDesc());
@@ -77,6 +85,9 @@ public class HomeController {
 		if(session.getAttribute("loggedUser") != null ) {
 			user = (User)session.getAttribute("loggedUser");
 			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
+			
+			//unread messages counter
+			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
 		} else {
 			return "redirect:/login";
 		}
@@ -150,6 +161,8 @@ public class HomeController {
 		if(session.getAttribute("loggedUser") != null ) {
 			user = (User)session.getAttribute("loggedUser");
 			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
+			//unread messages counter
+			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
 			
 			//model.addAttribute("tweet",tweetRepository.findFirstById(id)); //new tweet to bind with tweet adding form
 			

@@ -19,13 +19,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.WebUtils;
 
+import pl.coderslab.app.MessageUtils;
 import pl.coderslab.entities.User;
+import pl.coderslab.repositories.MessageRepository;
 import pl.coderslab.repositories.UserRepository;
 
 @Controller
 public class UserLoginController {
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	MessageRepository messageRepository;
+	
 	@GetMapping("/login")
 	public String login() {
 		return "userLoginForm";
@@ -36,6 +41,8 @@ public class UserLoginController {
 				
 		User user = userRepository.findFirstByUsername(username);
 		if(user!=null && BCrypt.checkpw(password,  user.getPassword())) {
+			//unread messages counter
+			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
 			
 			model.addAttribute("info", "Zalogowano.");
 				//System.out.println("It matches.");
