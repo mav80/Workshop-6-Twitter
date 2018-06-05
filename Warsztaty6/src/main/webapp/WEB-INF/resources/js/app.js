@@ -14,7 +14,7 @@ $(document).ready(function(){
         console.log(commentEntries); 
 
         for(var x = 0; x < commentEntries.length - 3; x++) {
-            $(commentEntries[x]).hide();
+            $(commentEntries[x]).parent().parent().parent().hide();
 
         }
 
@@ -35,7 +35,7 @@ $(document).ready(function(){
     
     showAllCommentsButtons.on("click", function(e) {
 
-        $(this).parent().parent().find('li').fadeIn();
+        $(this).parent().parent().find('li').parent().parent().parent().fadeIn();
         this.remove();
 
 

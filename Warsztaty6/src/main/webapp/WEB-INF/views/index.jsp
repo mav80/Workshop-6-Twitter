@@ -64,10 +64,12 @@
 					<list class="commentListList" id="${tweet.id}"> <!-- This list and div are before c:if for the js "add comment" button to properly show up -->
 					
 						<div class="row" style="margin-left: 5em;">
+						
+							<table>
 							
 							<c:forEach items="${comments}" var="comment">
 							
-								<table>
+
 							
 									<c:if test="${comment.tweet.id == tweet.id}">
 									
@@ -87,9 +89,10 @@
 										</tr>
 										
 									</c:if>
-								</table>
+								
 	
 							</c:forEach>
+							</table>
 						</div>  <!--  koniec div "row" -->
 
 					</list>
