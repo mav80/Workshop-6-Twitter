@@ -40,7 +40,7 @@
 								<list>
 									<ul>
 										<li>Autor tweeta: <b>${tweet.user.username}</b>, data utworzenia: ${tweet.created}</li>
-										<li>Treść: <pre>${tweet.text}</pre></li>
+										<li>Treść: <pre class="preTweet">${tweet.text}</pre></li>
 										<li>Liczba komentarzy:
 										
 											<c:forEach items="${commentCountMap}" var="mapEntry">
