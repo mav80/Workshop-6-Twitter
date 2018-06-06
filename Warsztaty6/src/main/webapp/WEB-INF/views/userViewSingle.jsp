@@ -18,7 +18,7 @@
 				
 				<br><br>
 				<form:form method="post" modelAttribute="message">
-					<span class="messageCharCounter">Napisz wiadomość do <b>${viewedUser.username}</b>. Pozostało 2048 znaków do wpisania:</span><br>
+					<span>Napisz wiadomość do <b>${viewedUser.username}.</b></span> <span class="messageCharCounter">Pozostało 2048 znaków do wpisania:</span><br>
 					<form:input path="topic" placeholder="tytuł, min. 2 znaki, max. 30" class="messageTopicArea"/>
 					<form:errors path="topic" style="font-weight: bold; font-style: italic; color: red"/><br>
 					

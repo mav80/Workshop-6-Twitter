@@ -96,6 +96,35 @@ $(document).ready(function(){
     });
     
     
+    //char counter for message form
+    
+    //topic field
+    var messageTopicArea = $('.messageTopicArea');
+    console.log(messageTopicArea);
+    
+    messageTopicArea.on("input", function () {
+    	
+    	var text = messageTopicArea.val().substring(0, 29);
+    	messageTopicArea.val(text);
+    
+    });
+    
+    //text field
+    var messageArea = $('.messageTextArea');
+    console.log(messageArea);
+    var messageCharCounter = $(messageArea).siblings('.messageCharCounter');
+    console.log(tweetCharCounter);
+    
+    messageArea.on("input", function () {
+    	
+    	messageCharCounter.text('Pozostało ' + (2048 - messageArea.val().length) + ' znaków do wpisania:');
+ 
+    	var text = messageArea.val().substring(0, 2047);
+    	messageArea.val(text);
+    
+    });
+    
+    
     
 
 
