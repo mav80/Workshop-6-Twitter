@@ -244,6 +244,9 @@ public class UserController {
 				if(aFile.getSize() > 0 && aFile.getSize() <= 1048576) { //we upload and change the file only if it's longer than 0 and smaller than max allowed size
 					
 					System.out.println("Nazwa pliku: " + aFile.getOriginalFilename());
+					
+					String contentType = aFile.getContentType();
+					System.out.println("Typ pliku: " + contentType);
 					System.out.println(aFile.getSize());
 //					System.out.println(aFile.getBytes().toString()); 
 //					
@@ -256,9 +259,15 @@ public class UserController {
 //						// TODO Auto-generated catch block
 //						e.printStackTrace();
 //					}
-						
-					user.setUsrImg(aFile.getBytes());
-					userRepository.save(user);
+					
+					
+					if(contentType.equals("image/jpeg") || contentType.equals("image/png") || contentType.equals("image/gif")) {
+						user.setUsrImg(aFile.getBytes());
+						userRepository.save(user);
+					} else {
+						model.addAttribute("message", "Wybrano zły typ pliku - dopuszczalne formaty to JPG, PNG orasz GIF. Obrazka nie zmieniono.");
+					}
+					
 
 				}
     			
