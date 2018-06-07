@@ -21,7 +21,6 @@
 				<input type="submit" value="wyślij">	
 			</form:form>
 
-			
 		</c:if> 
 		
 
@@ -38,7 +37,12 @@
 							<td>
 								<list>
 									<ul>
-										<li><a href="tweet/${tweet.id}">Tweet użytkownika <b>${tweet.user.username}</b>, data utworzenia: ${tweet.created}</a></li>
+										<li>
+											<c:if test="${not empty tweet.user.usrImg}">
+												<img height="42" width="42" src="<%out.print(request.getContextPath());%>/imageDisplay?id=${tweet.user.id}"/> 							
+											</c:if> 
+										
+											<a href="tweet/${tweet.id}">Tweet użytkownika <b>${tweet.user.username}</b>, data utworzenia: ${tweet.created}</a></li>
 										<li>
 											<pre class="preTweet">${tweet.text}</pre>
 										</li>
@@ -79,7 +83,13 @@
 											<td>
 												
 													<ul>
-														<li class="commentListLi" id="<%=counter%>">Komentarz użytkownika <b>${comment.user.username}</b>, data utworzenia: ${comment.created}s 
+														<li class="commentListLi" id="<%=counter%>">
+															
+															<c:if test="${not empty comment.user.usrImg}">
+																<img height="20" width="20" src="<%out.print(request.getContextPath());%>/imageDisplay?id=${comment.user.id}"/> 							
+															</c:if> 
+															
+															Komentarz użytkownika <b>${comment.user.username}</b>, data utworzenia: ${comment.created}s 
 															<pre class="preComment">${comment.text}</pre>
 														</li>
 														
