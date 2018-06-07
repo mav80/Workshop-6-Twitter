@@ -11,6 +11,8 @@
 </head>
 <body>
 
+<a href="<%out.print(request.getContextPath());%>/panelUser/userSettings" style="color: red"><b>Zarządzaj ustawieniami swojego profilu</b></a>
+
 	<br><br>Oto wszystkie Twoje tweety:<br><br>
 		
 	<table>

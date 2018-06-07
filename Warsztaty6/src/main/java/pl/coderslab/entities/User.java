@@ -11,8 +11,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Email;
@@ -60,6 +62,10 @@ public class User {
 	
 	
 	
+	@Lob
+	@Column(columnDefinition="mediumblob")
+	@Size(max = 1048576, message="Obrazek nie może mieć więcej niż 1MB!")
+	private byte[] usrImg;
 
 	
 	
@@ -248,6 +254,19 @@ public class User {
 
 	public void setReceivedMessages(List<Message> receivedMessages) {
 		this.receivedMessages = receivedMessages;
+	}
+	
+
+
+
+	public byte[] getUsrImg() {
+		return usrImg;
+	}
+
+
+
+	public void setUsrImg(byte[] usrImg) {
+		this.usrImg = usrImg;
 	}
 
 
