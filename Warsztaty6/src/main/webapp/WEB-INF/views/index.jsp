@@ -39,7 +39,7 @@
 									<ul>
 										<li>
 											<c:if test="${not empty tweet.user.usrImg}">
-												<img height="42" width="42" src="<%out.print(request.getContextPath());%>/imageDisplay?id=${tweet.user.id}"/> 							
+												<img class="tweetPicture" src="<%out.print(request.getContextPath());%>/imageDisplay?id=${tweet.user.id}"/> 							
 											</c:if> 
 										
 											<a href="tweet/${tweet.id}">Tweet użytkownika <b>${tweet.user.username}</b>, data utworzenia: ${tweet.created}</a></li>
@@ -86,7 +86,7 @@
 														<li class="commentListLi" id="<%=counter%>">
 															
 															<c:if test="${not empty comment.user.usrImg}">
-																<img height="20" width="20" src="<%out.print(request.getContextPath());%>/imageDisplay?id=${comment.user.id}"/> 							
+																<img class="commentPicture" src="<%out.print(request.getContextPath());%>/imageDisplay?id=${comment.user.id}"/> 							
 															</c:if> 
 															
 															Komentarz użytkownika <b>${comment.user.username}</b>, data utworzenia: ${comment.created}s 

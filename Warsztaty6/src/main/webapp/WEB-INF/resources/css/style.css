@@ -18,3 +18,13 @@ h1 {
 .messagesList tr {
 	outline: thin solid;
 }
+
+.tweetPicture {
+	height: 3em;
+	width: 3em;
+}
+
+.commentPicture {
+	height: 1.6em;
+	width: 1.6em;
+}
