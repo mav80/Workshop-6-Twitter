@@ -16,7 +16,7 @@
 	
 			<form method="post" enctype="multipart/form-data">
 	            Wybierz plik do załadowania aby zmienić aktualny obrazek (max. 1MB):<br>
-				<input type="file" name="fileUpload"/><br>
+				<input type="file" name="fileUploaded"/><br>
 				<input type="submit" value="wyślij" />
 	        </form>
 	        

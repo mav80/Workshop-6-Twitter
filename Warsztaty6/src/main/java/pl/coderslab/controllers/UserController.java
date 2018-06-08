@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import pl.coderslab.app.Cookies;
@@ -224,35 +225,27 @@ public class UserController {
 	
 	//@ResponseBody
 	@PostMapping("/panelUser/userSettings")
-	public String userPanelSettings(Model model, HttpSession session, HttpServletRequest request, @RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
+	public String userPanelSettings(Model model, HttpSession session, HttpServletRequest request, @RequestParam MultipartFile fileUploaded) throws Exception {
 
 		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User user = (User) session.getAttribute("loggedUser");
 		
-		if(user != null && fileUpload != null && fileUpload.length > 0) {
+		if(user != null && fileUploaded != null && !fileUploaded.isEmpty()) {
 			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
 			//unread messages counter
 			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
-			
-			
-			
-			//model.addAttribute("user", user);
-			
-			System.out.println(fileUpload.length);
-			
-			for (CommonsMultipartFile aFile : fileUpload){
 				
-				if(aFile.getSize() > 0 && aFile.getSize() <= 1048576) { //we upload and change the file only if it's longer than 0 and smaller than max allowed size
-					
-					System.out.println("Nazwa pliku: " + aFile.getOriginalFilename());
-					
-					String contentType = aFile.getContentType();
-					System.out.println("Typ pliku: " + contentType);
-					System.out.println(aFile.getSize());
+			if(fileUploaded.getSize() > 0 && fileUploaded.getSize() <= 1048576) { //we upload and change the file only if it's longer than 0 and smaller than max allowed size
+				
+				System.out.println("Nazwa pliku: " + fileUploaded.getOriginalFilename());
+				
+				String contentType = fileUploaded.getContentType();
+				System.out.println("Typ pliku: " + contentType);
+				System.out.println(fileUploaded.getSize());
 //					System.out.println(aFile.getBytes().toString()); 
 //					
-					//here we try to display file content
-//					ByteArrayInputStream stream = new  ByteArrayInputStream(aFile.getBytes());
+				//here we try to display file content
+//					ByteArrayInputStream stream = new  ByteArrayInputStream(fileUploaded.getBytes());
 //					try {
 //						String myString = IOUtils.toString(stream, "UTF-8");
 //						System.out.println(myString);
@@ -260,22 +253,15 @@ public class UserController {
 //						// TODO Auto-generated catch block
 //						e.printStackTrace();
 //					}
-					
-					
-					if(contentType.equals("image/jpeg") || contentType.equals("image/png") || contentType.equals("image/gif")) {
-						user.setUsrImg(aFile.getBytes());
-						userRepository.save(user);
-					} else {
-						model.addAttribute("message", "Wybrano zły typ pliku - dopuszczalne formaty to JPG, PNG orasz GIF. Obrazka nie zmieniono.");
-					}
-					
-
+				
+				if(contentType.equals("image/jpeg") || contentType.equals("image/png") || contentType.equals("image/gif")) {
+					user.setUsrImg(fileUploaded.getBytes());
+					userRepository.save(user);
+				} else {
+					model.addAttribute("message", "Wybrano zły typ pliku - dopuszczalne formaty to JPG, PNG oraz GIF. Obrazka nie zmieniono.");
 				}
-    			
-    			break; //we need only first file from a collection (in case many are uploaded)
-    			
-    			
-            }
+				
+			}
 			
 			model.addAttribute("user", user); //we will need user's id to display his image
 			
