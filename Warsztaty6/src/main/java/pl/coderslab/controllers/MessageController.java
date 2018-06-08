@@ -48,7 +48,8 @@ public class MessageController {
 			return "userMessagesViewAll";
 		}
 		
-		return "redirect:http://localhost:8080/Warsztaty6-Twitter/login";
+		model.addAttribute("infoError", "Aby odczytać wiadomości musisz się najpierw zalogować!");
+		return "userLoginForm";
 		
 	}
 	
@@ -84,7 +85,8 @@ public class MessageController {
 			return "userMessagesViewSingle";
 		}
 		
-		return "redirect:http://localhost:8080/Warsztaty6-Twitter/login";
+		model.addAttribute("infoError", "Aby odczytać wiadomość musisz się najpierw zalogować!");
+		return "userLoginForm";
 		
 	}
 

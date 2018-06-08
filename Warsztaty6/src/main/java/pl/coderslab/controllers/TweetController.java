@@ -45,15 +45,13 @@ public class TweetController {
 			//unread messages counter
 			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
 			
-			model.addAttribute("tweet",tweetRepository.findFirstById(id)); //new tweet to bind with tweet adding form
-			model.addAttribute("comments", commentRepository.findAllByTweetIdOrderByCreatedAsc(id));
-			
-			model.addAttribute("comment", new Comment()); //new comment to bind with comment adding form
-			
-			return "userTweetView";
 		}
 		
-		return "redirect:http://localhost:8080/Warsztaty6-Twitter/";
+		model.addAttribute("tweet",tweetRepository.findFirstById(id)); //new tweet to bind with tweet adding form
+		model.addAttribute("comments", commentRepository.findAllByTweetIdOrderByCreatedAsc(id));
+		model.addAttribute("comment", new Comment()); //new comment to bind with comment adding form
+		
+		return "userTweetView";
 		
 	}
 	
@@ -97,7 +95,8 @@ public class TweetController {
 			
 		} else {
 			modelAndView.clear();
-			modelAndView.setViewName("redirect:/login");
+			model.addAttribute("infoError", "Aby dodawać komentarze musisz się najpierw zalogować!");
+			modelAndView.setViewName("login");
 			
 			return modelAndView;
 		}

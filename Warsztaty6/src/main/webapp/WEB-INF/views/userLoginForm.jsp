@@ -13,7 +13,7 @@
 
 		<br><br>
 		
-		<form method="post">
+		<form method="post" action="<%out.print(request.getContextPath());%>/login">
 		
 			Login: 
 			<input type="text" name="username" placeholder="login"><br><br>

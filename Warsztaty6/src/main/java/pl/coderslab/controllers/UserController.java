@@ -86,6 +86,9 @@ public class UserController {
 	
 	
 	
+	
+	
+	
 	@GetMapping("/userView/{id}")
 	public String singleUserView(Model model, @PathVariable Long id, HttpSession session, HttpServletRequest request) {
 		
@@ -199,18 +202,6 @@ public class UserController {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	@GetMapping("/panelUser/userSettings")
 	public String userPanelSettings(Model model, HttpSession session, HttpServletRequest request) {
 
@@ -223,9 +214,7 @@ public class UserController {
 			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
 			
 			model.addAttribute("user", user);
-
-			
-			
+	
 		}
 
 		return "panelUserSettings";
@@ -374,29 +363,6 @@ public class UserController {
 	        return "fileUploadSuccess";
 	    }
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

@@ -121,7 +121,7 @@ public class HomeController {
 		 tweet.setUser(user);
 		 tweetRepository.save(tweet);
 		 
-		 return "redirect:http://localhost:8080/Warsztaty6-Twitter/";
+		 return "redirect:/";
 		
 	}
 	
@@ -173,10 +173,8 @@ public class HomeController {
 				return "index";
 			}
 			 
-			//comment.setTweet(tweetRepository.findFirstById(id));
-			
-			System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" + comment);
-			
+			//comment.setTweet(tweetRepository.findFirstById(id));	
+			//System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" + comment);
 			
 			comment.setUser(user);
 			commentRepository.save(comment);
@@ -189,7 +187,8 @@ public class HomeController {
 			
 		} else {
 			
-			return "redirect:http://localhost:8080/Warsztaty6-Twitter/";
+			model.addAttribute("infoError", "Aby dodawać komentarze musisz się najpierw zalogować!");
+			return "userLoginForm";
 		}
 		
 		

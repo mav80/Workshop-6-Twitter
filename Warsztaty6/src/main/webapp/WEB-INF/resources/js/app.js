@@ -3,6 +3,13 @@ $(document).ready(function(){
 	
 	//console.log("JS żyje!");
 	
+    if ($(".UserIsLogged").length > 0) {
+    	console.log('Użytkownik jest zalogowany.');
+    } else {
+    	console.log('Brak zalogowanego użytkownika.');
+    }
+    
+	
 
     var commentsLists = $('.commentListList');
     console.log(commentsLists.length);
@@ -24,7 +31,12 @@ $(document).ready(function(){
         }
 
         //add button to show form for adding a new comment to tweet
-        $(commentsLists[i]).children().last().append($('<input type="submit" class="addNewCommentButton" value="Dodaj nowy">'));
+        
+        if ($(".UserIsLogged").length > 0) {
+        	$(commentsLists[i]).children().last().append($('<input type="submit" class="addNewCommentButton" value="Dodaj nowy">'));
+        } 
+        
+       
 
     }
 
@@ -125,7 +137,36 @@ $(document).ready(function(){
     });
     
     
+
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+
 
 
 
