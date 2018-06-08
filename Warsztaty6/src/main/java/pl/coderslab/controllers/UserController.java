@@ -61,6 +61,18 @@ public class UserController {
 			
 			model.addAttribute("tweets", tweetRepository.findByUserIdOrderByCreatedDesc(user.getId()));
 			
+			//comment count section - we get 
+			List<Tweet> tweets = tweetRepository.findAllByUserIdOrderByCreatedDesc(user.getId());
+			
+			Map<Integer, Integer> commentCountMap = new HashMap<>();
+			for(Tweet tweet: tweets) {
+				commentCountMap.put((int) tweet.getId(), tweetRepository.findCommentCountById(tweet.getId()));
+			}
+			
+			model.addAttribute("commentCountMap", commentCountMap);
+			//end of comment count section
+			
+			
 //			if(showAll.equals("true") ) {
 //				model.addAttribute("tweets", tweetRepository.findByUserIdOrderByCreatedDesc(user.getId()));
 //				model.addAttribute("modelInfo", "Oto wszystkie Twoje tweety:");

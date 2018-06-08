@@ -31,8 +31,18 @@
 								
 								Autor tweeta: <b>${tweet.user.username}</b>, data utworzenia: ${tweet.created}</li>
 								<li>Treść: <pre class="preTweet">${tweet.text}</pre></li>
+								<li>Liczba komentarzy:
+									
+									<c:forEach items="${commentCountMap}" var="mapEntry">
+										<c:if test="${mapEntry.key == tweet.id}">
+											${mapEntry.value}
+										</c:if>
+									</c:forEach>
+									
+								</li>
 								<li><a href="<%out.print(request.getContextPath());%>/tweet/${tweet.id}">Zobacz szczegóły tweeta i komentarze do niego</a></li>
-								</ul>
+								
+							</ul>
 						</list>
 					</td>
 			</div>  <!--  koniec div "row" -->
