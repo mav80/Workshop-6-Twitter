@@ -13,6 +13,11 @@
 	
 	
 		<br><br>
+		
+		<c:if test="${not empty tweet.user.usrImg}">
+			<img class="tweetPicture" src="<%out.print(request.getContextPath());%>/imageDisplay?id=${tweet.user.id}"/> 							
+		</c:if>
+		
 		Autor tweeta: <a href="<%out.print(request.getContextPath());%>/userView/${tweet.user.id}"><b>${tweet.user.username}</b></a>, data utworzenia: ${tweet.created}<br><br>
 		Treść: <pre class="preTweet">${tweet.text}</pre>
 		
@@ -33,7 +38,14 @@
 							<td>
 								<list>
 									<ul>
-										<li>Komentarz użytkownika <b>${comment.user.username}</b>, data utworzenia: ${comment.created}</li>
+										<li>
+										
+										<c:if test="${not empty comment.user.usrImg}">
+											<img class="commentPicture" src="<%out.print(request.getContextPath());%>/imageDisplay?id=${comment.user.id}"/> 							
+										</c:if> 
+					
+										Komentarz użytkownika <b>${comment.user.username}</b>, data utworzenia: ${comment.created}</li>
+										
 										<li><pre class="preComment">${comment.text}</pre></li>
 									</ul>
 								</list>

@@ -23,7 +23,13 @@
 					<td>
 						<list>
 							<ul>
-								<li>Autor tweeta: <b>${tweet.user.username}</b>, data utworzenia: ${tweet.created}</li>
+								<li>
+								
+								<c:if test="${not empty tweet.user.usrImg}">
+									<img class="tweetPicture" src="<%out.print(request.getContextPath());%>/imageDisplay?id=${tweet.user.id}"/> 							
+								</c:if>
+								
+								Autor tweeta: <b>${tweet.user.username}</b>, data utworzenia: ${tweet.created}</li>
 								<li>Treść: <pre class="preTweet">${tweet.text}</pre></li>
 								<li><a href="<%out.print(request.getContextPath());%>/tweet/${tweet.id}">Zobacz szczegóły tweeta i komentarze do niego</a></li>
 								</ul>
