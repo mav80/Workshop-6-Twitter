@@ -79,10 +79,11 @@ public class UserController {
 //				model.addAttribute("modelInfo", "Oto wszystkie Twoje tweety:");
 //			}
 			
-			
+			return "panelUser";
 		}
 
-		return "panelUser";
+		model.addAttribute("infoError", "Aby wejść do swojego panelu musisz się najpierw zalogować!");
+		return "userLoginForm";
 	}
 	
 	

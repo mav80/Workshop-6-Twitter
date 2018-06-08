@@ -19,7 +19,8 @@
 			
 		<c:if test="${not empty info}">
 			<b>${info}</b>
-			<a href="<%out.print(request.getContextPath());%>/panelUser" style="color: blue;">Panel użytkownika</a>
+			<a href="<%out.print(request.getContextPath());%>/panelUser/userSettings" style="color: red"><b>Zarządzaj ustawieniami swojego profilu</b></a>
+
 			
 			<c:if test="${not empty unreadMessagesNumber}">
 				<a href="<%out.print(request.getContextPath());%>/messages" style="color: red;"><img src="<%out.print(request.getContextPath());%>/static/message30.png" alt="Masz w swojej skrzynce nieprzeczytane wiadomości"><b>${unreadMessagesNumber}</b></a>
@@ -35,8 +36,8 @@
 				<a href="<%out.print(request.getContextPath());%>/login">Logowanie</a>
 				<a href="<%out.print(request.getContextPath());%>/register">Rejestracja</a>
 		</c:if>
-					
+		
+		<a class="floatRight" href="<%out.print(request.getContextPath());%>/logout">Wyloguj się</a>
 		<a class="floatRight" href="<%out.print(request.getContextPath());%>">Powrót do strony głównej</a>
-		<a class="floatRight"  href="<%out.print(request.getContextPath());%>/logout">Wyloguj się</a>
 	</body>
 </html>

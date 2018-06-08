@@ -28,3 +28,7 @@ h1 {
 	height: 1.6em;
 	width: 1.6em;
 }
+
+.floatRight {
+	float: right;
+}
