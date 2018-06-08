@@ -63,16 +63,18 @@ public class UserLoginController {
 			
 		} else {
 			session.setAttribute("loggedUser", null);
-			model.addAttribute("info", "Podałeś błędny login lub hasło.");
+			model.addAttribute("infoError", "Dane logowania niepoprawne!");
 			//System.out.println("It doesn't match.");
+			return "userLoginForm";
 		}
 		
-		return "userLoginForm";
+		//return "userLoginForm";
+		return "redirect:/";
 	}
 	
 	
 	@GetMapping("/logout")
-	@ResponseBody
+	//@ResponseBody
 	public String logout(HttpSession session, HttpServletRequest request,  HttpServletResponse response) {
 		//cookie section
 		Cookie userCookie = WebUtils.getCookie(request, "userCookie");
@@ -84,7 +86,7 @@ public class UserLoginController {
 		//end of cookie section
 		
 		session.setAttribute("loggedUser",  null);
-		return "Zostales wylogowany.";
+		return "redirect:/";
 		
 	}
 	

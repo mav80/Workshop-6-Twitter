@@ -7,23 +7,28 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>login form</title>
+		<title>Strona logowania</title>
 	</head>
 	<body>
-		<h3>userLoginForm.jsp</h3>
+
+		<br><br>
 		
-		${info}
 		<form method="post">
 		
-			Login<br> 
-			<input type="text" name="username" placeholder="login"><br>
+			Login: 
+			<input type="text" name="username" placeholder="login"><br><br>
 			
-			Hasło<br>
-			<input type="password" name="password" placeholder="password"><br>
+			Hasło: 
+			<input type="password" name="password" placeholder="password"><br><br>
 			
-			<input type="submit" value="Zaloguj">
+			<input type="submit" value="zaloguj">
 	
 		</form>
+		
+				
+		<br>
+		<b>${infoError}</b><br>
+		<br>
 	
 	</body>
 </html>
