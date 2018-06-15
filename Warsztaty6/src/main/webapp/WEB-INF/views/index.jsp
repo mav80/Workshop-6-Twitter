@@ -44,7 +44,7 @@
 												<img class="tweetPicture" src="<%out.print(request.getContextPath());%>/imageDisplay?id=${tweet.user.id}"/> 							
 											</c:if> 
 										
-											<a href="tweet/${tweet.id}">Tweet użytkownika <b>${tweet.user.username}</b>, data utworzenia: ${tweet.created}</a></li>
+											<a href="tweet/${tweet.id}">Tweet użytkownika <a href="<%out.print(request.getContextPath());%>/userView/${tweet.user.id}"><b>${tweet.user.username}</b></a>, data utworzenia: ${tweet.created}</a></li>
 										<li>
 											<pre class="preTweet">${tweet.text}</pre>
 										</li>
@@ -91,7 +91,7 @@
 																<img class="commentPicture" src="<%out.print(request.getContextPath());%>/imageDisplay?id=${comment.user.id}"/> 							
 															</c:if> 
 															
-															Komentarz użytkownika <b>${comment.user.username}</b>, data utworzenia: ${comment.created}s 
+															Komentarz użytkownika <a href="<%out.print(request.getContextPath());%>/userView/${comment.user.id}"><b>${comment.user.username}</b></a>, data utworzenia: ${comment.created}s 
 															<pre class="preComment">${comment.text}</pre>
 														</li>
 														
