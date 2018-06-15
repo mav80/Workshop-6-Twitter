@@ -111,7 +111,7 @@
 					
 				</c:if>
 				
-				<c:if test="${not empty info}">
+				<c:if test="${not empty info}"> 
 					<form:form method="post" modelAttribute="comment" action='mainPageAddComment' class="commentForm" id="${tweet.id}">
 						<span class="commentCharCounter">Napisz nowy komentarz. Pozostało 60 znaków do wpisania:</span><br>
 						<form:textarea rows="4" cols="50" path="text" placeholder="treść komentarza" class="commentTextArea"/><br> 
