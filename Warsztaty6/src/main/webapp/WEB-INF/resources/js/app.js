@@ -77,7 +77,7 @@ $(document).ready(function(){
     
     area.on("input", function () {
     	
-    	tweetCharCounter.text('Stwórz nową wiadomość. Pozostało ' + (280 - area.val().length) + ' znaków do wpisania:');
+    	tweetCharCounter.text('Stwórz nowego tweeta. Pozostało ' + (280 - area.val().length) + ' znaków do wpisania:');
  
     	var text = area.val().substring(0, 279);
     	area.val(text);

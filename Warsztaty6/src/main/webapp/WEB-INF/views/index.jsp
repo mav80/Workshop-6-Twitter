@@ -15,7 +15,7 @@
 		<c:if test="${not empty info}">
 					
 			<form:form method="post" modelAttribute="tweet">
-				<span class="tweetCharCounter">Stwórz nową wiadomość. Pozostało 280 znaków do wpisania:</span><br>
+				<span class="tweetCharCounter">Stwórz nowego tweeta. Pozostało 280 znaków do wpisania:</span><br>
 				<form:textarea rows="4" cols="50" path="text" placeholder="treść tweeta" class="tweetTextArea"/><br> 
 				<form:errors path="text" style="font-weight: bold; font-style: italic; color: red"/><br>	
 				<input type="submit" value="wyślij">	
