@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import pl.coderslab.app.Cookies;
 import pl.coderslab.app.MessageUtils;
 import pl.coderslab.entities.Comment;
+import pl.coderslab.entities.Tweet;
 import pl.coderslab.entities.User;
 import pl.coderslab.repositories.CommentRepository;
 import pl.coderslab.repositories.MessageRepository;
@@ -47,9 +48,14 @@ public class TweetController {
 			
 		}
 		
-		model.addAttribute("tweet",tweetRepository.findFirstById(id)); //new tweet to bind with tweet adding form
-		model.addAttribute("comments", commentRepository.findAllByTweetIdOrderByCreatedAsc(id));
-		model.addAttribute("comment", new Comment()); //new comment to bind with comment adding form
+		Tweet tweet = tweetRepository.findFirstFromNotDeletedUserById(id);
+		
+		if(tweet != null) {
+			model.addAttribute("tweet", tweet); //new tweet to bind with tweet adding form
+			model.addAttribute("comments", commentRepository.findAllByTweetIdOrderByCreatedAsc(id));
+			model.addAttribute("comment", new Comment()); //new comment to bind with comment adding form
+		}
+		
 		
 		return "userTweetView";
 		
@@ -70,7 +76,9 @@ public class TweetController {
 		User user;
 		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		
-		if(session.getAttribute("loggedUser") != null ) {
+		Tweet tweet = tweetRepository.findFirstFromNotDeletedUserById(id);
+		
+		if(session.getAttribute("loggedUser") != null & tweet != null) {
 			user = (User)session.getAttribute("loggedUser");
 			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
 			//unread messages counter
@@ -95,8 +103,8 @@ public class TweetController {
 			
 		} else {
 			modelAndView.clear();
-			model.addAttribute("infoError", "Aby dodawać komentarze musisz się najpierw zalogować!");
-			modelAndView.setViewName("login");
+			model.addAttribute("infoError", "Wystąpił błąd podczas dodawania komentarza.");
+			modelAndView.setViewName("redirect:/");
 			
 			return modelAndView;
 		}

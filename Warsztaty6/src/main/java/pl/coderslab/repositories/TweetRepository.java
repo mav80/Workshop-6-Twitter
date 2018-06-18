@@ -16,6 +16,9 @@ public interface TweetRepository extends JpaRepository<Tweet, Long>{
 	
 	Tweet findFirstById(long id);
 	
+	@Query(value = "SELECT * FROM Warsztaty6Twitter.Tweet JOIN Warsztaty6Twitter.User ON Tweet.user_id = User.id where Tweet.id = ?1 AND User.deleted = 0", nativeQuery = true)
+	Tweet findFirstFromNotDeletedUserById(long id);
+	
 	@Query(value = "SELECT COUNT(*) FROM `Warsztaty6Twitter`.Comment WHERE tweet_id = ?1", nativeQuery = true)
 	int findCommentCountById(long id);
 	
