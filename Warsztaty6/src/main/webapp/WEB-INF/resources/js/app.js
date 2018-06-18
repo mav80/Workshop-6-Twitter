@@ -137,6 +137,21 @@ $(document).ready(function(){
     });
     
     
+    
+    
+    
+    // here we ask user for confirmation before deleting something
+	var confirms = document.getElementsByClassName('confirm');
+	console.log(confirms);
+	
+	var confirmIt = function (e) {
+	    if (!confirm('Jesteś pewien?')) e.preventDefault();
+	};
+	for (var i = 0, l = confirms.length; i < l; i++) {
+		confirms[i].addEventListener('click', confirmIt, false);
+	}
+    
+    
 
     
     

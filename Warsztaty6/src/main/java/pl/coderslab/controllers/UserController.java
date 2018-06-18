@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.util.WebUtils;
 
 import pl.coderslab.app.Cookies;
 import pl.coderslab.app.MessageUtils;
@@ -204,6 +206,60 @@ public class UserController {
 	
 	
 	
+	
+	@GetMapping("/deleteUserAccount/{id}")
+	@ResponseBody
+	public String deleteUserAccount(Model model, @PathVariable Long id, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+		
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		User user = (User) session.getAttribute("loggedUser");
+		
+		
+		if(user != null && user.getId() == id) {
+			user.setDeleted(true);
+			userRepository.save(user);
+			
+			//cookie section
+			Cookie userCookie = WebUtils.getCookie(request, "userCookie");
+			if(userCookie!=null) {
+				userCookie.setPath("/");
+				userCookie.setMaxAge(0);
+				response.addCookie(userCookie);
+			}
+			//end of cookie section
+			
+			session.setAttribute("loggedUser",  null);
+			return "Konto skasowano poprawnie.";
+			
+		}
+		
+		return "Wystapil blad, konto nie zostalo usuniete.";
+
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@GetMapping("/panelUser/userSettings")
 	public String userPanelSettings(Model model, HttpSession session, HttpServletRequest request) {
 
@@ -216,10 +272,14 @@ public class UserController {
 			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
 			
 			model.addAttribute("user", user);
+			
+			return "panelUserSettings";
 	
+		} else {
+			model.addAttribute("infoError", "Aby wejść do swojego panelu musisz się najpierw zalogować!");
+			return "userLoginForm";
 		}
 
-		return "panelUserSettings";
 	}
 	
 	
@@ -350,6 +410,38 @@ public class UserController {
 	        return "fileUploadSuccess";
 	    }
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

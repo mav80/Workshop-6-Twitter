@@ -27,7 +27,11 @@
 			
 			<c:if test="${empty user.usrImg}">
 				<h3>Nie ustawiłeś jeszcze swojego obrazka.</h3> <br>
-			</c:if> 
+			</c:if>
+			
+			<a class="confirm" style="color: red" href="<%out.print(request.getContextPath());%>/deleteUserAccount/${user.id}"><h3>Usuń swoje konto.</h3></a>
+			
+			<h4>UWAGA! Usunięcie Twojego konta skasuje również wszystkie Twoje Tweety oraz komentarze!</h4>
 		
 	        
 
