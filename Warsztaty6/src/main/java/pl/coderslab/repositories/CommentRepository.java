@@ -17,5 +17,8 @@ public interface CommentRepository extends JpaRepository<Comment, Long>{
 	
 	@Query(value = "SELECT * FROM `Warsztaty6Twitter`.Comment ORDER BY created ASC", nativeQuery = true)
 	List<Comment> findAllOrderByCreatedAsc();
+	
+	@Query(value = "SELECT * FROM Warsztaty6Twitter.Comment AS comments JOIN (SELECT Tweet.id FROM Warsztaty6Twitter.Tweet JOIN Warsztaty6Twitter.User ON Tweet.user_id=User.id WHERE User.deleted = 0 ORDER BY Tweet.created DESC) AS tweets ON comments.tweet_id = tweets.id ORDER BY comments.created ASC", nativeQuery = true)
+	List<Comment> findAllOrderByCreatedAscOnlyForTweetsFromNotDeletedUsers();
 
 }

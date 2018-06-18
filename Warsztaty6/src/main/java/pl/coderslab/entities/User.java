@@ -42,6 +42,10 @@ public class User {
 	@Column(nullable = false)
 	private boolean enabled;
 	
+	@NotNull
+	@Column(nullable = false)
+	private boolean deleted;
+	
 	@Column(nullable = false)
 	private int tweeCount;
 	
@@ -140,6 +144,19 @@ public class User {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+	
+	
+	
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 
@@ -271,12 +288,28 @@ public class User {
 
 
 
+
+
+
+//	@Override
+//	public String toString() {
+//		return String.format(
+//				"Dane usera (toString): [id=%s, username=%s, password=%s, enabled=%s, email=%s, created=%s, admin=%s, tweeCount=%s, commentCount=%s, tweets=%s]",
+//				id, username, password, enabled, email, created, admin, tweeCount, commentCount, tweets);
+//	}
+	
+	
+	
+
 	@Override
 	public String toString() {
 		return String.format(
-				"Dane usera (toString): [id=%s, username=%s, password=%s, enabled=%s, email=%s, created=%s, admin=%s, tweeCount=%s, commentCount=%s, tweets=%s]",
-				id, username, password, enabled, email, created, admin, tweeCount, commentCount, tweets);
+				"User [id=%s, username=%s, email=%s, enabled=%s, deleted=%s, tweeCount=%s, commentCount=%s, created=%s, admin=%s, password=%s]",
+				id, username, email, enabled, deleted, tweeCount, commentCount, created, admin, password);
 	}
+	
+	
+	
 	
 	
 	

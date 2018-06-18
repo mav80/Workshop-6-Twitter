@@ -51,10 +51,10 @@ public class HomeController {
 			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
 		}
 		
-		model.addAttribute("tweets", tweetRepository.findAllOrderByCreatedDesc());
+		model.addAttribute("tweets", tweetRepository.findAllFromNotDeletedUsersOrderByCreatedDesc());
 		model.addAttribute("tweet", new Tweet()); //new tweet to bind with tweet adding form
-		model.addAttribute("tweetCount", tweetRepository.tweetCount());
-		model.addAttribute("comments", commentRepository.findAllOrderByCreatedAsc());
+		model.addAttribute("tweetCount", tweetRepository.tweetCountFromNotDeletedUsers());
+		model.addAttribute("comments", commentRepository.findAllOrderByCreatedAscOnlyForTweetsFromNotDeletedUsers());
 		
 		model.addAttribute("comment", new Comment()); //new tweet to bind with tweet adding form
 		
