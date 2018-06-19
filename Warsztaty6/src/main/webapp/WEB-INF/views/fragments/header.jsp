@@ -19,7 +19,13 @@
 			
 		<c:if test="${not empty info}">
 			<b>${info}</b>
-			<a href="<%out.print(request.getContextPath());%>/panelUser" style="color: blue;">Panel użytkownika</a>
+			<c:if test="${loggedUser.admin == false}">
+				<a href="<%out.print(request.getContextPath());%>/panelUser" style="color: blue;">Panel użytkownika</a>
+			</c:if>
+			
+			<c:if test="${loggedUser.admin == true}">
+				<a href="<%out.print(request.getContextPath());%>/panelAdmin" style="color: blue;"><b>Panel administracyjny</b></a>
+			</c:if>
 			
 			<c:if test="${not empty unreadMessagesNumber}">
 				<a href="<%out.print(request.getContextPath());%>/messages" style="color: red;"><img src="<%out.print(request.getContextPath());%>/static/message30.png" alt="Masz w swojej skrzynce nieprzeczytane wiadomości"><b>${unreadMessagesNumber}</b></a>
