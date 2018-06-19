@@ -13,52 +13,58 @@
 			<c:if test="${not empty messageSentStatus}">
 				<h3 style="color: red;">${messageSentStatus}</h3>
 			</c:if> 
+			
+			<c:if test="${empty viewedUser}">
+				<h3>Taki użytkownik nie istnieje.</h3>
+			</c:if>
 		
 			<c:if test="${not empty viewedUser}">
 				
 				<br><br>
-				<form:form method="post" modelAttribute="message">
-					<span>Napisz wiadomość do <b>${viewedUser.username}.</b></span> <span class="messageCharCounter">Pozostało 2048 znaków do wpisania:</span><br>
-					<form:input path="topic" placeholder="tytuł, min. 2 znaki, max. 30" class="messageTopicArea"/>
-					<form:errors path="topic" style="font-weight: bold; font-style: italic; color: red"/><br>
-					
-					<form:textarea rows="4" cols="50" path="text" placeholder="treść wiadomości, min. 2 znaki, max. 2048" class="messageTextArea"/> 
-					<form:errors path="text" style="font-weight: bold; font-style: italic; color: red"/><br>	
-					<input type="submit" value="wyślij">	
-				</form:form>
+				<c:if test="${not empty info}">
+					<form:form method="post" modelAttribute="message">
+						<span>Napisz wiadomość do <b>${viewedUser.username}.</b></span> <span class="messageCharCounter">Pozostało 2048 znaków do wpisania:</span><br>
+						<form:input path="topic" placeholder="tytuł, min. 2 znaki, max. 30" class="messageTopicArea"/>
+						<form:errors path="topic" style="font-weight: bold; font-style: italic; color: red"/><br>
+						
+						<form:textarea rows="4" cols="50" path="text" placeholder="treść wiadomości, min. 2 znaki, max. 2048" class="messageTextArea"/> 
+						<form:errors path="text" style="font-weight: bold; font-style: italic; color: red"/><br>	
+						<input type="submit" value="wyślij">	
+					</form:form>
+				</c:if>
 				
-			</c:if>
 			
-			<br><br>Oto wszystkie tweety użytkownika <b>${viewedUser.username}</b>:<br><br>
+				<br><br>Oto wszystkie tweety użytkownika <b>${viewedUser.username}</b>:<br><br>
+			
+				<table>
+					<c:forEach items="${tweets}" var="tweet">
+						
+						<div class="row">
+							<tr>
+								<td>
+									<list>
+										<ul>
+											<li>Autor tweeta: <b>${tweet.user.username}</b>, data utworzenia: ${tweet.created}</li>
+											<li>Treść: <pre class="preTweet">${tweet.text}</pre></li>
+											<li>Liczba komentarzy:
+											
+												<c:forEach items="${commentCountMap}" var="mapEntry">
+													<c:if test="${mapEntry.key == tweet.id}">
+														${mapEntry.value}
+													</c:if>
+												</c:forEach>
+											
+											</li><br>
+											<li><a href="<%out.print(request.getContextPath());%>/tweet/${tweet.id}">Zobacz szczegóły tweeta i komentarze do niego</a></li>
+											</ul>
+									</list>
+								</td>
+						</div>  <!--  koniec div "row" -->
+			
+					</c:forEach>
+				</table>
 		
-			<table>
-				<c:forEach items="${tweets}" var="tweet">
-					
-					<div class="row">
-						<tr>
-							<td>
-								<list>
-									<ul>
-										<li>Autor tweeta: <b>${tweet.user.username}</b>, data utworzenia: ${tweet.created}</li>
-										<li>Treść: <pre class="preTweet">${tweet.text}</pre></li>
-										<li>Liczba komentarzy:
-										
-											<c:forEach items="${commentCountMap}" var="mapEntry">
-												<c:if test="${mapEntry.key == tweet.id}">
-													${mapEntry.value}
-												</c:if>
-											</c:forEach>
-										
-										</li><br>
-										<li><a href="<%out.print(request.getContextPath());%>/tweet/${tweet.id}">Zobacz szczegóły tweeta i komentarze do niego</a></li>
-										</ul>
-								</list>
-							</td>
-					</div>  <!--  koniec div "row" -->
-		
-				</c:forEach>
-			</table>
-		
+			</c:if>
 		
 		</body>
 </html>

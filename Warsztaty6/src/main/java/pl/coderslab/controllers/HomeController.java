@@ -1,5 +1,6 @@
 package pl.coderslab.controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,18 +55,16 @@ public class HomeController {
 		model.addAttribute("tweets", tweetRepository.findAllFromNotDeletedUsersOrderByCreatedDesc());
 		model.addAttribute("tweet", new Tweet()); //new tweet to bind with tweet adding form
 		model.addAttribute("tweetCount", tweetRepository.tweetCountFromNotDeletedUsers());
-		model.addAttribute("comments", commentRepository.findAllOrderByCreatedAscOnlyForTweetsFromNotDeletedUsers());
 		
+		model.addAttribute("comments", commentRepository.findAllFromNotDeletedUsersOrderByCreatedAscOnlyForTweetsFromNotDeletedUsers());
 		model.addAttribute("comment", new Comment()); //new tweet to bind with tweet adding form
 		
-		//System.out.println(tweetRepository.findAllOrderByCreatedDesc());
-		
 		//comment count section
-		List<Tweet> tweets = tweetRepository.findAllOrderByCreatedDesc();
+		List<Tweet> tweets = tweetRepository.findAllFromNotDeletedUsersOrderByCreatedDesc();
 		
 		Map<Integer, Integer> commentCountMap = new HashMap<>();
 		for(Tweet tweet: tweets) {
-			commentCountMap.put((int) tweet.getId(), tweetRepository.findCommentCountById(tweet.getId()));
+			commentCountMap.put((int) tweet.getId(), tweetRepository.findCommentCountFromNotDeletedUsersById(tweet.getId()));
 		}
 		
 		model.addAttribute("commentCountMap", commentCountMap);
@@ -105,11 +104,11 @@ public class HomeController {
 			 model.addAttribute("tweetCount", tweetRepository.tweetCount());
 			 
 			//comment count section
-			List<Tweet> tweets = tweetRepository.findAllOrderByCreatedDesc();
+			List<Tweet> tweets = tweetRepository.findAllFromNotDeletedUsersOrderByCreatedDesc();
 			
 			Map<Integer, Integer> commentCountMap = new HashMap<>();
 			for(Tweet tweeto: tweets) {
-				commentCountMap.put((int) tweeto.getId(), tweetRepository.findCommentCountById(tweeto.getId()));
+				commentCountMap.put((int) tweeto.getId(), tweetRepository.findCommentCountFromNotDeletedUsersById(tweeto.getId()));
 			}
 			
 			model.addAttribute("commentCountMap", commentCountMap);

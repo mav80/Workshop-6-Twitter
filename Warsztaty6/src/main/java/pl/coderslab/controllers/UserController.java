@@ -64,12 +64,12 @@ public class UserController {
 			
 			model.addAttribute("tweets", tweetRepository.findByUserIdOrderByCreatedDesc(user.getId()));
 			
-			//comment count section - we get 
+			//comment count section
 			List<Tweet> tweets = tweetRepository.findAllByUserIdOrderByCreatedDesc(user.getId());
 			
 			Map<Integer, Integer> commentCountMap = new HashMap<>();
 			for(Tweet tweet: tweets) {
-				commentCountMap.put((int) tweet.getId(), tweetRepository.findCommentCountById(tweet.getId()));
+				commentCountMap.put((int) tweet.getId(), tweetRepository.findCommentCountFromNotDeletedUsersById(tweet.getId()));
 			}
 			
 			model.addAttribute("commentCountMap", commentCountMap);
@@ -99,25 +99,33 @@ public class UserController {
 		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User user = (User) session.getAttribute("loggedUser");
 		
-		if(session.getAttribute("loggedUser") != null ) {
+		User userToview = userRepository.findFirstById(id);
+		if(userToview != null && !userToview.isDeleted()) {
+			model.addAttribute("viewedUser", userToview);
+			model.addAttribute("tweets", tweetRepository.findByUserIdOrderByCreatedDesc(id));
+		}
+		
+		//comment count section
+		List<Tweet> tweets = tweetRepository.findByUserIdOrderByCreatedDesc(id);
+		
+		Map<Integer, Integer> commentCountMap = new HashMap<>();
+		for(Tweet tweet: tweets) {
+			commentCountMap.put((int) tweet.getId(), tweetRepository.findCommentCountFromNotDeletedUsersById(tweet.getId()));
+		}
+		
+		model.addAttribute("commentCountMap", commentCountMap);
+		//end of comment count section
+		
+		if(session.getAttribute("loggedUser") != null) {
 			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
 			//unread messages counter
 			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
 			
-			model.addAttribute("tweets", tweetRepository.findByUserIdOrderByCreatedDesc(id));
-			model.addAttribute("viewedUser", userRepository.findFirstById(id));
+			
+
 			model.addAttribute("message", new Message()); //new message to bind with message adding form
 			
-			//comment count section
-			List<Tweet> tweets = tweetRepository.findByUserIdOrderByCreatedDesc(id);
-			
-			Map<Integer, Integer> commentCountMap = new HashMap<>();
-			for(Tweet tweet: tweets) {
-				commentCountMap.put((int) tweet.getId(), tweetRepository.findCommentCountById(tweet.getId()));
-			}
-			
-			model.addAttribute("commentCountMap", commentCountMap);
-			//end of comment count section
+		
 		}
 
 		return "userViewSingle";
@@ -145,7 +153,7 @@ public class UserController {
 			
 			Map<Integer, Integer> commentCountMap = new HashMap<>();
 			for(Tweet tweet: tweets) {
-				commentCountMap.put((int) tweet.getId(), tweetRepository.findCommentCountById(tweet.getId()));
+				commentCountMap.put((int) tweet.getId(), tweetRepository.findCommentCountFromNotDeletedUsersById(tweet.getId()));
 			}
 			
 			model.addAttribute("commentCountMap", commentCountMap);
@@ -166,7 +174,7 @@ public class UserController {
 			
 			message.setSender(user);
 			User receiver = userRepository.findFirstById(id);
-			if(receiver != null) {
+			if(!user.isDeleted() && receiver != null && !receiver.isDeleted()) {
 				message.setReceiver(receiver);
 			} else {
 				model.addAttribute("messageSentStatus", "Błąd wysyłania wiadomości, użytkownik docelowy nie istnieje.");
