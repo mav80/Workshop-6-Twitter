@@ -34,6 +34,12 @@
 						<input type="submit" value="Wyszukaj"> <br> <br>
 					</form>
 				</li>
+				<li>
+					<form>
+						<input type="hidden" name="userSearchShowAll" value="true">
+						<input type="submit" value="Pokaż wszystkich użytkowników znajdujących się w bazie"><br><br>
+					</form>
+				</li>
 			</ul>
 			
 			<c:if test="${not empty param.operationInfo}">

@@ -37,7 +37,8 @@ public class AdminController {
 	public String adminPanel(Model model, HttpSession session, HttpServletRequest request,
 			@RequestParam(defaultValue="") String userSearchNameLike,
 			@RequestParam(defaultValue="") String userSearchEmailLike,
-			@RequestParam(defaultValue="-1") long userSearchId) {
+			@RequestParam(defaultValue="-1") long userSearchId,
+			@RequestParam(defaultValue="false") boolean userSearchShowAll) {
 		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User user = (User) session.getAttribute("loggedUser");
 		
@@ -61,10 +62,15 @@ public class AdminController {
 				System.out.println("Wyniki wyszukiwania:");
 				System.out.println(userRepository.findFirstById(userSearchId));
 			}
+			if(userSearchShowAll) {
+				model.addAttribute("users", userRepository.findByEmailLike(userSearchEmailLike));
+				System.out.println("Wyniki wyszukiwania:");
+				System.out.println(userRepository.findByEmailLike(userSearchEmailLike));
+			}
 			
 			
 			
-			if(!userSearchNameLike.isEmpty() || !userSearchEmailLike.isEmpty() || userSearchId > 0) {
+			if(!userSearchNameLike.isEmpty() || !userSearchEmailLike.isEmpty() || userSearchId > 0 || userSearchShowAll) {
 				model.addAttribute("searchResultMessage", "Oto wyniki wyszukiwania:");
 			}
 			
