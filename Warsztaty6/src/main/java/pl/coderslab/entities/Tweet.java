@@ -47,7 +47,7 @@ public class Tweet {
 	@JoinColumn
 	private User user;
 	
-	@OneToMany(mappedBy = "tweet", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "tweet", fetch=FetchType.EAGER, cascade =  {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH, CascadeType.REMOVE})
 	private List<Comment> comments = new ArrayList<>();
 	
 	

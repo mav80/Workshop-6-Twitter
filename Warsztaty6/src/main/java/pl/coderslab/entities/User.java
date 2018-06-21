@@ -76,11 +76,11 @@ public class User {
 	
 	
 	
-	@OneToMany(mappedBy = "user", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user", fetch=FetchType.EAGER)
 	private List<Tweet> tweets = new ArrayList<>();
 	
 	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user")
 	private List<Comment> comments = new ArrayList<>();
 	
 	
@@ -88,10 +88,10 @@ public class User {
 	
 	
 	
-	@OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "sender")
 	private List<Message> sentMessages = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "receiver")
 	private List<Message> receivedMessages = new ArrayList<>();
 	
 	

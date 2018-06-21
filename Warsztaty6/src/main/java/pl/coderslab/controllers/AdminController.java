@@ -1,5 +1,9 @@
 package pl.coderslab.controllers;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.coderslab.app.Cookies;
 import pl.coderslab.app.MessageUtils;
+import pl.coderslab.entities.Tweet;
 import pl.coderslab.entities.User;
 import pl.coderslab.repositories.MessageRepository;
 import pl.coderslab.repositories.TweetRepository;
@@ -120,16 +125,84 @@ public class AdminController {
 			
 			
 			
+			return "redirect:/panelAdmin";
+		} else {
+			model.addAttribute("infoError", "Musisz mieć uprawnienia administratora aby wejść do panelu admina!");
+			return "userLoginForm";
+		}
+		
+		
+	}
+	
+	
+	
+	@GetMapping("/adminShowUserTweets/{id}")
+	public String adminShowUserTweets(Model model, HttpSession session, HttpServletRequest request,
+			@PathVariable long id) { 
+		
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		User user = (User) session.getAttribute("loggedUser");
+		
+		if(user != null && user.isAdmin()) {
+			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
+			//unread messages counter
+			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
+			
+			User userToViewTweets = userRepository.findFirstById(id);
+			
+			if(userToViewTweets != null) {
+				List<Tweet> userTweets = tweetRepository.findAllByUserIdOrderByCreatedDesc(id);
+				model.addAttribute("userTweets", userTweets);
+				
+				//comment count section
+				Map<Integer, Integer> commentCountMap = new HashMap<>();
+				for(Tweet tweet: userTweets) {
+					commentCountMap.put((int) tweet.getId(), tweetRepository.findCommentCountFromNotDeletedUsersById(tweet.getId()));
+				}
+				model.addAttribute("commentCountMap", commentCountMap);
+				//end of comment count section
+				
+				model.addAttribute("operationInfo", "Oto wszystkie tweety użytkownika " + userToViewTweets.getUsername() + ":");
+				
+			} else {
+				model.addAttribute("operationInfo", "Użytkownik o takim id nie istnieje.");
+			}
 			
 			
 			
 			
-			
-			
-			
-			
-			
-			
+			return "panelAdmin";
+		} else {
+			model.addAttribute("infoError", "Musisz mieć uprawnienia administratora aby wejść do panelu admina!");
+			return "userLoginForm";
+		}
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	@GetMapping("/adminHardDeleteUserTweet/{id}")
+	public String adminHardDeleteUserTweet(Model model, HttpSession session, HttpServletRequest request,
+			@PathVariable long id) { 
+		
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		User user = (User) session.getAttribute("loggedUser");
+		
+		if(user != null && user.isAdmin()) {
+			Tweet tweetToDelete = tweetRepository.findFirstById(id);
+			if(tweetToDelete != null) {
+				System.out.println("kasujemy");
+				//tweetRepository.delete(tweetToDelete);
+				tweetRepository.deleteById(id);
+				System.out.println("po kasowaniu");
+				model.addAttribute("operationInfo", "Tweeta należącego do użytkownika " + tweetToDelete.getUser().getUsername() + " oraz wszystkie komentarze do niego skasowano pomyślnie.");
+			} else {
+				model.addAttribute("operationInfo", "Tweet o takim id nie istnieje.");
+			}
 			
 			
 			return "redirect:/panelAdmin";
@@ -140,6 +213,20 @@ public class AdminController {
 		
 		
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
