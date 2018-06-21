@@ -36,9 +36,13 @@
 				</li>
 			</ul>
 			
+			<c:if test="${not empty param.operationInfo}">
+				<b style="color: blue">${param.operationInfo}</b><br>
+			</c:if>
 			
-			
-			<b>${searchResultMessage}</b>
+			<c:if test="${not empty searchResultMessage}">
+				<b>${searchResultMessage}</b>
+			</c:if>
 			
 			<center>
 				<section class="mytable">
@@ -46,6 +50,12 @@
 						<c:forEach items="${users}" var="user">		
 							<div class="row">	
 								<tr>
+								
+									<td>
+										<c:if test="${not empty user.usrImg}">
+											<img class="userPicture" src="<%out.print(request.getContextPath());%>/imageDisplay?id=${user.id}"/> 							
+										</c:if>
+									</td>
 								
 									<td>
 										<list>
@@ -99,7 +109,12 @@
 												<li> <a href="<%out.print(request.getContextPath());%>/adminShowUserComments?userId=${user.id}">pokaż wszystkie komentarze tego użytkownika</a></li>
 												<li><a href="<%out.print(request.getContextPath());%>/adminEditUser/${user.id}">edytuj użytkownika</a></li>
 												<li><a href="<%out.print(request.getContextPath());%>/adminSetDeleteUser/${user.id}">ustaw status użytkownika na skasowany</a></li>
-												<li><a href="<%out.print(request.getContextPath());%>/adminBanUser/${user.id}">zbanuj użytkownika</a></li>
+												<c:if test="${user.enabled == true}">
+													<li><a href="<%out.print(request.getContextPath());%>/adminToggleBanUser/${user.id}">ustaw status użytkownika na zbanowany</a></li>
+												</c:if>
+												<c:if test="${user.enabled == false}">
+													<li><a href="<%out.print(request.getContextPath());%>/adminToggleBanUser/${user.id}">odbanuj użytkownika</a></li>
+												</c:if>
 												<li><a class="confirm" href="<%out.print(request.getContextPath());%>/adminHardDeleteUserAndData/${user.id}">usuń fizycznie konto użytkownika i wszystkie jego tweety oraz komentarze z bazy</a></li>
 											</ul>
 										</list>

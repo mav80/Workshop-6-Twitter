@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.coderslab.app.Cookies;
@@ -83,5 +85,70 @@ public class AdminController {
 		}
 		
 	}
+	
+	
+	
+	
+	
+	
+	
+	@GetMapping("/adminToggleBanUser/{id}")
+	public String adminPanelBanUser(Model model, HttpSession session, HttpServletRequest request,
+			@PathVariable long id) { 
+		
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		User user = (User) session.getAttribute("loggedUser");
+		
+		if(user != null && user.isAdmin()) {
+			
+			User userToBan = userRepository.findFirstById(id);
+			
+			if(userToBan != null) {
+				if(userToBan.isEnabled()) {
+					userToBan.setEnabled(false);
+					userRepository.save(userToBan);
+					model.addAttribute("operationInfo", "Użytkownika " + userToBan.getUsername() + " zbanowano pomyślnie.");
+				} else {
+					userToBan.setEnabled(true);
+					userRepository.save(userToBan);
+					model.addAttribute("operationInfo", "Użytkownika " + userToBan.getUsername() + " odbanowano pomyślnie.");
+				}
+			} else {
+				model.addAttribute("operationInfo", "Użytkownik o takim id nie istnieje.");
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			return "redirect:/panelAdmin";
+		} else {
+			model.addAttribute("infoError", "Musisz mieć uprawnienia administratora aby wejść do panelu admina!");
+			return "userLoginForm";
+		}
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
