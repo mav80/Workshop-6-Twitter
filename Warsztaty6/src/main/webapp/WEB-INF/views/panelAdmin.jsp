@@ -113,7 +113,13 @@
 													<li> <a href="<%out.print(request.getContextPath());%>/adminShowUserTweets/${user.id}">pokaż wszystkie tweety tego użytkownika</a></li>
 													<li> <a href="<%out.print(request.getContextPath());%>/adminShowUserComments?userId=${user.id}">pokaż wszystkie komentarze tego użytkownika</a></li>
 													<li><a href="<%out.print(request.getContextPath());%>/adminEditUser/${user.id}">edytuj użytkownika</a></li>
-													<li><a href="<%out.print(request.getContextPath());%>/adminSetDeleteUser/${user.id}">ustaw status użytkownika na skasowany</a></li>
+													<c:if test="${user.deleted == true}">
+														<li><a href="<%out.print(request.getContextPath());%>/adminToggleDeleteUser/${user.id}">ustaw status użytkownika na nie skasowany</a></li>
+													</c:if>
+													<c:if test="${user.deleted == false}">
+														<li><a href="<%out.print(request.getContextPath());%>/adminToggleDeleteUser/${user.id}">ustaw status użytkownika na skasowany</a></li>
+													</c:if>
+													
 													<c:if test="${user.enabled == true}">
 														<li><a href="<%out.print(request.getContextPath());%>/adminToggleBanUser/${user.id}">ustaw status użytkownika na zbanowany</a></li>
 													</c:if>

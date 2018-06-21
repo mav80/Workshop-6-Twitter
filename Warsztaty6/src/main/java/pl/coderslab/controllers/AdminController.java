@@ -135,6 +135,53 @@ public class AdminController {
 	}
 	
 	
+	@GetMapping("/adminToggleDeleteUser/{id}")
+	public String adminToggleDeleteUser(Model model, HttpSession session, HttpServletRequest request,
+			@PathVariable long id) { 
+		
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		User user = (User) session.getAttribute("loggedUser");
+		
+		if(user != null && user.isAdmin()) {
+			
+			User userToDelete = userRepository.findFirstById(id);
+			
+			if(userToDelete != null) {
+				if(userToDelete.isDeleted()) {
+					userToDelete.setDeleted(false);
+					userRepository.save(userToDelete);
+					model.addAttribute("operationInfo", "Status konta użytkownika " + userToDelete.getUsername() + " pomyślnie ustawiono na skasowany.");
+				} else {
+					userToDelete.setDeleted(true);
+					userRepository.save(userToDelete);
+					model.addAttribute("operationInfo", "Status konta użytkownika " + userToDelete.getUsername() + " pomyślnie ustawiono na aktywny.");
+				}
+			} else {
+				model.addAttribute("operationInfo", "Użytkownik o takim id nie istnieje.");
+			}
+			
+			
+			
+			
+			return "redirect:/panelAdmin";
+		} else {
+			model.addAttribute("infoError", "Musisz mieć uprawnienia administratora aby wejść do panelu admina!");
+			return "userLoginForm";
+		}
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	@GetMapping("/adminShowUserTweets/{id}")
 	public String adminShowUserTweets(Model model, HttpSession session, HttpServletRequest request,
