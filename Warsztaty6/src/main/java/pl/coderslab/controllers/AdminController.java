@@ -253,7 +253,7 @@ public class AdminController {
 				model.addAttribute("commentCountMap", commentCountMap);
 				//end of comment count section
 				
-				model.addAttribute("operationInfo", "Oto wszystkie tweety użytkownika " + userToViewTweets.getUsername() + ":");
+				model.addAttribute("operationInfo", "Oto wszystkie tweety użytkownika " + userToViewTweets.getUsername() + " (razem: " + tweetRepository.count() + "):");
 				
 			} else {
 				model.addAttribute("operationInfo", "Użytkownik o takim id nie istnieje.");
