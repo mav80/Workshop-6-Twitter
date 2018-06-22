@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.coderslab.app.Cookies;
 import pl.coderslab.app.MessageUtils;
+import pl.coderslab.entities.Comment;
 import pl.coderslab.entities.Tweet;
 import pl.coderslab.entities.User;
 import pl.coderslab.repositories.CommentRepository;
@@ -273,6 +274,45 @@ public class AdminController {
 	
 	
 	
+	@GetMapping("/adminShowUserComments/{id}")
+	public String adminShowUserComments(Model model, HttpSession session, HttpServletRequest request,
+			@PathVariable long id) { 
+		
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		User user = (User) session.getAttribute("loggedUser");
+		
+		if(user != null && user.isAdmin()) {
+			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
+			//unread messages counter
+			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
+			
+			User userToViewComments = userRepository.findFirstById(id);
+			
+			if(userToViewComments != null) {
+				List<Comment> userComments = commentRepository.findAllByUserIdOrderByCreatedDesc(id);
+				model.addAttribute("userComments", userComments);
+				
+				model.addAttribute("operationInfo", "Oto wszystkie komentarze użytkownika " + userToViewComments.getUsername() + " (razem: " + commentRepository.count() + "):");
+				
+			} else {
+				model.addAttribute("operationInfo", "Użytkownik o takim id nie istnieje.");
+			}
+			
+			
+			
+			
+			return "panelAdmin";
+		} else {
+			model.addAttribute("infoError", "Musisz mieć uprawnienia administratora aby wejść do panelu admina!");
+			return "userLoginForm";
+		}
+		
+		
+	}
+	
+	
+	
+	
 	
 	
 	@GetMapping("/adminHardDeleteUserTweet/{id}")
@@ -285,13 +325,38 @@ public class AdminController {
 		if(user != null && user.isAdmin()) {
 			Tweet tweetToDelete = tweetRepository.findFirstById(id);
 			if(tweetToDelete != null) {
-				System.out.println("kasujemy");
-				//tweetRepository.delete(tweetToDelete);
 				tweetRepository.deleteById(id);
-				System.out.println("po kasowaniu");
 				model.addAttribute("operationInfo", "Tweeta należącego do użytkownika " + tweetToDelete.getUser().getUsername() + " oraz wszystkie komentarze do niego skasowano pomyślnie.");
 			} else {
 				model.addAttribute("operationInfo", "Tweet o takim id nie istnieje.");
+			}
+			
+			
+			return "redirect:/panelAdmin";
+		} else {
+			model.addAttribute("infoError", "Musisz mieć uprawnienia administratora aby wejść do panelu admina!");
+			return "userLoginForm";
+		}
+		
+		
+	}
+	
+	
+	
+	@GetMapping("/adminHardDeleteUserComment/{id}")
+	public String adminHardDeleteUserComment(Model model, HttpSession session, HttpServletRequest request,
+			@PathVariable long id) { 
+		
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		User user = (User) session.getAttribute("loggedUser");
+		
+		if(user != null && user.isAdmin()) {
+			Comment commentToDelete = commentRepository.findFirstById(id);
+			if(commentToDelete != null) {
+				commentRepository.deleteCommentById(id);
+				model.addAttribute("operationInfo", "Komentarz należący do użytkownika " + commentToDelete.getUser().getUsername() + " oraz wszystkie komentarze do niego skasowano pomyślnie.");
+			} else {
+				model.addAttribute("operationInfo", "Komentarz o takim id nie istnieje.");
 			}
 			
 			

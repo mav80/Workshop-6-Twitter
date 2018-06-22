@@ -9,11 +9,13 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import pl.coderslab.entities.Comment;
+import pl.coderslab.entities.Tweet;
 
 public interface CommentRepository extends JpaRepository<Comment, Long>{
 	
 	List<Comment> findAllByTweetIdOrderByCreatedDesc(long tweetId);
 	List<Comment> findAllByTweetIdOrderByCreatedAsc(long tweetId);
+	Comment findFirstById(long id);
 	
 	@Query(value = "SELECT * FROM `Warsztaty6Twitter`.Comment ORDER BY created DESC", nativeQuery = true)
 	List<Comment> findAllOrderByCreatedDesc();
@@ -32,5 +34,12 @@ public interface CommentRepository extends JpaRepository<Comment, Long>{
 	@Transactional
 	@Query(value = "DELETE FROM Warsztaty6Twitter.Comment WHERE user_id = ?1", nativeQuery = true)
 	void customDeleteAllUserComments(long id);
+	
+	List<Comment> findAllByUserIdOrderByCreatedDesc(long id);
+	
+	@Modifying
+	@Transactional
+	@Query(value = "DELETE FROM Warsztaty6Twitter.Comment WHERE id = ?1", nativeQuery = true)
+	void deleteCommentById(long id);
 
 }

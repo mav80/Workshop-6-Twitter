@@ -122,7 +122,7 @@
 										<list>
 											<ul>
 												<li> <a href="<%out.print(request.getContextPath());%>/adminShowUserTweets/${user.id}">pokaż wszystkie tweety tego użytkownika</a></li>
-												<li> <a href="<%out.print(request.getContextPath());%>/adminShowUserComments?userId=${user.id}">pokaż wszystkie komentarze tego użytkownika</a></li>
+												<li> <a href="<%out.print(request.getContextPath());%>/adminShowUserComments/${user.id}">pokaż wszystkie komentarze tego użytkownika</a></li>
 												<li><a href="<%out.print(request.getContextPath());%>/adminEditUser/${user.id}">edytuj użytkownika</a></li>
 												<c:if test="${user.deleted == true}">
 													<li><a href="<%out.print(request.getContextPath());%>/adminToggleDeleteUser/${user.id}">ustaw status użytkownika na nie skasowany</a></li>
@@ -201,6 +201,76 @@
 				</section>
 			</center>
 		</c:if>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<!-- USER'S COMMENTS -->
+		
+		<c:if test="${not empty userComments}">
+			<center>
+				<section>
+				
+					<table>	
+						<c:forEach items="${userComments}" var="comment">
+
+							<tr>
+								<td>
+									
+										<ul>
+											<li class="commentListLi">
+												
+												<c:if test="${not empty comment.user.usrImg}">
+													<img class="commentPicture" src="<%out.print(request.getContextPath());%>/imageDisplay?id=${comment.user.id}"/> 							
+												</c:if> 
+												
+												Komentarz użytkownika <a href="<%out.print(request.getContextPath());%>/userView/${comment.user.id}"><b>${comment.user.username}</b></a>, data utworzenia: ${comment.created}s 
+												<pre class="preComment">${comment.text}</pre>
+											</li>
+											
+										</ul>
+									
+								</td>
+								
+								<td>
+										<a class="confirm" href="<%out.print(request.getContextPath());%>/adminHardDeleteUserComment/${comment.id}">Skasuj z bazy ten komentarz</a></li>
+								</td>
+							</tr>
+
+								
+	
+						</c:forEach>
+					</table>
+				
+				
+				</section>
+			</center>
+		</c:if>
+		
+		
+		
+		
+		
+		
+		
 			
 			
 	</body>
