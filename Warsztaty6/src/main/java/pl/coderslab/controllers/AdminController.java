@@ -19,6 +19,7 @@ import pl.coderslab.app.Cookies;
 import pl.coderslab.app.MessageUtils;
 import pl.coderslab.entities.Tweet;
 import pl.coderslab.entities.User;
+import pl.coderslab.repositories.CommentRepository;
 import pl.coderslab.repositories.MessageRepository;
 import pl.coderslab.repositories.TweetRepository;
 import pl.coderslab.repositories.UserRepository;
@@ -32,6 +33,8 @@ public class AdminController {
 	UserRepository userRepository;
 	@Autowired
 	MessageRepository messageRepository;
+	@Autowired
+	CommentRepository commentRepository;
 	
 	@GetMapping("/panelAdmin")
 	public String adminPanel(Model model, HttpSession session, HttpServletRequest request,
@@ -183,8 +186,42 @@ public class AdminController {
 	
 	
 	
+	@GetMapping("/adminHardDeleteUserAndData/{id}")
+	public String adminHardDeleteUserAndData(Model model, HttpSession session, HttpServletRequest request,
+			@PathVariable long id) { 
+		
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		User user = (User) session.getAttribute("loggedUser");
+		
+		if(user != null && user.isAdmin()) {
+			
+			User userToDelete = userRepository.findFirstById(id);
+			
+			if(userToDelete != null) {
+				//make sure user cannot add any more tweets or comments
+				userToDelete.setDeleted(true);
+				userRepository.save(userToDelete);
+				
+				commentRepository.customDeleteAllUserComments(id);
+				tweetRepository.customDeleteAllUserTweets(id);
+				userRepository.customDeleteUser(id);
+				model.addAttribute("operationInfo", "Konto użytkownika " + userToDelete.getUsername() + " oraz wszystkie jego tweety i komentarze pomyślnie trwale usunięto z bazy.");
+			} else {
+				model.addAttribute("operationInfo", "Użytkownik o takim id nie istnieje.");
+			}
+			
+			return "redirect:/panelAdmin";
+		} else {
+			model.addAttribute("infoError", "Musisz mieć uprawnienia administratora aby wejść do panelu admina!");
+			return "userLoginForm";
+		}
+		
+		
+	}
 	
 	
+	
+
 	
 	
 	

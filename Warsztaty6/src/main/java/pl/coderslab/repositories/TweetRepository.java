@@ -1,7 +1,11 @@
 package pl.coderslab.repositories;
 
 import java.util.List;
+
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import pl.coderslab.entities.Tweet;
 
@@ -33,6 +37,11 @@ public interface TweetRepository extends JpaRepository<Tweet, Long>{
 	
 	@Query(value = "SELECT * FROM `Warsztaty6Twitter`.Tweet WHERE user_id = ?1 ORDER BY created DESC", nativeQuery = true)
 	List<Tweet> findAllByUserIdOrderByCreatedDesc(long id);
+	
+	@Modifying
+	@Transactional
+	@Query(value = "DELETE FROM Warsztaty6Twitter.Tweet WHERE user_id = ?1 ", nativeQuery = true)
+	void customDeleteAllUserTweets(long id);
 	
 	
 

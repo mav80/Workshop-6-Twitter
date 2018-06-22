@@ -38,8 +38,16 @@ h1 {
 	float: right;
 }
 
+.searchList ul {
+    list-style-type: none;
+	overflow: hidden;
 
+}
 
+.searchList li {
+    float: left;
+    padding: 0.5em;
+}
 
 
 
