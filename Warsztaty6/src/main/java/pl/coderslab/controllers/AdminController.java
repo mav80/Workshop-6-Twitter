@@ -1,5 +1,6 @@
 package pl.coderslab.controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,23 +54,18 @@ public class AdminController {
 			
 			if(!userSearchNameLike.isEmpty()) {
 				model.addAttribute("users", userRepository.findByUsernameLike(userSearchNameLike));
-				System.out.println("Wyniki wyszukiwania:");
-				System.out.println(userRepository.findByUsernameLike(userSearchNameLike));
 			}
 			if(!userSearchEmailLike.isEmpty()) {
 				model.addAttribute("users", userRepository.findByEmailLike(userSearchEmailLike));
-				System.out.println("Wyniki wyszukiwania:");
-				System.out.println(userRepository.findByEmailLike(userSearchEmailLike));
 			}
 			if(userSearchId > 0) {
-				model.addAttribute("users", userRepository.findFirstById(userSearchId));
-				System.out.println("Wyniki wyszukiwania:");
-				System.out.println(userRepository.findFirstById(userSearchId));
+				//create user list from single user for iterator in adminPanel view
+				List<User> userList = new ArrayList<>();
+				userList.add(userRepository.findFirstById(userSearchId));
+				model.addAttribute("users", userList);
 			}
 			if(userSearchShowAll) {
 				model.addAttribute("users", userRepository.findByEmailLike(userSearchEmailLike));
-				System.out.println("Wyniki wyszukiwania:");
-				System.out.println(userRepository.findByEmailLike(userSearchEmailLike));
 			}
 			
 			
@@ -77,18 +73,7 @@ public class AdminController {
 			if(!userSearchNameLike.isEmpty() || !userSearchEmailLike.isEmpty() || userSearchId > 0 || userSearchShowAll) {
 				model.addAttribute("searchResultMessage", "Oto wyniki wyszukiwania:");
 			}
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+
 			
 			
 			
