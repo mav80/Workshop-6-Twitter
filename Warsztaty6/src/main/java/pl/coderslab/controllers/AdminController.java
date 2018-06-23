@@ -7,10 +7,12 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -349,10 +351,96 @@ public class AdminController {
 			
 			
 			return "redirect:/panelAdmin";
+			
 		} else {
 			model.addAttribute("infoError", "Musisz mieć uprawnienia administratora aby wejść do panelu admina!");
 			return "userLoginForm";
 		}
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@GetMapping("/adminEdit")
+	public String adminEdit(Model model, HttpSession session, HttpServletRequest request,
+			@RequestParam(defaultValue="-1") long tweetId) { 
+		
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		User user = (User) session.getAttribute("loggedUser");
+		
+		if(user != null && user.isAdmin()) {
+			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
+			//unread messages counter
+			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
+			model.addAttribute("operationInfo", "Tu edytujemy różne rzeczy jeśli są odpowiednie parametry w linku.");
+			
+			if(tweetId > 0) {
+				Tweet tweet = tweetRepository.findFirstById(tweetId);
+				if(tweet != null){
+					model.addAttribute("tweet", tweet);
+					model.addAttribute("operationInfo", "Edycja tweeta należącego do użytkownika " + tweet.getUser().getUsername() + ":");
+				}  else {
+					model.addAttribute("operationInfo", "Tweet o takim id nie istnieje.");
+					}
+			} 
+			
+
+			
+			
+			return "panelAdminEdit";
+	
+		} else {
+			model.addAttribute("infoError", "Musisz mieć uprawnienia administratora aby wejść do panelu admina!");
+			return "userLoginForm";
+			}
+		
+		
+	}
+
+	
+	
+	
+	
+	@PostMapping("/adminEdit")
+	public String adminEdit(@Valid Tweet tweet, BindingResult result, Model model, HttpSession session, HttpServletRequest request,
+			@RequestParam(defaultValue="-1") long tweetId) { 
+		
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		User user = (User) session.getAttribute("loggedUser");
+		
+		if(user != null && user.isAdmin()) {
+			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
+			//unread messages counter
+			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
+			model.addAttribute("operationInfo", "Tu edytujemy różne rzeczy jeśli są odpowiednie parametry w linku.");
+
+			
+			if (result.hasErrors())
+			{
+				return "panelAdminEdit";
+			}
+
+			tweetRepository.save(tweet);
+			model.addAttribute("tweet", tweet);
+			model.addAttribute("operationInfo", "Edycja tweeta przebiegła pomyślnie.");
+			return "panelAdminEdit";
+	
+		} else {
+			model.addAttribute("infoError", "Musisz mieć uprawnienia administratora aby wejść do panelu admina!");
+			return "userLoginForm";
+			}
 		
 		
 	}
@@ -380,5 +468,9 @@ public class AdminController {
 	
 	
 	
-
+	
+	
 }
+
+		
+	

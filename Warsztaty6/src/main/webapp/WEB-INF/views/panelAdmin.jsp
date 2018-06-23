@@ -189,7 +189,8 @@
 									</td>
 										
 									<td>
-										<a class="confirm" href="<%out.print(request.getContextPath());%>/adminHardDeleteUserTweet/${tweet.id}">Skasuj z bazy tego tweeta i komentarze do niego</a></li>
+										<li><a class="confirm" href="<%out.print(request.getContextPath());%>/adminHardDeleteUserTweet/${tweet.id}">Skasuj z bazy tego tweeta i komentarze do niego</a></li>
+										<li><a href="<%out.print(request.getContextPath());%>/adminEdit?tweetId=${tweet.id}">Edytuj</a></li>
 									</td>
 								</tr>
 							</div>  <!--  koniec div "row" -->
