@@ -21,9 +21,7 @@
 		<!--  TWEET EDIT -->
 		
 		<c:if test="${not empty tweet}">
-			<b style="color: blue">${param.operationInfo}</b><br>
-			
-			
+						
 			<table>	
 				<div class="row">
 					<tr>
@@ -52,6 +50,54 @@
 				<form:hidden path="user.id"/>	
 				<input type="submit" value="zmień">	
 			</form:form>
+			
+		</c:if>
+		
+		
+		
+		
+		<!--  COMMENT EDIT -->
+		
+		<c:if test="${not empty comment}">
+		
+		<table>
+								
+			<tr>
+				<td>
+					
+					<ul>
+						<li class="commentListLi">
+							
+							<c:if test="${not empty comment.user.usrImg}">
+								<img class="commentPicture" src="<%out.print(request.getContextPath());%>/imageDisplay?id=${comment.user.id}"/> 							
+							</c:if> 
+							
+							Komentarz użytkownika <a href="<%out.print(request.getContextPath());%>/userView/${comment.user.id}"><b>${comment.user.username}</b></a>, data utworzenia: ${comment.created}s 
+							<pre class="preComment">${comment.text}</pre>
+						</li>
+						
+					</ul>
+					
+				</td>
+					
+				<td>
+						<a class="confirm" href="<%out.print(request.getContextPath());%>/adminHardDeleteUserComment/${comment.id}">Skasuj z bazy ten komentarz</a>
+				</td>
+			</tr>
+	
+		</table>
+		
+		<form:form method="post" modelAttribute="comment" action='adminEditComment' class="adminEditCommentForm">
+			<span class="commentCharCounter">Edytuj komentarz. Pozostało 60 znaków do wpisania:</span><br>
+			<form:textarea rows="4" cols="50" path="text" placeholder="treść komentarza" class="commentTextArea"/><br> 
+			<form:errors path="text" style="font-weight: bold; font-style: italic; color: red"/><br>
+			<form:hidden path="id"/>
+			<form:hidden path="tweet.id"/>		
+			<form:hidden path="user.id"/>	
+			<form:hidden path="receiver"/>
+			<input type="submit" value="wyślij">	
+		</form:form>  
+			
 			
 			
 			

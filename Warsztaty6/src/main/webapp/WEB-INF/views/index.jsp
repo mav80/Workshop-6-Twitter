@@ -73,37 +73,37 @@
 						
 							<table>
 							
-							<c:forEach items="${comments}" var="comment">
-							
-
-							
-									<c:if test="${comment.tweet.id == tweet.id}">
-									
-										<% counter = counter +1; %>
-					
-										<tr>
-											<td>
-												
-													<ul>
-														<li class="commentListLi" id="<%=counter%>">
-															
-															<c:if test="${not empty comment.user.usrImg}">
-																<img class="commentPicture" src="<%out.print(request.getContextPath());%>/imageDisplay?id=${comment.user.id}"/> 							
-															</c:if> 
-															
-															Komentarz użytkownika <a href="<%out.print(request.getContextPath());%>/userView/${comment.user.id}"><b>${comment.user.username}</b></a>, data utworzenia: ${comment.created}s 
-															<pre class="preComment">${comment.text}</pre>
-														</li>
-														
-													</ul>
-												
-											</td>
-										</tr>
-										
-									</c:if>
+								<c:forEach items="${comments}" var="comment">
 								
 	
-							</c:forEach>
+								
+										<c:if test="${comment.tweet.id == tweet.id}">
+										
+											<% counter = counter +1; %>
+						
+											<tr>
+												<td>
+													
+														<ul>
+															<li class="commentListLi" id="<%=counter%>">
+																
+																<c:if test="${not empty comment.user.usrImg}">
+																	<img class="commentPicture" src="<%out.print(request.getContextPath());%>/imageDisplay?id=${comment.user.id}"/> 							
+																</c:if> 
+																
+																Komentarz użytkownika <a href="<%out.print(request.getContextPath());%>/userView/${comment.user.id}"><b>${comment.user.username}</b></a>, data utworzenia: ${comment.created}s 
+																<pre class="preComment">${comment.text}</pre>
+															</li>
+															
+														</ul>
+													
+												</td>
+											</tr>
+											
+										</c:if>
+									
+		
+								</c:forEach>
 							</table>
 						</div>  <!--  koniec div "row" -->
 

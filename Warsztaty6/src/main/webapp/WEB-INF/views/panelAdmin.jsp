@@ -14,28 +14,28 @@
 			Znajdź użytkowników:
 			<ul>
 				<li>
-					<form>
+					<form action="<%out.print(request.getContextPath());%>/panelAdmin">
 						po loginie:<br>
 						<input type="text" name="userSearchNameLike" placeholder="podaj login"><br>
 						<input type="submit" value="Wyszukaj"> <br> <br>
 					</form>
 				</li>
 				<li>
-					<form>
+					<form action="<%out.print(request.getContextPath());%>/panelAdmin">
 						po emailu:<br>
 						<input type="text" name="userSearchEmailLike" placeholder="podaj email"><br>
 						<input type="submit" value="Wyszukaj"> <br> <br>
 					</form>
 				</li>
 				<li>
-					<form>
+					<form action="<%out.print(request.getContextPath());%>/panelAdmin">
 						po id:<br>
 						<input type="number" name="userSearchId" placeholder="podaj id"><br>
 						<input type="submit" value="Wyszukaj"> <br> <br>
 					</form>
 				</li>
 				<li>
-					<form>
+					<form action="<%out.print(request.getContextPath());%>/panelAdmin">
 						<input type="hidden" name="userSearchShowAll" value="true">
 						<input type="submit" value="Pokaż wszystkich użytkowników znajdujących się w bazie"><br><br>
 					</form>
@@ -264,7 +264,8 @@
 								</td>
 								
 								<td>
-										<a class="confirm" href="<%out.print(request.getContextPath());%>/adminHardDeleteUserComment/${comment.id}">Skasuj z bazy ten komentarz</a></li>
+										<li><a class="confirm" href="<%out.print(request.getContextPath());%>/adminHardDeleteUserComment/${comment.id}">Skasuj z bazy ten komentarz</a></li>
+										<li><a href="<%out.print(request.getContextPath());%>/adminEdit?commentId=${comment.id}">Edytuj</a></li>
 								</td>
 							</tr>
 

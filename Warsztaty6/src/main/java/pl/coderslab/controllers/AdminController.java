@@ -375,7 +375,8 @@ public class AdminController {
 	
 	@GetMapping("/adminEdit")
 	public String adminEdit(Model model, HttpSession session, HttpServletRequest request,
-			@RequestParam(defaultValue="-1") long tweetId) { 
+			@RequestParam(defaultValue="-1") long tweetId,
+			@RequestParam(defaultValue="-1") long commentId) { 
 		
 		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User user = (User) session.getAttribute("loggedUser");
@@ -393,6 +394,16 @@ public class AdminController {
 					model.addAttribute("operationInfo", "Edycja tweeta należącego do użytkownika " + tweet.getUser().getUsername() + ":");
 				}  else {
 					model.addAttribute("operationInfo", "Tweet o takim id nie istnieje.");
+					}
+			} 
+			
+			if(commentId > 0) {
+				Comment comment = commentRepository.findFirstById(commentId);
+				if(comment != null){
+					model.addAttribute("comment", comment);
+					model.addAttribute("operationInfo", "Edycja komentarza należącego do użytkownika " + comment.getUser().getUsername() + ":");
+				}  else {
+					model.addAttribute("operationInfo", "Komentarz o takim id nie istnieje.");
 					}
 			} 
 			
@@ -433,7 +444,7 @@ public class AdminController {
 			}
 
 			tweetRepository.save(tweet);
-			model.addAttribute("tweet", tweet);
+			model.addAttribute("tweet", tweetRepository.findFirstById(tweet.getId()));
 			model.addAttribute("operationInfo", "Edycja tweeta przebiegła pomyślnie.");
 			return "panelAdminEdit";
 	
@@ -448,6 +459,40 @@ public class AdminController {
 	
 	
 	
+	
+	
+	
+	@PostMapping("/adminEditComment")
+	public String adminEditComment(@Valid Comment comment, BindingResult result, Model model, HttpSession session, HttpServletRequest request,
+			@RequestParam(defaultValue="-1") long tweetId) { 
+		
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		User user = (User) session.getAttribute("loggedUser");
+		
+		if(user != null && user.isAdmin()) {
+			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
+			//unread messages counter
+			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
+			model.addAttribute("operationInfo", "Tu edytujemy różne rzeczy jeśli są odpowiednie parametry w linku.");
+
+			
+			if (result.hasErrors())
+			{
+				return "panelAdminEdit";
+			}
+
+			commentRepository.save(comment);
+			model.addAttribute("comment", commentRepository.findFirstById(comment.getId()));
+			model.addAttribute("operationInfo", "Edycja komentarza przebiegła pomyślnie.");
+			return "panelAdminEdit";
+	
+		} else {
+			model.addAttribute("infoError", "Musisz mieć uprawnienia administratora aby wejść do panelu admina!");
+			return "userLoginForm";
+			}
+		
+		
+	}
 	
 	
 	
