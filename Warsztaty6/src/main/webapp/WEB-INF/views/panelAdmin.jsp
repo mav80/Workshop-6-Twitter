@@ -123,21 +123,33 @@
 											<ul>
 												<li> <a href="<%out.print(request.getContextPath());%>/adminShowUserTweets/${user.id}">pokaż wszystkie tweety tego użytkownika</a></li>
 												<li> <a href="<%out.print(request.getContextPath());%>/adminShowUserComments/${user.id}">pokaż wszystkie komentarze tego użytkownika</a></li>
-												<li><a href="<%out.print(request.getContextPath());%>/adminEditUser/${user.id}">edytuj użytkownika</a></li>
-												<c:if test="${user.deleted == true}">
-													<li><a href="<%out.print(request.getContextPath());%>/adminToggleDeleteUser/${user.id}">ustaw status użytkownika na nie skasowany</a></li>
-												</c:if>
-												<c:if test="${user.deleted == false}">
-													<li><a href="<%out.print(request.getContextPath());%>/adminToggleDeleteUser/${user.id}">ustaw status użytkownika na skasowany</a></li>
+												
+												<c:if test="${user.admin == false}">
+													<li><a href="<%out.print(request.getContextPath());%>/adminEditUser/${user.id}">edytuj użytkownika</a></li>
 												</c:if>
 												
-												<c:if test="${user.enabled == true}">
-													<li><a href="<%out.print(request.getContextPath());%>/adminToggleBanUser/${user.id}">ustaw status użytkownika na zbanowany</a></li>
+												<c:if test="${user.admin == false}">
+													<c:if test="${user.deleted == true}">
+														<li><a href="<%out.print(request.getContextPath());%>/adminToggleDeleteUser/${user.id}">ustaw status użytkownika na nie skasowany</a></li>
+													</c:if>
+													
+													<c:if test="${user.deleted == false}">
+														<li><a href="<%out.print(request.getContextPath());%>/adminToggleDeleteUser/${user.id}">ustaw status użytkownika na skasowany</a></li>
+													</c:if>
 												</c:if>
-												<c:if test="${user.enabled == false}">
-													<li><a href="<%out.print(request.getContextPath());%>/adminToggleBanUser/${user.id}">odbanuj użytkownika</a></li>
+												
+												<c:if test="${user.admin == false}">
+													<c:if test="${user.enabled == true}">
+														<li><a href="<%out.print(request.getContextPath());%>/adminToggleBanUser/${user.id}">ustaw status użytkownika na zbanowany</a></li>
+													</c:if>
+													<c:if test="${user.enabled == false}">
+														<li><a href="<%out.print(request.getContextPath());%>/adminToggleBanUser/${user.id}">odbanuj użytkownika</a></li>
+													</c:if>
 												</c:if>
-												<li><a class="confirm" href="<%out.print(request.getContextPath());%>/adminHardDeleteUserAndData/${user.id}">usuń fizycznie konto użytkownika i wszystkie jego tweety oraz komentarze z bazy</a></li>
+												
+												<c:if test="${user.admin == false}">
+													<li><a class="confirm" href="<%out.print(request.getContextPath());%>/adminHardDeleteUserAndData/${user.id}">usuń fizycznie konto użytkownika i wszystkie jego tweety oraz komentarze z bazy</a></li>
+												</c:if>
 											</ul>
 										</list>
 									</td>
