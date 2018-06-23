@@ -145,11 +145,14 @@ public class AdminController {
 				if(userToDelete.isDeleted()) {
 					userToDelete.setDeleted(false);
 					userRepository.save(userToDelete);
-					model.addAttribute("operationInfo", "Status konta użytkownika " + userToDelete.getUsername() + " pomyślnie ustawiono na skasowany.");
+					model.addAttribute("operationInfo", "Status konta użytkownika " + userToDelete.getUsername() + " pomyślnie ustawiono na aktywny - pamiętaj aby odbanować użytkownika w razie potrzeby.");
 				} else {
 					userToDelete.setDeleted(true);
+					if(userToDelete.isEnabled()) {
+						userToDelete.setEnabled(false);
+					}
 					userRepository.save(userToDelete);
-					model.addAttribute("operationInfo", "Status konta użytkownika " + userToDelete.getUsername() + " pomyślnie ustawiono na aktywny.");
+					model.addAttribute("operationInfo", "Status konta użytkownika " + userToDelete.getUsername() + " pomyślnie ustawiono na skasowany oraz na zbanowany aby nie pokazywać jego tweetów/komentarzy.");
 				}
 			} else {
 				model.addAttribute("operationInfo", "Użytkownik o takim id nie istnieje.");
