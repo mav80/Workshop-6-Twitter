@@ -243,7 +243,7 @@ public class AdminController {
 				model.addAttribute("commentCountMap", commentCountMap);
 				//end of comment count section
 				
-				model.addAttribute("operationInfo", "Oto wszystkie tweety użytkownika " + userToViewTweets.getUsername() + " (razem: " + tweetRepository.count() + "):");
+				model.addAttribute("operationInfo", "Oto wszystkie tweety użytkownika " + userToViewTweets.getUsername() + " (razem: " + userTweets.size() + "):");
 				
 			} else {
 				model.addAttribute("operationInfo", "Użytkownik o takim id nie istnieje.");
@@ -282,7 +282,7 @@ public class AdminController {
 				List<Comment> userComments = commentRepository.findAllByUserIdOrderByCreatedDesc(id);
 				model.addAttribute("userComments", userComments);
 				
-				model.addAttribute("operationInfo", "Oto wszystkie komentarze użytkownika " + userToViewComments.getUsername() + " (razem: " + commentRepository.count() + "):");
+				model.addAttribute("operationInfo", "Oto wszystkie komentarze użytkownika " + userToViewComments.getUsername() + " (razem: " + userComments.size() + "):");
 				
 			} else {
 				model.addAttribute("operationInfo", "Użytkownik o takim id nie istnieje.");

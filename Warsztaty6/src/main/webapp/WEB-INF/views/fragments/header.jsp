@@ -43,6 +43,10 @@
 		</c:if>
 					
 		<a class="floatRight" href="<%out.print(request.getContextPath());%>">Powrót do strony głównej</a>
-		<a class="floatRight"  href="<%out.print(request.getContextPath());%>/logout">Wyloguj się</a>
+		
+		<c:if test="${not empty loggedUser}">
+			<a class="floatRight"  href="<%out.print(request.getContextPath());%>/logout">Wyloguj się</a>
+		</c:if>
+	
 	</body>
 </html>
