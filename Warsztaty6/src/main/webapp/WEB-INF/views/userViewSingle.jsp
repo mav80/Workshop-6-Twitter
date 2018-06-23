@@ -54,8 +54,19 @@
 													</c:if>
 												</c:forEach>
 											
-											</li><br>
+											</li>
+											<br>
 											<li><a href="<%out.print(request.getContextPath());%>/tweet/${tweet.id}">Zobacz szczegóły tweeta i komentarze do niego</a></li>
+	
+											<c:if test="${loggedUser.admin == true}">
+												<li>
+												<form action="<%out.print(request.getContextPath());%>/adminEdit">
+													<input type="hidden" name="tweetId" value="${tweet.id}">
+													<input type="submit" value="Edytuj tego tweeta"><br><br>
+												</form>
+												</li>
+											</c:if>
+											
 											</ul>
 									</list>
 								</td>

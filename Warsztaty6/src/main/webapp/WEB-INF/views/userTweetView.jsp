@@ -29,6 +29,13 @@
 			
 			<br>
 			
+			<c:if test="${loggedUser.admin == true}">
+				<form action="<%out.print(request.getContextPath());%>/adminEdit">
+					<input type="hidden" name="tweetId" value="${tweet.id}">
+					<input type="submit" value="Edytuj tego tweeta"><br><br>
+				</form>
+			</c:if> 
+			
 			<c:if test="${not empty comments}">
 				Komentarze do tweeta:<br>
 				
@@ -46,9 +53,19 @@
 												<img class="commentPicture" src="<%out.print(request.getContextPath());%>/imageDisplay?id=${comment.user.id}"/> 							
 											</c:if> 
 						
-											Komentarz użytkownika <b>${comment.user.username}</b>, data utworzenia: ${comment.created}</li>
+											Komentarz użytkownika <a href="<%out.print(request.getContextPath());%>/userView/${comment.user.id}"><b>${comment.user.username}</b></a>, data utworzenia: ${comment.created}</li>
 											
 											<li><pre class="preComment">${comment.text}</pre></li>
+											
+											<c:if test="${loggedUser.admin == true}">
+												<li>
+													<form action="<%out.print(request.getContextPath());%>/adminEdit">
+														<input type="hidden" name="commentId" value="${comment.id}">
+														<input type="submit" value="Edytuj ten komentarz"><br><br>
+													</form>
+												</li>
+											</c:if> 
+											
 										</ul>
 									</list>
 								</td>
