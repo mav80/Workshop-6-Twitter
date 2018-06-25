@@ -125,7 +125,7 @@
 												<li> <a href="<%out.print(request.getContextPath());%>/adminShowUserComments/${user.id}">pokaż wszystkie komentarze tego użytkownika</a></li>
 												
 												<c:if test="${user.admin == false}">
-													<li><a href="<%out.print(request.getContextPath());%>/adminEditUser/${user.id}">edytuj użytkownika</a></li>
+													<li><a href="<%out.print(request.getContextPath());%>/adminEdit?userId=${user.id}">edytuj użytkownika</a></li>
 												</c:if>
 												
 												<c:if test="${user.admin == false}">

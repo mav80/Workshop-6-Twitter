@@ -60,47 +60,171 @@
 		
 		<c:if test="${not empty comment}">
 		
-		<table>
-								
-			<tr>
-				<td>
-					
-					<ul>
-						<li class="commentListLi">
-							
-							<c:if test="${not empty comment.user.usrImg}">
-								<img class="commentPicture" src="<%out.print(request.getContextPath());%>/imageDisplay?id=${comment.user.id}"/> 							
-							</c:if> 
-							
-							Komentarz użytkownika <a href="<%out.print(request.getContextPath());%>/userView/${comment.user.id}"><b>${comment.user.username}</b></a>, data utworzenia: ${comment.created}s 
-							<pre class="preComment">${comment.text}</pre>
-						</li>
+			<table>
+									
+				<tr>
+					<td>
 						
-					</ul>
-					
-				</td>
-					
-				<td>
-						<a class="confirm" href="<%out.print(request.getContextPath());%>/adminHardDeleteUserComment/${comment.id}">Skasuj z bazy ten komentarz</a>
-				</td>
-			</tr>
-	
-		</table>
+						<ul>
+							<li class="commentListLi">
+								
+								<c:if test="${not empty comment.user.usrImg}">
+									<img class="commentPicture" src="<%out.print(request.getContextPath());%>/imageDisplay?id=${comment.user.id}"/> 							
+								</c:if> 
+								
+								Komentarz użytkownika <a href="<%out.print(request.getContextPath());%>/userView/${comment.user.id}"><b>${comment.user.username}</b></a>, data utworzenia: ${comment.created}s 
+								<pre class="preComment">${comment.text}</pre>
+							</li>
+							
+						</ul>
+						
+					</td>
+						
+					<td>
+							<a class="confirm" href="<%out.print(request.getContextPath());%>/adminHardDeleteUserComment/${comment.id}">Skasuj z bazy ten komentarz</a>
+					</td>
+				</tr>
 		
-		<form:form method="post" modelAttribute="comment" action='adminEditComment' class="adminEditCommentForm">
-			<span class="commentCharCounter">Edytuj komentarz. Pozostało 60 znaków do wpisania:</span><br>
-			<form:textarea rows="4" cols="50" path="text" placeholder="treść komentarza" class="commentTextArea"/><br> 
-			<form:errors path="text" style="font-weight: bold; font-style: italic; color: red"/><br>
+			</table>
+			
+			<form:form method="post" modelAttribute="comment" action='adminEditComment' class="adminEditCommentForm">
+				<span class="commentCharCounter">Edytuj komentarz. Pozostało 60 znaków do wpisania:</span><br>
+				<form:textarea rows="4" cols="50" path="text" placeholder="treść komentarza" class="commentTextArea"/><br> 
+				<form:errors path="text" style="font-weight: bold; font-style: italic; color: red"/><br>
+				<form:hidden path="id"/>
+				<form:hidden path="tweet.id"/>		
+				<form:hidden path="user.id"/>	
+				<form:hidden path="receiver"/>
+				<input type="submit" value="wyślij">	
+			</form:form>  
+			
+			
+		</c:if>
+		
+		
+		
+		<!--  USER EDIT -->
+		
+		<c:if test="${not empty user}">
+		
+			<table>
+								
+				<div class="row">	
+					<tr>
+					
+						<td>
+							<c:if test="${not empty user.usrImg}">
+								<img class="userPicture" src="<%out.print(request.getContextPath());%>/imageDisplay?id=${user.id}"/> 							
+							</c:if>
+						</td>
+					
+						<td>
+							<list>
+								<ul>
+									<li>Login: ${user.username}</li>
+									<li>Email: ${user.email}</li>
+									<li>ID: ${user.id}</li>
+								</ul>
+							</list>
+						</td>
+					
+					
+					
+						<td>
+							<list>
+								<ul>
+									<li>Aktywny od: ${user.created}</li>
+									<li>Czy zbanowany:
+									
+										<c:if test="${user.enabled == false}">
+											<img src="<%out.print(request.getContextPath());%>/static/images/tick.png">
+										</c:if>
+	
+										<c:if test="${user.enabled == true}">
+											<img src="<%out.print(request.getContextPath());%>/static/images/cross.png">
+										</c:if>
+									
+									</li>	
+									<li>Czy usunięty:
+									
+										<c:if test="${user.deleted == true}">
+											<img src="<%out.print(request.getContextPath());%>/static/images/tick.png">
+										</c:if>
+	
+										<c:if test="${user.deleted == false}">
+											<img src="<%out.print(request.getContextPath());%>/static/images/cross.png">
+										</c:if>
+									
+									</li>							
+								</ul>
+							</list>
+						</td>
+						
+						
+						
+						
+						<td>
+							<list>
+								<ul>
+									<li> <a href="<%out.print(request.getContextPath());%>/adminShowUserTweets/${user.id}">pokaż wszystkie tweety tego użytkownika</a></li>
+									<li> <a href="<%out.print(request.getContextPath());%>/adminShowUserComments/${user.id}">pokaż wszystkie komentarze tego użytkownika</a></li>
+									
+									<c:if test="${user.admin == false}">
+										<c:if test="${user.deleted == true}">
+											<li><a href="<%out.print(request.getContextPath());%>/adminToggleDeleteUser/${user.id}">ustaw status użytkownika na nie skasowany</a></li>
+										</c:if>
+										
+										<c:if test="${user.deleted == false}">
+											<li><a href="<%out.print(request.getContextPath());%>/adminToggleDeleteUser/${user.id}">ustaw status użytkownika na skasowany</a></li>
+										</c:if>
+									</c:if>
+									
+									<c:if test="${user.admin == false}">
+										<c:if test="${user.enabled == true}">
+											<li><a href="<%out.print(request.getContextPath());%>/adminToggleBanUser/${user.id}">ustaw status użytkownika na zbanowany</a></li>
+										</c:if>
+										<c:if test="${user.enabled == false}">
+											<li><a href="<%out.print(request.getContextPath());%>/adminToggleBanUser/${user.id}">odbanuj użytkownika</a></li>
+										</c:if>
+									</c:if>
+									
+									<c:if test="${user.admin == false}">
+										<li><a class="confirm" href="<%out.print(request.getContextPath());%>/adminHardDeleteUserAndData/${user.id}">usuń fizycznie konto użytkownika i wszystkie jego tweety oraz komentarze z bazy</a></li>
+									</c:if>
+								</ul>
+							</list>
+						</td>
+					
+					</tr>
+				
+				</div>	<!--  koniec div "row" -->			
+						
+			</table>
+			
+		<form:form method="post" modelAttribute="user" action='adminEditUser' class="adminEditUserForm">
+	
+			Podaj login: <form:input path="username" placeholder="username"/><br>
+			<form:errors path="username"/><br>
+			
+			Podaj hasło: <form:input path="password" placeholder="password"/><br>
+			<form:errors path="password"/><br>
+			
+			Podaj email: <form:input path="email" placeholder="email"/><br>
+			<form:errors path="email"/><br>
+			
 			<form:hidden path="id"/>
-			<form:hidden path="tweet.id"/>		
-			<form:hidden path="user.id"/>	
-			<form:hidden path="receiver"/>
-			<input type="submit" value="wyślij">	
-		</form:form>  
+			<form:hidden path="enabled"/>
+			<form:hidden path="deleted"/>
+			<form:hidden path="admin"/>
+			<form:hidden path="usrImg"/>
 			
 			
+			<input type="submit" value="zmień">
+	
+		</form:form>
 			
 			
+		
 		</c:if>
 		
 		
