@@ -312,7 +312,7 @@
 				
 				<c:forEach items="${messages}" var="message">
 					<tr>		
-						<td>${message.sender.username}</td>
+						<td><a href="<%out.print(request.getContextPath());%>/userView/${message.sender.id}">${message.sender.username}</a></td>
 						<td><a href="<%out.print(request.getContextPath());%>/message/${message.id}">
 							
 							<!-- if the message is unread, we make the title bold -->		
@@ -358,7 +358,7 @@
 				
 				<c:forEach items="${messagesSent}" var="message">
 					<tr>		
-						<td>${message.receiver.username}</td>
+						<td><a href="<%out.print(request.getContextPath());%>/userView/${message.receiver.id}">${message.receiver.username}</a></td>
 						<td><a href="<%out.print(request.getContextPath());%>/message/${message.id}">
 							
 							<!-- if the message is unread, we make the title bold -->		
