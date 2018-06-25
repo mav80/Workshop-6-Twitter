@@ -114,7 +114,8 @@
 					
 						<td>
 							<c:if test="${not empty user.usrImg}">
-								<img class="userPicture" src="<%out.print(request.getContextPath());%>/imageDisplay?id=${user.id}"/> 							
+								<img class="userPicture" src="<%out.print(request.getContextPath());%>/imageDisplay?id=${user.id}"/>
+								<br><a href="<%out.print(request.getContextPath());%>/adminDeleteUserImage/${user.id}">usuń obrazek</a>							
 							</c:if>
 						</td>
 					

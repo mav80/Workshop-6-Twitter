@@ -19,6 +19,9 @@
 			
 		<c:if test="${not empty info}">
 			<b>${info}</b>
+			<c:if test="${loggedUser.admin == true}">
+				<a href="<%out.print(request.getContextPath());%>/panelAdmin" style="color: blue;"><b>Panel administracyjny</b></a>
+			</c:if>
 			<a href="<%out.print(request.getContextPath());%>/panelUser/userSettings" style="color: red"><b>Zarządzaj ustawieniami swojego profilu</b></a>
 
 			

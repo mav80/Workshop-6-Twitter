@@ -361,6 +361,33 @@ public class AdminController {
 	}
 	
 	
+	@GetMapping("/adminDeleteUserImage/{id}")
+	public String adminDeleteUserImage(Model model, HttpSession session, HttpServletRequest request,
+			@PathVariable long id) { 
+		
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		User user = (User) session.getAttribute("loggedUser");
+		
+		if(user != null && user.isAdmin()) {
+			User userToDeleteImage = userRepository.findFirstById(id);
+			if(userToDeleteImage != null) {
+				userToDeleteImage.setUsrImg(null);
+				userRepository.save(userToDeleteImage);
+				model.addAttribute("operationInfo", "Obrazek należący do użytkownika " + userToDeleteImage.getUsername() + " usunięto pomyślnie.");
+			} else {
+				model.addAttribute("operationInfo", "Użytkownik o takim id nie istnieje.");
+			}
+			
+			
+			return "redirect:/panelAdmin";
+			
+		} else {
+			model.addAttribute("infoError", "Musisz mieć uprawnienia administratora aby wejść do panelu admina!");
+			return "userLoginForm";
+		}
+		
+		
+	}
 	
 	
 	
