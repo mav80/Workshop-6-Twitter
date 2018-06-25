@@ -169,6 +169,7 @@
 								<ul>
 									<li> <a href="<%out.print(request.getContextPath());%>/adminShowUserTweets/${user.id}">pokaż wszystkie tweety tego użytkownika</a></li>
 									<li> <a href="<%out.print(request.getContextPath());%>/adminShowUserComments/${user.id}">pokaż wszystkie komentarze tego użytkownika</a></li>
+									<li> <a href="<%out.print(request.getContextPath());%>/adminShowUserMessages/${user.id}">pokaż wszystkie wiadomości</a></li>
 									
 									<c:if test="${user.admin == false}">
 										<c:if test="${user.deleted == true}">
@@ -202,31 +203,35 @@
 						
 			</table>
 			
-		<form:form method="post" modelAttribute="user" action='adminEditUser' class="adminEditUserForm">
-	
-			Podaj login: <form:input path="username" placeholder="username"/><br>
-			<form:errors path="username"/><br>
-			
-			Podaj hasło: <form:input path="password" placeholder="password"/><br>
-			<form:errors path="password"/><br>
-			
-			Podaj email: <form:input path="email" placeholder="email"/><br>
-			<form:errors path="email"/><br>
-			
-			<form:hidden path="id"/>
-			<form:hidden path="enabled"/>
-			<form:hidden path="deleted"/>
-			<form:hidden path="admin"/>
-			<form:hidden path="usrImg"/>
-			
-			
-			<input type="submit" value="zmień">
-	
-		</form:form>
+			<form:form method="post" modelAttribute="user" action='adminEditUser' class="adminEditUserForm">
+		
+				Podaj login: <form:input path="username" placeholder="username"/><br>
+				<form:errors path="username"/><br>
+				
+				Podaj hasło: <form:input path="password" placeholder="password"/><br>
+				<form:errors path="password"/><br>
+				
+				Podaj email: <form:input path="email" placeholder="email"/><br>
+				<form:errors path="email"/><br>
+				
+				<form:hidden path="id"/>
+				<form:hidden path="enabled"/>
+				<form:hidden path="deleted"/>
+				<form:hidden path="admin"/>
+				<form:hidden path="usrImg"/>
+				
+				
+				<input type="submit" value="zmień">
+		
+			</form:form>
 			
 			
 		
 		</c:if>
+		
+		
+	
+		
 		
 		
 		

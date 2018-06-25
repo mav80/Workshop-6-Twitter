@@ -124,6 +124,7 @@
 											<ul>
 												<li> <a href="<%out.print(request.getContextPath());%>/adminShowUserTweets/${user.id}">pokaż wszystkie tweety tego użytkownika</a></li>
 												<li> <a href="<%out.print(request.getContextPath());%>/adminShowUserComments/${user.id}">pokaż wszystkie komentarze tego użytkownika</a></li>
+												<li> <a href="<%out.print(request.getContextPath());%>/adminShowUserMessages/${user.id}">pokaż wszystkie wiadomości</a></li>
 												
 												<c:if test="${user.admin == false}">
 													<li><a href="<%out.print(request.getContextPath());%>/adminEdit?userId=${user.id}">edytuj użytkownika</a></li>
@@ -278,6 +279,117 @@
 				
 				</section>
 			</center>
+		</c:if>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<!-- USER'S MESSAGES -->
+		
+		<c:if test="${not empty messagesUser}">
+		
+			<h3>Wiadomości które użytkownik ${messagesUser.username} otrzymał:</h3>
+			<table class="messagesList">
+				<tr>
+					<th>nadawca</th>
+					<th>tytuł</th>
+					<th>data utworzenia</th>
+					<th>przeczytana?</th>
+					<th>akcje</th>
+				</tr>
+				
+				<c:forEach items="${messages}" var="message">
+					<tr>		
+						<td>${message.sender.username}</td>
+						<td><a href="<%out.print(request.getContextPath());%>/message/${message.id}">
+							
+							<!-- if the message is unread, we make the title bold -->		
+							<c:if test="${message.viewed == false}">
+								<b>
+							</c:if>
+						
+							${message.topic}</a>
+							
+							<c:if test="${message.viewed == false}">
+								</b>
+							</c:if>
+							
+							
+						</td>
+						<td>${message.created}</td>	
+						<td>
+						
+							<c:if test="${message.viewed == false}">
+								nie
+							</c:if>
+							
+							<c:if test="${message.viewed == true}">
+								tak
+							</c:if>
+		
+						</td>
+						<td><a class="confirm" href="<%out.print(request.getContextPath());%>/adminHardDeleteUserMessage/${message.id}">usuń</a></td>				
+					</tr>
+				</c:forEach>
+			</table>
+			
+			<h3>Wiadomości które użytkownik ${messagesUser.username} wysłał:</h3>
+			
+			<table class="messagesList">
+				<tr>
+					<th>odbiorca</th>
+					<th>tytuł</th>
+					<th>data utworzenia</th>
+					<th>przeczytana?</th>
+					<th>akcje</th>
+				</tr>
+				
+				<c:forEach items="${messagesSent}" var="message">
+					<tr>		
+						<td>${message.receiver.username}</td>
+						<td><a href="<%out.print(request.getContextPath());%>/message/${message.id}">
+							
+							<!-- if the message is unread, we make the title bold -->		
+							<c:if test="${message.viewed == false}">
+								<b>
+							</c:if>
+						
+							${message.topic}</a>
+							
+							<c:if test="${message.viewed == false}">
+								</b>
+							</c:if>
+							
+							
+						</td>
+						<td>${message.created}</td>	
+						<td>
+						
+							<c:if test="${message.viewed == false}">
+								nie
+							</c:if>
+							
+							<c:if test="${message.viewed == true}">
+								tak
+							</c:if>
+		
+						</td>
+						<td><a class="confirm" href="<%out.print(request.getContextPath());%>/adminHardDeleteUserMessage/${message.id}">usuń</a></td>					
+					</tr>
+				</c:forEach>
+			</table>
 		</c:if>
 		
 		

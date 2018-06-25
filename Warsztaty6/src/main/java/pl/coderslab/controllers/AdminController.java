@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pl.coderslab.app.Cookies;
 import pl.coderslab.app.MessageUtils;
 import pl.coderslab.entities.Comment;
+import pl.coderslab.entities.Message;
 import pl.coderslab.entities.Tweet;
 import pl.coderslab.entities.User;
 import pl.coderslab.repositories.CommentRepository;
@@ -302,6 +303,55 @@ public class AdminController {
 	
 	
 	
+	@GetMapping("/adminShowUserMessages/{id}")
+	public String adminShowUserMessages(Model model, HttpSession session, HttpServletRequest request,
+			@PathVariable long id) { 
+		
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		User user = (User) session.getAttribute("loggedUser");
+		
+		if(user != null && user.isAdmin()) {
+			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
+			//unread messages counter
+			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
+			
+			User userToViewMessages = userRepository.findFirstById(id);
+			
+			if(userToViewMessages != null) {
+				model.addAttribute("messages",messageRepository.findAllByReceiverIdOrderByCreatedDesc(userToViewMessages.getId()));
+				model.addAttribute("messagesSent",messageRepository.findAllBySenderIdOrderByCreatedDesc(userToViewMessages.getId()));
+				model.addAttribute("messagesUser",userToViewMessages);
+				
+				model.addAttribute("operationInfo", "Oto wszystkie wiadomości użytkownika " + userToViewMessages.getUsername() + ":");
+				
+			} else {
+				model.addAttribute("operationInfo", "Użytkownik o takim id nie istnieje.");
+			}
+			
+			
+			
+			
+			return "panelAdmin";
+		} else {
+			model.addAttribute("infoError", "Musisz mieć uprawnienia administratora aby wejść do panelu admina!");
+			return "userLoginForm";
+		}
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -357,6 +407,32 @@ public class AdminController {
 			return "userLoginForm";
 		}
 		
+	}
+	
+	
+	@GetMapping("/adminHardDeleteUserMessage/{id}")
+	public String adminHardDeleteUserMessage(Model model, HttpSession session, HttpServletRequest request,
+			@PathVariable long id) { 
+		
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		User user = (User) session.getAttribute("loggedUser");
+		
+		if(user != null && user.isAdmin()) {
+			Message messageToDelete = messageRepository.findFirstById(id);
+			if(messageToDelete != null) {
+				messageRepository.delete(messageToDelete);
+				model.addAttribute("operationInfo", "Wiadomość do użytkownika " + messageToDelete.getReceiver().getUsername() + " skasowano pomyślnie.");
+			} else {
+				model.addAttribute("operationInfo", "Wiadomość o takim id nie istnieje.");
+			}
+			
+			
+			return "redirect:/panelAdmin";
+			
+		} else {
+			model.addAttribute("infoError", "Musisz mieć uprawnienia administratora aby wejść do panelu admina!");
+			return "userLoginForm";
+		}
 		
 	}
 	
