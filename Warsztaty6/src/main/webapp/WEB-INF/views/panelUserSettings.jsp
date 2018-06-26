@@ -11,6 +11,9 @@
 	</head>
 	<body>
 		<br><br>
+		<c:if test="${not empty operationInfo}">
+			<b style="color: blue">${operationInfo}</b><br>
+		</c:if>
 		
 		<center>
 	
@@ -28,6 +31,12 @@
 			<c:if test="${empty user.usrImg}">
 				<h3>Nie ustawiłeś jeszcze swojego obrazka.</h3> <br>
 			</c:if>
+			
+			
+			<form action="<%out.print(request.getContextPath());%>/panelUser/userSettings">
+				<input type="hidden" name="userDeleteImage" value="true">
+				<input type="submit" value="Usuń swój obrazek"><br><br>
+			</form>
 			
 			<a class="confirm" style="color: red" href="<%out.print(request.getContextPath());%>/deleteUserAccount/${user.id}"><h3>Usuń swoje konto.</h3></a>
 			

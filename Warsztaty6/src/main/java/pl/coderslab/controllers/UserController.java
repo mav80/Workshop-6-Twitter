@@ -269,7 +269,8 @@ public class UserController {
 	
 	
 	@GetMapping("/panelUser/userSettings")
-	public String userPanelSettings(Model model, HttpSession session, HttpServletRequest request) {
+	public String userPanelSettings(Model model, HttpSession session, HttpServletRequest request,
+			@RequestParam(defaultValue="") String userDeleteImage) {
 
 		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User user = (User) session.getAttribute("loggedUser");
@@ -280,6 +281,12 @@ public class UserController {
 			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
 			
 			model.addAttribute("user", user);
+			
+			if(userDeleteImage.equals("true")) {
+				user.setUsrImg(null);
+				userRepository.save(user);
+				model.addAttribute("operationInfo", "Obrazek usunięto.");
+			}
 			
 			return "panelUserSettings";
 	
