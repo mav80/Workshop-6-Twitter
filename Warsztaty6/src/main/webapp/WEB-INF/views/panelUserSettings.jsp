@@ -15,6 +15,10 @@
 			<b style="color: blue">${operationInfo}</b><br>
 		</c:if>
 		
+				<c:if test="${not empty error}">
+			<b style="color: red">${error}</b><br>
+		</c:if>
+		
 		<center>
 	
 			<form method="post" enctype="multipart/form-data">
@@ -37,6 +41,51 @@
 				<input type="hidden" name="userDeleteImage" value="true">
 				<input type="submit" value="Usuń swój obrazek"><br><br>
 			</form>
+			
+			
+			<input id="changeLoginEmailButton" type="submit" value="Zmień swój login i email">
+			<input id="changePasswordButton" type="submit" value="Zmień swoje hasło"> 
+			
+			<div id="changeLoginEmailDiv" style="display: none">
+				<form:form method="post" modelAttribute="user" action="userChangeProfileData">
+	
+					<br>Podaj nowy login: <form:input path="username" placeholder="username"/><br>
+					<form:errors path="username"/><br>
+					
+					Podaj nowy email: <form:input path="email" placeholder="email"/><br>
+					<form:errors path="email"/><br>
+					
+					<form:hidden path="id"/>
+					<form:hidden path="enabled"/>
+					<form:hidden path="deleted"/>
+					<form:hidden path="admin"/>
+					<form:hidden path="password"/>
+					<form:hidden path="usrImg"/>
+					
+					<input type="submit" value="zmień">
+	
+				</form:form>		
+			</div>
+			
+			<div id="changePasswordDiv" style="display: none">
+				<form:form method="post" modelAttribute="user" action="userChangeProfileData">		
+					<br>Podaj nowe hasło: <form:password path="password" placeholder="hasło"/><br>
+					<form:errors path="password"/><br>
+
+					<form:hidden path="id"/>
+					<form:hidden path="enabled"/>
+					<form:hidden path="deleted"/>
+					<form:hidden path="admin"/>
+					<form:hidden path="email"/>
+					<form:hidden path="username"/>
+					<form:hidden path="usrImg"/>
+					
+					<input type="submit" value="zmień">
+	
+				</form:form>				
+			</div>
+			
+			
 			
 			<a class="confirm" style="color: red" href="<%out.print(request.getContextPath());%>/deleteUserAccount/${user.id}"><h3>Usuń swoje konto.</h3></a>
 			

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.commons.io.IOUtils;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -438,6 +439,80 @@ public class UserController {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@PostMapping("/panelUser/userChangeProfileData")
+	public String userChangeProfileData(@Valid User user, BindingResult result, Model model, HttpSession session, HttpServletRequest request) {
+
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		User loggedUser = (User) session.getAttribute("loggedUser");
+		
+		System.out.println(loggedUser.getId() + " zzz " + user.getId());
+		System.out.println(user);
+		
+		if(loggedUser != null && loggedUser.getId() == user.getId() && loggedUser.isAdmin() == user.isAdmin() && loggedUser.isDeleted() == user.isDeleted() && loggedUser.isEnabled() == user.isEnabled()) {
+			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
+			//unread messages counter
+			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
+			
+			model.addAttribute("tweets", tweetRepository.findByUserIdOrderByCreatedDesc(user.getId()));
+			
+			//comment count section
+			List<Tweet> tweets = tweetRepository.findAllByUserIdOrderByCreatedDesc(user.getId());
+			
+			Map<Integer, Integer> commentCountMap = new HashMap<>();
+			for(Tweet tweet: tweets) {
+				commentCountMap.put((int) tweet.getId(), tweetRepository.findCommentCountFromNotDeletedUsersById(tweet.getId()));
+			}
+			
+			model.addAttribute("commentCountMap", commentCountMap);
+			//end of comment count section
+			
+			
+			
+			
+			
+			
+			
+			if(result.hasErrors() || userRepository.findFirstByEmail(user.getEmail()) != null || userRepository.findFirstByUsername(user.getUsername()) != null) {
+				if(userRepository.findFirstByEmail(user.getEmail()) != null) {
+					model.addAttribute("error", "Taki email już istnieje w bazie.");
+				}
+				
+				if(userRepository.findFirstByUsername(user.getUsername()) != null) {
+					if(model.containsAttribute("error")) {
+						model.addAttribute("error", "Taki login oraz email już istnieją w bazie.");
+					} else {
+						model.addAttribute("error", "Taki login już istnieje w bazie.");
+					}
+				}
+				
+				return "panelUserSettings";
+			}
+			
+			
+			//zaszyfrować i zapisać hasło
+			//user.setPassword(BCrypt.hashpw(user.getPassword(),  BCrypt.gensalt()));
+			//user.setEnabled(true);
+			
+			userRepository.save(user);
+			System.out.println("zapisano usera");
+			
+
+			
+			return "panelUserSettings";
+		}
+
+		model.addAttribute("infoError", "Wystąpił błąd!");
+		return "userLoginForm";
+	}
 	
 	
 	

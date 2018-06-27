@@ -46,7 +46,7 @@ public class UserRegistrationController {
 			return "userRegisterForm";
 		}
 		
-		//zaszygrować i zapisać hasło
+		//zaszyfrować i zapisać hasło
 		user.setPassword(BCrypt.hashpw(user.getPassword(),  BCrypt.gensalt()));
 		user.setEnabled(true);
 		userRepository.save(user);

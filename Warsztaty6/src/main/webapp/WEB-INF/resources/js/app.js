@@ -162,10 +162,47 @@ $(document).ready(function(){
     
     
     
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	var changeLoginEmailButton = document.getElementById("changeLoginEmailButton");
+	var changePasswordButton = document.getElementById("changePasswordButton");
+	
+	var changeLoginEmailDiv = document.getElementById("changeLoginEmailDiv");
+	var changePasswordDiv = document.getElementById("changePasswordDiv");
+    
+	changeLoginEmailButton.addEventListener("click",
+	        function () {
+			
+				if (changeLoginEmailDiv.style.display == "none") {
+					changeLoginEmailDiv.style.display = "block";
+					changePasswordDiv.style.display = "none";
+				} else {
+					changeLoginEmailDiv.style.display = "none";
+				}
+	   
+	}); //koniec event listenera
     
     
-    
-    
+	changePasswordButton.addEventListener("click",
+	        function () {
+			
+				if (changePasswordDiv.style.display == "none") {
+					changePasswordDiv.style.display = "block";
+					changeLoginEmailDiv.style.display = "none";
+				} else {
+					changePasswordDiv.style.display = "none";
+				}
+	   
+	}); //koniec event listenera
     
     
     
