@@ -40,7 +40,7 @@ public class UserLoginController {
 	public String login(@RequestParam String username, @RequestParam String password, HttpSession session, Model model, HttpServletResponse response) {
 				
 		User user = userRepository.findFirstByUsername(username);
-		if(user!=null && !user.isDeleted() &&  BCrypt.checkpw(password,  user.getPassword())) {
+		if(user!=null && !user.isDeleted() && user.isEnabled() &&  BCrypt.checkpw(password,  user.getPassword())) {
 			//unread messages counter
 			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
 			
@@ -65,6 +65,15 @@ public class UserLoginController {
 			session.setAttribute("loggedUser", null);
 			model.addAttribute("infoError", "Dane logowania niepoprawne!");
 			//System.out.println("It doesn't match.");
+			
+			if(!user.isEnabled()) {
+				model.addAttribute("infoError", "Ten użytkownik został zbanowany.");
+			}
+			
+			if(user.isDeleted()) {
+				model.addAttribute("infoError", "Taki użytkownik nie istnieje w bazie.");
+			}
+
 			return "userLoginForm";
 		}
 		

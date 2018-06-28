@@ -33,9 +33,9 @@ public class Cookies {
 
 		if (!userCookieValueDecoded.isEmpty()) {
 			User user = userRepository.findFirstByUsername(userCookieValueDecoded);
-			if (user != null) {
+			if (user != null && !user.isDeleted() && user.isEnabled()) {
 				session.setAttribute("loggedUser", user);
-			}
+			} 
 		}
 
 	}
