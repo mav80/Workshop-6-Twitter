@@ -146,6 +146,9 @@ public class UserController {
 		if(session.getAttribute("loggedUser") != null ) {
 			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
 			
+			//unread messages counter
+			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
+			
 			model.addAttribute("tweets", tweetRepository.findByUserIdOrderByCreatedDesc(id));
 			model.addAttribute("viewedUser", userRepository.findFirstById(id));
 			
