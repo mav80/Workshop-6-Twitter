@@ -454,59 +454,90 @@ public class UserController {
 		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User loggedUser = (User) session.getAttribute("loggedUser");
 		
-		System.out.println(loggedUser.getId() + " zzz " + user.getId());
-		System.out.println(user);
-		
 		if(loggedUser != null && loggedUser.getId() == user.getId() && loggedUser.isAdmin() == user.isAdmin() && loggedUser.isDeleted() == user.isDeleted() && loggedUser.isEnabled() == user.isEnabled()) {
 			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
 			//unread messages counter
 			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
 			
-			model.addAttribute("tweets", tweetRepository.findByUserIdOrderByCreatedDesc(user.getId()));
-			
 			//comment count section
 			List<Tweet> tweets = tweetRepository.findAllByUserIdOrderByCreatedDesc(user.getId());
-			
 			Map<Integer, Integer> commentCountMap = new HashMap<>();
 			for(Tweet tweet: tweets) {
 				commentCountMap.put((int) tweet.getId(), tweetRepository.findCommentCountFromNotDeletedUsersById(tweet.getId()));
 			}
-			
 			model.addAttribute("commentCountMap", commentCountMap);
 			//end of comment count section
 			
 			
-			
-			
-			
-			
+
 			
 			if(result.hasErrors() || userRepository.findFirstByEmail(user.getEmail()) != null || userRepository.findFirstByUsername(user.getUsername()) != null) {
+				
+				List<User> usersWithSameEmail = userRepository.findAllByEmail(user.getEmail());
+				List<User> usersWithSameUsername = userRepository.findAllByUsername(user.getUsername());
+								
+				boolean emailOk = false;
+				boolean usernameOk = false;
+				
 				if(userRepository.findFirstByEmail(user.getEmail()) != null) {
-					model.addAttribute("error", "Taki email już istnieje w bazie.");
+					
+					if(usersWithSameEmail.size() > 1) {
+						model.addAttribute("error", "Ten email jest zajęty przez innego użytkownika.");
+						//System.out.println("Ten email jest zajęty przez innego użytkownika.");
+					} else if (usersWithSameEmail.size() < 1) {
+						//System.out.println("Ten email jest wolny.");
+						emailOk = true;
+					} else if (usersWithSameEmail.get(0).getId() == user.getId()) {
+						//System.out.println("Ten email jest zajęty tylko przez użytkownika który dokonuje zmian w profilu.");
+						emailOk = true;
+					}
+					
+				} else {
+					emailOk = true;
 				}
 				
 				if(userRepository.findFirstByUsername(user.getUsername()) != null) {
-					if(model.containsAttribute("error")) {
-						model.addAttribute("error", "Taki login oraz email już istnieją w bazie.");
-					} else {
-						model.addAttribute("error", "Taki login już istnieje w bazie.");
+					
+					if(usersWithSameUsername.size() > 1) {
+						model.addAttribute("error", "Ten login jest zajęty przez innego użytkownika.");
+						//System.out.println("Ten login jest zajęty przez innego użytkownika.");
+					} else if (usersWithSameUsername.size() < 1) {
+						//System.out.println("Ten login jest wolny.");
+						usernameOk = true;
+					} else if (usersWithSameUsername.get(0).getId() == user.getId()) {
+						//System.out.println("Ten login jest zajęty tylko przez użytkownika który dokonuje zmian w profilu.");
+						usernameOk = true;
 					}
+					
+				} else {
+					usernameOk = true;
+				}
+				
+				
+				
+				if(emailOk && usernameOk && !result.toString().contains("Field error in object 'user' on field 'email'")) {
+					userRepository.save(user);
+					session.setAttribute("loggedUser", user);
+					//System.out.println("zapisano usera");
+					model.addAttribute("operationInfo", "Dane zmieniono pomyślnie.");
+				} else if (!emailOk && !usernameOk) {
+					model.addAttribute("error", "Wybrany  email i login są zajęte przez innego użytkownika.");
+				}	else if (!emailOk) {
+					model.addAttribute("error", "Ten email jest zajęty przez innego użytkownika.");
+				} else if (!usernameOk) {
+					model.addAttribute("error", "Ten login jest zajęty przez innego użytkownika.");
+				} else if (result.toString().contains("Field error in object 'user' on field 'email'")){
+					model.addAttribute("error", "Nieprawidłowy adres email.");
 				}
 				
 				return "panelUserSettings";
 			}
 			
-			
-			//zaszyfrować i zapisać hasło
-			//user.setPassword(BCrypt.hashpw(user.getPassword(),  BCrypt.gensalt()));
-			//user.setEnabled(true);
-			
 			userRepository.save(user);
-			System.out.println("zapisano usera");
-			
-
-			
+			session.setAttribute("loggedUser", user);
+			model.addAttribute("operationInfo", "Dane zmieniono pomyślnie bez błędów w formularzu");
+			//System.out.println("zapisano usera bez błędów w formularzu");
+	
 			return "panelUserSettings";
 		}
 
