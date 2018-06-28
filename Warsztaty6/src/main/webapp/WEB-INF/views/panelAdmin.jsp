@@ -77,7 +77,7 @@
 									<td>
 										<list>
 											<ul>
-												<li>Login: ${user.username}</li>
+												<li>Login: <a href="<%out.print(request.getContextPath());%>/userView/${user.id}"><b>${user.username}</b></a></li>
 												<li>Email: ${user.email}</li>
 												<li>ID: ${user.id}</li>
 											</ul>
