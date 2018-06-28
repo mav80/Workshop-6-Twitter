@@ -1,6 +1,7 @@
 package pl.coderslab.controllers;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -36,9 +37,9 @@ public class TweetController {
 	MessageRepository messageRepository;
 	
 	@GetMapping("/tweet/{id}")
-	public String tweetView(Model model, @PathVariable Long id, HttpSession session, HttpServletRequest request) {
+	public String tweetView(Model model, @PathVariable Long id, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 		
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		
 		if(session.getAttribute("loggedUser") != null ) {
 			User user = (User)session.getAttribute("loggedUser");
@@ -65,7 +66,7 @@ public class TweetController {
 	
 	
 	@PostMapping("/tweet/{id}")
-	public ModelAndView tweetView(@Valid Comment comment, BindingResult result, Model model, @PathVariable Long id, HttpSession session, HttpServletRequest request) {
+	public ModelAndView tweetView(@Valid Comment comment, BindingResult result, Model model, @PathVariable Long id, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 		
 		comment.setId(0); //if not set to 0 it will overwrite existing comment
 		
@@ -74,7 +75,7 @@ public class TweetController {
 		modelAndView.setViewName("userTweetView");
 		
 		User user;
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		
 		Tweet tweet = tweetRepository.findFirstFromNotDeletedUserById(id);
 		

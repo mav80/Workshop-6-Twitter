@@ -1,6 +1,7 @@
 package pl.coderslab.controllers;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +33,9 @@ public class MessageController {
 	
 	
 	@GetMapping("/messages")
-	public String allMessagesTopicsView(Model model, HttpSession session, HttpServletRequest request) {
+	public String allMessagesTopicsView(Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 		
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		
 		if(session.getAttribute("loggedUser") != null ) {
 			User user = (User)session.getAttribute("loggedUser");
@@ -56,9 +57,9 @@ public class MessageController {
 	
 	
 	@GetMapping("/message/{id}")
-	public String singleMessageView(Model model, @PathVariable Long id, HttpSession session, HttpServletRequest request) {
+	public String singleMessageView(Model model, @PathVariable Long id, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 		
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		
 		if(session.getAttribute("loggedUser") != null ) {
 			User user = (User)session.getAttribute("loggedUser");

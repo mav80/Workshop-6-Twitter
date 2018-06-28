@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -39,9 +40,9 @@ public class HomeController {
 	MessageRepository messageRepository;
 	
 	@GetMapping("")
-	public String home(Model model, HttpSession session, HttpServletRequest request) {
+	public String home(Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 		
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		
 		if(session.getAttribute("loggedUser") != null ) {
 			User user = (User)session.getAttribute("loggedUser");
@@ -75,11 +76,11 @@ public class HomeController {
 	
 	
 	@PostMapping("")
-	public String home(@Valid Tweet tweet, BindingResult result, Comment comment, HttpSession session, Model model, HttpServletRequest request) {
+	public String home(@Valid Tweet tweet, BindingResult result, Comment comment, HttpSession session, Model model, HttpServletRequest request, HttpServletResponse response) {
 		
 		User user;
 		
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		
 		if(session.getAttribute("loggedUser") != null ) {
 			user = (User)session.getAttribute("loggedUser");
@@ -151,11 +152,11 @@ public class HomeController {
 	
 	
 	@PostMapping("/mainPageAddComment")
-	public String mainPageAddComment(@Valid Comment comment, BindingResult result, Tweet tweet, Model model, HttpSession session, HttpServletRequest request) {
+	public String mainPageAddComment(@Valid Comment comment, BindingResult result, Tweet tweet, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 		
 		comment.setId(0); //if not set to 0 it will overwrite existing comment
 		User user;
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		
 		if(session.getAttribute("loggedUser") != null ) {
 			user = (User)session.getAttribute("loggedUser");

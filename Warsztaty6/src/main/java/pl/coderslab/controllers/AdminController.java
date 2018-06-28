@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -42,12 +43,12 @@ public class AdminController {
 	CommentRepository commentRepository;
 	
 	@GetMapping("/panelAdmin")
-	public String adminPanel(Model model, HttpSession session, HttpServletRequest request,
+	public String adminPanel(Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response, 
 			@RequestParam(defaultValue="") String userSearchNameLike,
 			@RequestParam(defaultValue="") String userSearchEmailLike,
 			@RequestParam(defaultValue="-1") long userSearchId,
 			@RequestParam(defaultValue="false") boolean userSearchShowAll) {
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User user = (User) session.getAttribute("loggedUser");
 		
 		if(user != null && user.isAdmin()) {
@@ -96,10 +97,10 @@ public class AdminController {
 	
 	
 	@GetMapping("/adminToggleBanUser/{id}")
-	public String adminPanelBanUser(Model model, HttpSession session, HttpServletRequest request,
+	public String adminPanelBanUser(Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response,
 			@PathVariable long id) { 
 		
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User user = (User) session.getAttribute("loggedUser");
 		
 		if(user != null && user.isAdmin()) {
@@ -134,10 +135,10 @@ public class AdminController {
 	
 	
 	@GetMapping("/adminToggleDeleteUser/{id}")
-	public String adminToggleDeleteUser(Model model, HttpSession session, HttpServletRequest request,
+	public String adminToggleDeleteUser(Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response,
 			@PathVariable long id) { 
 		
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User user = (User) session.getAttribute("loggedUser");
 		
 		if(user != null && user.isAdmin()) {
@@ -179,10 +180,10 @@ public class AdminController {
 	
 	
 	@GetMapping("/adminHardDeleteUserAndData/{id}")
-	public String adminHardDeleteUserAndData(Model model, HttpSession session, HttpServletRequest request,
+	public String adminHardDeleteUserAndData(Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response,
 			@PathVariable long id) { 
 		
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User user = (User) session.getAttribute("loggedUser");
 		
 		if(user != null && user.isAdmin()) {
@@ -219,10 +220,10 @@ public class AdminController {
 	
 	
 	@GetMapping("/adminShowUserTweets/{id}")
-	public String adminShowUserTweets(Model model, HttpSession session, HttpServletRequest request,
+	public String adminShowUserTweets(Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response,
 			@PathVariable long id) { 
 		
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request,  response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User user = (User) session.getAttribute("loggedUser");
 		
 		if(user != null && user.isAdmin()) {
@@ -266,10 +267,10 @@ public class AdminController {
 	
 	
 	@GetMapping("/adminShowUserComments/{id}")
-	public String adminShowUserComments(Model model, HttpSession session, HttpServletRequest request,
+	public String adminShowUserComments(Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response,
 			@PathVariable long id) { 
 		
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User user = (User) session.getAttribute("loggedUser");
 		
 		if(user != null && user.isAdmin()) {
@@ -304,10 +305,10 @@ public class AdminController {
 	
 	
 	@GetMapping("/adminShowUserMessages/{id}")
-	public String adminShowUserMessages(Model model, HttpSession session, HttpServletRequest request,
+	public String adminShowUserMessages(Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response,
 			@PathVariable long id) { 
 		
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User user = (User) session.getAttribute("loggedUser");
 		
 		if(user != null && user.isAdmin()) {
@@ -356,10 +357,10 @@ public class AdminController {
 	
 	
 	@GetMapping("/adminHardDeleteUserTweet/{id}")
-	public String adminHardDeleteUserTweet(Model model, HttpSession session, HttpServletRequest request,
+	public String adminHardDeleteUserTweet(Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response,
 			@PathVariable long id) { 
 		
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User user = (User) session.getAttribute("loggedUser");
 		
 		if(user != null && user.isAdmin()) {
@@ -384,10 +385,10 @@ public class AdminController {
 	
 	
 	@GetMapping("/adminHardDeleteUserComment/{id}")
-	public String adminHardDeleteUserComment(Model model, HttpSession session, HttpServletRequest request,
+	public String adminHardDeleteUserComment(Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response,
 			@PathVariable long id) { 
 		
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User user = (User) session.getAttribute("loggedUser");
 		
 		if(user != null && user.isAdmin()) {
@@ -411,10 +412,10 @@ public class AdminController {
 	
 	
 	@GetMapping("/adminHardDeleteUserMessage/{id}")
-	public String adminHardDeleteUserMessage(Model model, HttpSession session, HttpServletRequest request,
+	public String adminHardDeleteUserMessage(Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response,
 			@PathVariable long id) { 
 		
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User user = (User) session.getAttribute("loggedUser");
 		
 		if(user != null && user.isAdmin()) {
@@ -438,10 +439,10 @@ public class AdminController {
 	
 	
 	@GetMapping("/adminDeleteUserImage/{id}")
-	public String adminDeleteUserImage(Model model, HttpSession session, HttpServletRequest request,
+	public String adminDeleteUserImage(Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response,
 			@PathVariable long id) { 
 		
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User user = (User) session.getAttribute("loggedUser");
 		
 		if(user != null && user.isAdmin()) {
@@ -477,12 +478,12 @@ public class AdminController {
 	
 	
 	@GetMapping("/adminEdit")
-	public String adminEdit(Model model, HttpSession session, HttpServletRequest request,
+	public String adminEdit(Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(defaultValue="-1") long tweetId,
 			@RequestParam(defaultValue="-1") long commentId,
 			@RequestParam(defaultValue="-1") long userId) { 
 		
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User user = (User) session.getAttribute("loggedUser");
 		
 		if(user != null && user.isAdmin()) {
@@ -539,10 +540,10 @@ public class AdminController {
 	
 	
 	@PostMapping("/adminEdit")
-	public String adminEdit(@Valid Tweet tweet, BindingResult result, Model model, HttpSession session, HttpServletRequest request,
+	public String adminEdit(@Valid Tweet tweet, BindingResult result, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(defaultValue="-1") long tweetId) { 
 		
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User user = (User) session.getAttribute("loggedUser");
 		
 		if(user != null && user.isAdmin()) {
@@ -577,10 +578,10 @@ public class AdminController {
 	
 	
 	@PostMapping("/adminEditComment")
-	public String adminEditComment(@Valid Comment comment, BindingResult result, Model model, HttpSession session, HttpServletRequest request,
+	public String adminEditComment(@Valid Comment comment, BindingResult result, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(defaultValue="-1") long tweetId) { 
 		
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User user = (User) session.getAttribute("loggedUser");
 		
 		if(user != null && user.isAdmin()) {
@@ -610,10 +611,10 @@ public class AdminController {
 	
 	
 	@PostMapping("/adminEditUser")
-	public String adminEditUser(@Valid User user, BindingResult result, Model model, HttpSession session, HttpServletRequest request,
+	public String adminEditUser(@Valid User user, BindingResult result, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(defaultValue="-1") long tweetId) { 
 		
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User loggedUser = (User) session.getAttribute("loggedUser");
 		
 		if(loggedUser != null && loggedUser.isAdmin()) {

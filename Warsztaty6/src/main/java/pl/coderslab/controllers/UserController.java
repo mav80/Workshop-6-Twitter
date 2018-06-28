@@ -53,9 +53,9 @@ public class UserController {
 	MessageRepository messageRepository;
 	
 	@GetMapping("/panelUser")
-	public String userPanel(Model model, HttpSession session, HttpServletRequest request, @RequestParam(defaultValue="") String showAll) {
+	public String userPanel(Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response, @RequestParam(defaultValue="") String showAll) {
 
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User user = (User) session.getAttribute("loggedUser");
 		
 		if(user != null) {
@@ -95,9 +95,9 @@ public class UserController {
 	
 	
 	@GetMapping("/userView/{id}")
-	public String singleUserView(Model model, @PathVariable Long id, HttpSession session, HttpServletRequest request) {
+	public String singleUserView(Model model, @PathVariable Long id, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 		
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User user = (User) session.getAttribute("loggedUser");
 		
 		User userToview = userRepository.findFirstById(id);
@@ -135,11 +135,11 @@ public class UserController {
 	
 	
 	@PostMapping("/userView/{id}")
-	public String singleUserViewPost(@Valid Message message, BindingResult result, Model model, @PathVariable Long id, HttpSession session, HttpServletRequest request) {
+	public String singleUserViewPost(@Valid Message message, BindingResult result, Model model, @PathVariable Long id, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 		
 		message.setId(0); //if not set to 0 it will overwrite existing message
 		
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User user = (User) session.getAttribute("loggedUser");
 		
 		
@@ -223,7 +223,7 @@ public class UserController {
 	@ResponseBody
 	public String deleteUserAccount(Model model, @PathVariable Long id, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 		
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User user = (User) session.getAttribute("loggedUser");
 		
 		
@@ -273,10 +273,10 @@ public class UserController {
 	
 	
 	@GetMapping("/panelUser/userSettings")
-	public String userPanelSettings(Model model, HttpSession session, HttpServletRequest request,
+	public String userPanelSettings(Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(defaultValue="") String userDeleteImage) {
 
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User user = (User) session.getAttribute("loggedUser");
 		
 		if(user != null) {
@@ -305,9 +305,9 @@ public class UserController {
 	
 	//@ResponseBody
 	@PostMapping("/panelUser/userSettings")
-	public String userPanelSettings(Model model, HttpSession session, HttpServletRequest request, @RequestParam MultipartFile fileUploaded) throws Exception {
+	public String userPanelSettings(Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response, @RequestParam MultipartFile fileUploaded) throws Exception {
 
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User user = (User) session.getAttribute("loggedUser");
 		
 		if(user != null && fileUploaded != null && !fileUploaded.isEmpty()) {
@@ -367,7 +367,7 @@ public class UserController {
 	  public void showImage(@RequestParam("id") Integer id, HttpServletResponse response, HttpServletRequest request, HttpSession session, Model model) 
 	          throws ServletException, IOException{
 		
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User user = (User) session.getAttribute("loggedUser");
 		
 		if(user != null ) {
@@ -414,7 +414,7 @@ public class UserController {
 	    @ExceptionHandler(MaxUploadSizeExceededException.class)
 	    public String handleMaxSizeException(MaxUploadSizeExceededException exc, HttpServletRequest request, HttpServletResponse response, Model model, HttpSession session) {
 	    	
-	    	Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+	    	Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 			User user = (User) session.getAttribute("loggedUser");
 			
 			if(user != null ) {
@@ -452,9 +452,9 @@ public class UserController {
 	
 	
 	@PostMapping("/panelUser/userChangeProfileData")
-	public String userChangeProfileData(@Valid User user, BindingResult result, Model model, HttpSession session, HttpServletRequest request) {
+	public String userChangeProfileData(@Valid User user, BindingResult result, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User loggedUser = (User) session.getAttribute("loggedUser");
 		
 		if(loggedUser != null && loggedUser.getId() == user.getId() && loggedUser.isAdmin() == user.isAdmin() && loggedUser.isDeleted() == user.isDeleted() && loggedUser.isEnabled() == user.isEnabled()) {
@@ -588,10 +588,10 @@ public class UserController {
 	
 	
 	@PostMapping("/panelUser/userChangeProfilePassword")
-	public String userChangeProfileData(Model model, HttpSession session, HttpServletRequest request,
+	public String userChangeProfileData(Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(defaultValue="") String passwordToChange) {
 
-		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User user = (User) session.getAttribute("loggedUser");
 		
 		if(user != null) {
@@ -607,9 +607,6 @@ public class UserController {
 			}
 			model.addAttribute("commentCountMap", commentCountMap);
 			//end of comment count section
-			
-			System.out.println("passwordToChange = " + passwordToChange);
-			
 			
 			if(!passwordToChange.isEmpty()) {
 				user.setPassword(BCrypt.hashpw(passwordToChange,  BCrypt.gensalt()));
