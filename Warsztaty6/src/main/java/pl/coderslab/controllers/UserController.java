@@ -468,7 +468,6 @@ public class UserController {
 			model.addAttribute("commentCountMap", commentCountMap);
 			//end of comment count section
 			
-			
 
 			
 			if(result.hasErrors() || userRepository.findFirstByEmail(user.getEmail()) != null || userRepository.findFirstByUsername(user.getUsername()) != null) {
@@ -535,7 +534,7 @@ public class UserController {
 			
 			userRepository.save(user);
 			session.setAttribute("loggedUser", user);
-			model.addAttribute("operationInfo", "Dane zmieniono pomyślnie bez błędów w formularzu");
+			model.addAttribute("operationInfo", "Dane zmieniono pomyślnie.");
 			//System.out.println("zapisano usera bez błędów w formularzu");
 	
 			return "panelUserSettings";
@@ -559,7 +558,71 @@ public class UserController {
 	
 	
 	
+
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@PostMapping("/panelUser/userChangeProfilePassword")
+	public String userChangeProfileData(Model model, HttpSession session, HttpServletRequest request,
+			@RequestParam(defaultValue="") String passwordToChange) {
+
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		User user = (User) session.getAttribute("loggedUser");
+		
+		if(user != null) {
+			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
+			//unread messages counter
+			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
+			
+			//comment count section
+			List<Tweet> tweets = tweetRepository.findAllByUserIdOrderByCreatedDesc(user.getId());
+			Map<Integer, Integer> commentCountMap = new HashMap<>();
+			for(Tweet tweet: tweets) {
+				commentCountMap.put((int) tweet.getId(), tweetRepository.findCommentCountFromNotDeletedUsersById(tweet.getId()));
+			}
+			model.addAttribute("commentCountMap", commentCountMap);
+			//end of comment count section
+			
+			System.out.println("passwordToChange = " + passwordToChange);
+			
+			
+			if(!passwordToChange.isEmpty()) {
+				user.setPassword(BCrypt.hashpw(passwordToChange,  BCrypt.gensalt()));
+				userRepository.save(user);
+				model.addAttribute("operationInfo", "Hasło zmieniono pomyślnie.");
+			} else {
+				model.addAttribute("error", "Hasło nie może być puste!");
+			}
+			
+			model.addAttribute("user", user);
+			return "panelUserSettings";
+		}
+
+		model.addAttribute("infoError", "Wystąpił błąd!");
+		return "userLoginForm";
+	}
 	
 	
 	

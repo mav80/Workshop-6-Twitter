@@ -68,28 +68,17 @@
 			</div>
 			
 			<div id="changePasswordDiv" style="display: none">
-				<form:form method="post" modelAttribute="user" action="userChangeProfileData">		
-					<br>Podaj nowe hasło: <form:password path="password" placeholder="hasło"/><br>
-					<form:errors path="password"/><br>
-
-					<form:hidden path="id"/>
-					<form:hidden path="enabled"/>
-					<form:hidden path="deleted"/>
-					<form:hidden path="admin"/>
-					<form:hidden path="email"/>
-					<form:hidden path="username"/>
-					<form:hidden path="usrImg"/>
-					
-					<input type="submit" value="zmień">
-	
-				</form:form>				
+				<form method="post"  action="userChangeProfilePassword">
+					<br>Podaj nowe hasło: <input type="password" name="passwordToChange" placeholder="hasło">
+					<br><br><input type="submit" value="Zmień hasło"><br><br>
+				</form>			
 			</div>
 			
 			
 			
 			<a class="confirm" style="color: red" href="<%out.print(request.getContextPath());%>/deleteUserAccount/${user.id}"><h3>Usuń swoje konto.</h3></a>
 			
-			<h4>UWAGA! Usunięcie Twojego konta skasuje również wszystkie Twoje Tweety oraz komentarze!</h4>
+			<h4>UWAGA! Usunięcie Twojego konta skasuje również wszystkie Twoje tweety oraz komentarze!</h4>
 		
 	        
 
