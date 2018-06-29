@@ -239,22 +239,6 @@
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		<!-- USER'S COMMENTS -->
 		
 		<c:if test="${not empty userComments}">
@@ -301,15 +285,7 @@
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		
 		
 		
@@ -464,6 +440,9 @@
 		
 		
 		
+		
+		
+		
 		<!-- GENERATED COMMENTS -->
 		
 		
@@ -475,42 +454,31 @@
 					<table>
 					
 						<c:forEach items="${newGeneratedComments}" var="comment">
-						
-				
-									<tr>
-										<td>
-											
-												<ul>
-													<li class="commentListLi">
-														
-														<c:if test="${not empty comment.user.usrImg}">
-															<img class="commentPicture" src="<%out.print(request.getContextPath());%>/imageDisplay?id=${comment.user.id}"/> 							
-														</c:if> 
-														
-														Komentarz użytkownika <a href="<%out.print(request.getContextPath());%>/userView/${comment.user.id}"><b>${comment.user.username}</b></a>, data utworzenia: ${comment.created} 
-														<pre class="preComment">${comment.text}</pre>
-													</li>
+
+								<tr>
+									<td>
+										
+											<ul>
+												<li class="commentListLi">
 													
-												</ul>
-											
-										</td>
-									</tr>
-									
-							
+													<c:if test="${not empty comment.user.usrImg}">
+														<img class="commentPicture" src="<%out.print(request.getContextPath());%>/imageDisplay?id=${comment.user.id}"/> 							
+													</c:if> 
+													
+													Komentarz użytkownika <a href="<%out.print(request.getContextPath());%>/userView/${comment.user.id}"><b>${comment.user.username}</b></a>, data utworzenia: ${comment.created} 
+													<pre class="preComment">${comment.text}</pre>
+												</li>
+												
+											</ul>
+										
+									</td>
+								</tr>
 
 						</c:forEach>
 					</table>
 				</div>  <!--  koniec div "row" -->
 			
-		</c:if>
-		
-		
-		
-		
-		
-		
-		
-			
+		</c:if>	
 			
 	</body>
 </html>
