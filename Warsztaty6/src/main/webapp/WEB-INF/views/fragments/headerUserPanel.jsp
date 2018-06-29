@@ -17,8 +17,8 @@
 	
 	<body>
 			
-		<c:if test="${not empty info}">
-			<b>${info}</b>
+		<c:if test="${not empty loggedUser}">
+			Jesteś zalogowany jako <a href="<%out.print(request.getContextPath());%>/userView/${loggedUser.id}"><b>${loggedUser.username}</b></a>
 			<c:if test="${loggedUser.admin == true}">
 				<a href="<%out.print(request.getContextPath());%>/panelAdmin" style="color: blue;"><b>Panel administracyjny</b></a>
 			</c:if>
