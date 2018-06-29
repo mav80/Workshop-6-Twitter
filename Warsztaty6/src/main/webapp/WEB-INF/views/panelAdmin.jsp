@@ -42,6 +42,23 @@
 				</li>
 			</ul>
 		</div>
+		
+		<div class="searchList">
+			<ul>
+				<li>
+					<form action="<%out.print(request.getContextPath());%>/adminAddTweets">
+						<input type="hidden" name="tweetCount" value="10">
+						<input type="submit" value="Dodaj 10 tweetów do bazy."><br><br>
+					</form>
+				</li>
+			
+				<li>
+					<form action="<%out.print(request.getContextPath());%>/adminAddComments">
+						<input type="submit" value="Dodaj komentarze do tweetów które ich nie mają"><br><br>
+					</form>
+				</li>
+			</ul>
+		</div>
 			
 		<c:if test="${not empty param.operationInfo}">
 			<b style="color: blue">${param.operationInfo}</b><br>
