@@ -736,27 +736,30 @@ public class AdminController {
 			
 			List<String> popularWordList = new ArrayList<>(popularWordListHash); //moving to regular array makes pulling words from it easier
 			
-
-			
 			List<Tweet> newTweets = new ArrayList<>();
 			List<User> usersWithoutAdmins = new ArrayList<>();
 			usersWithoutAdmins = userRepository.findAllWithoutAdmins();
-			Random rand = new Random();
-			
+			Random rand = new Random();	
 			
 			for(int i = 0; i < tweetCount ; i++) {
 				
 				Tweet randomTweet = new Tweet();
 				
-				for(int j = 0 ; j < 20 ; j++) { //each tweet will have random 20 words
+				int howManyWordsForThisTweet = rand.nextInt(20 - 2) + 2; //each tweet will have 2 to 20 random words
+				
+				for(int j = 0 ; j < howManyWordsForThisTweet; j++) {
 					int wordNumber = rand.nextInt(popularWordList.size()-1);
 					randomTweet.setText(randomTweet.getText() + " " + popularWordList.get(wordNumber));
+					
+					if(j > 0 && j % 10 == 0) {
+						randomTweet.setText(randomTweet.getText() + "\n"); //adds enter if tweet is long
+					}
 				}
 				
-				randomTweet.setText(randomTweet.getText().substring(5, randomTweet.getText().length()-1)); //throws away 'null" text from the beginning
+				randomTweet.setText(randomTweet.getText().substring(5, randomTweet.getText().length())); //throws away 'null" text from the beginning
 				
 				randomTweet.setUser(usersWithoutAdmins.get(rand.nextInt(usersWithoutAdmins.size()-1)));
-				System.out.println("Tweet ma usera o numerze " + randomTweet.getUser().getId());
+				//System.out.println("Tweet ma usera o numerze " + randomTweet.getUser().getId());
 				tweetRepository.save(randomTweet);
 				newTweets.add(randomTweet);
 				
@@ -764,17 +767,12 @@ public class AdminController {
 				
 			}
 			
-			System.out.println("ilość słów w tablicy: " + popularWordList.size());
+			System.out.println("Ilość słów w tablicy: " + popularWordList.size());
 			System.out.println(popularWordList);
-			
-			System.out.println("ilość tweetów w tablicy: " + newTweets.size());
+			System.out.println("Ilość tweetów w tablicy: " + newTweets.size());
 			System.out.println(newTweets);
-
-			
+	
 			model.addAttribute("newGeneratedTweets", newTweets);
-			
-			
-			
 			model.addAttribute("operationInfo", "Dodawanie " + tweetCount + " tweetów przebiegło pomyślnie.");
 			
 			return "panelAdmin";
@@ -799,15 +797,122 @@ public class AdminController {
 	
 	
 	
+	//adds between 2-17 comments to every tweet that has no comments
+	@GetMapping("/adminAddComments")
+	public String adminAddComments(Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) { 
+		
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		User user = (User) session.getAttribute("loggedUser");
+		
+		if(user != null && user.isAdmin()) {
+			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
+			//unread messages counter
+			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
+			model.addAttribute("operationInfo", "Tu edytujemy różne rzeczy jeśli są odpowiednie parametry w linku.");
+			
+			HashSet<String> popularWordListHash = new HashSet<>(); //adding to hash set removes duplicates
+			
+			Connection connect = Jsoup.connect("http://wyborcza.pl/");
+			Connection connect2 = Jsoup.connect("http://purepc.pl/");
+			Connection connect3 = Jsoup.connect("http://www.newsweek.pl/");
+			
+			try {
+				Document document = connect.get();
+				Document document2 = connect2.get();
+				Document document3 = connect3.get();
+				Elements links = document.select("body");
+				Elements links2 = document2.select("body");
+				Elements links3 = document3.select("body");
+				
+				links.addAll(links2);
+				links.addAll(links3);
+				
+				for (Element elem : links) {
+					// System.out.println(elem.text());
+
+					String[] split = elem.text().split("\\s|\\?|:|\\.|\"|!|-|,|\\[|\\]|\\(|\\)");
+
+					for (int i = 0; i < split.length; i++) {
+						// System.out.println(split[i]);
+						if (split[i].length() > 3) {
+							popularWordListHash.add(split[i].toLowerCase());
+						}
+
+					}
+
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			
+			List<String> popularWordList = new ArrayList<>(popularWordListHash); //moving to regular array makes pulling words from it easier
+			List<Tweet> tweetsWithoutComment = new ArrayList<>();
+			tweetsWithoutComment = tweetRepository.findAllTweetsWithoutComments();
+			
+			List<User> usersWithoutAdmins = new ArrayList<>();
+			usersWithoutAdmins = userRepository.findAllWithoutAdmins();
+			List<Comment> newComments = new ArrayList<>();
+			
+			Random rand = new Random();
+			
+			//number of tweets needing comments
+			for(int i = 0; i < tweetsWithoutComment.size(); i++) {
+				
+				//number of comments for a given tweet
+				int howManyCommentsForTweet = rand.nextInt(17-2) + 2;
+				
+				for(int k = 0; k < howManyCommentsForTweet ; k++) {
+	
+					//number of words for a given comment
+					int howManyWordsInComment = rand.nextInt(8-2) + 2; //each comment will have 2 to 8 random words
+					Comment newGeneratedComment = new Comment();
+					
+					for(int j = 0 ; j < howManyWordsInComment ; j++) {
+						int wordNumber = rand.nextInt(popularWordList.size()-1);
+							newGeneratedComment.setText(newGeneratedComment.getText() + " " + popularWordList.get(wordNumber));
+					}
+					
+					System.out.println("equals wynosi: " + newGeneratedComment.getText().substring(0, 4) );
+					if(newGeneratedComment.getText().substring(0, 4).equals("null")) {
+						newGeneratedComment.setText(newGeneratedComment.getText().substring(5, newGeneratedComment.getText().length())); //throws away 'null" text from the beginning
+					}
+					
+					if(newGeneratedComment.getText().length() > 60) {
+						newGeneratedComment.setText(newGeneratedComment.getText().substring(5, 59));
+					}
+					
+					newGeneratedComment.setUser(usersWithoutAdmins.get(rand.nextInt(usersWithoutAdmins.size()-1)));
+					newGeneratedComment.setTweet(tweetsWithoutComment.get(i));
+					//System.out.println("Komentarz ma tweeta o numerze " + newGeneratedComment.getTweet().getId() + " i usera o numerze " + newGeneratedComment.getUser().getId());
+					commentRepository.save(newGeneratedComment);
+					newComments.add(newGeneratedComment);
+				
+				}
+				
+			}
+			
+			System.out.println("Liczba znalezionych tweetów bez komentarzy: " + tweetsWithoutComment.size());
+			System.out.println("Ilość słów w tablicy: " + popularWordList.size());
+			System.out.println(popularWordList);
+			System.out.println("Ilość komentarzy w tablicy: " + newComments.size());
+			System.out.println(newComments);
+	
+			model.addAttribute("newGeneratedComments", newComments);
+			model.addAttribute("operationInfo", "Dodano " + newComments.size() +" komentarzy do " + tweetsWithoutComment.size() + " tweetów które ich nie miały.");
+			
+			return "panelAdmin";
+	
+		} else {
+			model.addAttribute("infoError", "Musisz mieć uprawnienia administratora aby wejść do panelu admina!");
+			return "userLoginForm";
+			}
+		
+		
+	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	
 	

@@ -44,6 +44,9 @@ public interface TweetRepository extends JpaRepository<Tweet, Long>{
 	void customDeleteAllUserTweets(long id);
 	
 	
+	@Query(value = "SELECT * FROM Tweet WHERE id NOT IN (SELECT Tweet.id FROM Tweet JOIN Comment ON Tweet.id = Comment.tweet_id)", nativeQuery = true)
+	List<Tweet> findAllTweetsWithoutComments();
+	
 
 	
 
