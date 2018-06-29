@@ -398,6 +398,106 @@
 		
 		
 		
+		
+		<!-- GENERATED TWEETS -->
+		
+		<c:if test="${not empty newGeneratedTweets}">
+		
+			<table>
+				<c:forEach items="${newGeneratedTweets}" var="tweet">
+				
+					<%int counter = 0;%>
+						
+					<div class="row">
+						<table>
+							<tr>
+								<td>
+									<list>
+										<ul>
+											<li>
+												<c:if test="${not empty tweet.user.usrImg}">
+													<img class="tweetPicture" src="<%out.print(request.getContextPath());%>/imageDisplay?id=${tweet.user.id}"/> 							
+												</c:if> 
+											
+												<a href="tweet/${tweet.id}">Tweet użytkownika <a href="<%out.print(request.getContextPath());%>/userView/${tweet.user.id}"><b>${tweet.user.username}</b></a>, data utworzenia: ${tweet.created}</a></li>
+											<li>
+												<pre class="preTweet">${tweet.text}</pre>
+											</li>
+											<li>Liczba komentarzy:
+											
+												<c:forEach items="${commentCountMap}" var="mapEntry">
+													<c:if test="${mapEntry.key == tweet.id}">
+														${mapEntry.value}
+													</c:if>
+												</c:forEach>
+											
+											</li>
+										</ul>
+									</list>					
+								</td>
+							</tr>
+						</table>
+					</div>  <!--  koniec div "row" -->
+						
+						
+					<c:if test="${not empty newGeneratedComments}">
+				
+						<list class="commentListList" id="${tweet.id}"> <!-- This list and div are before c:if for the js "add comment" button to properly show up -->
+						
+							<div class="row" style="margin-left: 5em;">
+							
+								<table>
+								
+									<c:forEach items="${comments}" var="comment">
+									
+		
+									
+											<c:if test="${comment.tweet.id == tweet.id}">
+											
+												<% counter = counter +1; %>
+							
+												<tr>
+													<td>
+														
+															<ul>
+																<li class="commentListLi" id="<%=counter%>">
+																	
+																	<c:if test="${not empty comment.user.usrImg}">
+																		<img class="commentPicture" src="<%out.print(request.getContextPath());%>/imageDisplay?id=${comment.user.id}"/> 							
+																	</c:if> 
+																	
+																	Komentarz użytkownika <a href="<%out.print(request.getContextPath());%>/userView/${comment.user.id}"><b>${comment.user.username}</b></a>, data utworzenia: ${comment.created}s 
+																	<pre class="preComment">${comment.text}</pre>
+																</li>
+																
+															</ul>
+														
+													</td>
+												</tr>
+												
+											</c:if>
+										
+			
+									</c:forEach>
+								</table>
+							</div>  <!--  koniec div "row" -->
+	
+						</list>
+						
+					</c:if>
+					
+		
+				</c:forEach>
+			</table>
+		
+		</c:if>
+		
+		
+		
+		
+		
+		
+		
 			
 			
 	</body>

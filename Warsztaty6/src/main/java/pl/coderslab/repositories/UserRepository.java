@@ -27,5 +27,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Transactional
 	@Query(value = "DELETE FROM Warsztaty6Twitter.User WHERE id = ?1 ; ", nativeQuery = true)
 	void customDeleteUser(long id);
+	
+	@Query(value = "SELECT * FROM User WHERE admin = 0", nativeQuery = true)
+	List<User>findAllWithoutAdmins();
 
 }
