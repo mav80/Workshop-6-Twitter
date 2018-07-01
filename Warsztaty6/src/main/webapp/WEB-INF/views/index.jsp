@@ -24,9 +24,14 @@
 		
 		<br>Oto wszystkie tweety znajdujące się w bazie (razem: ${tweetCount}): <br><br>
 		
+		${requestScope}
+		
 		<table>
 			<c:forEach items="${tweets}" var="tweet">
 				<%int counter = 0;%>
+				<%String tweetCollectionName = "tweet" + request.getParameter("tweet.getId()") + "comments";%>
+				<%out.print(tweetCollectionName);%>
+				
 				<div class="row">
 					<table>
 						<tr>

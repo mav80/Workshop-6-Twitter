@@ -53,9 +53,26 @@ public class HomeController {
 			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
 		}
 		
-		model.addAttribute("tweets", tweetRepository.findAllFromNotDeletedUsersOrderByCreatedDesc());
+		List<Tweet> tweetsToShow = new ArrayList<>();
+		tweetsToShow = tweetRepository.findAllFromNotDeletedUsersOrderByCreatedDesc();
+		
+		model.addAttribute("tweets", tweetsToShow);
 		model.addAttribute("tweet", new Tweet()); //new tweet to bind with tweet adding form
 		model.addAttribute("tweetCount", tweetRepository.tweetCountFromNotDeletedUsers());
+		
+		Map<Long, List<Comment>> tweetsComments = new HashMap<>();
+		
+		//here we make separate list of comments for every tweet in our collection
+		for(Tweet singleTweet : tweetsToShow) {
+//			List<Comment> tweetComments = new ArrayList<>();
+//			tweetComments = commentRepository.findAllForAGivenTweetFromNotDeletedUsersOrderByCreatedAscOnlyForTweetsFromNotDeletedUsers(singleTweet.getId());
+//			model.addAttribute("tweet"+singleTweet.getId()+"comments", tweetComments);	
+			
+			List<Comment> singleTweetComments = new ArrayList<>();
+			singleTweetComments = commentRepository.findAllForAGivenTweetFromNotDeletedUsersOrderByCreatedAscOnlyForTweetsFromNotDeletedUsers(singleTweet.getId());
+			tweetsComments.put(singleTweet.getId(), singleTweetComments);
+		}
+		model.addAttribute("tweetsComments", tweetsComments);
 		
 		model.addAttribute("comments", commentRepository.findAllFromNotDeletedUsersOrderByCreatedAscOnlyForTweetsFromNotDeletedUsers());
 		model.addAttribute("comment", new Comment()); //new tweet to bind with tweet adding form
@@ -68,8 +85,8 @@ public class HomeController {
 			commentCountMap.put((int) tweet.getId(), tweetRepository.findCommentCountFromNotDeletedUsersById(tweet.getId()));
 		}
 		
-		model.addAttribute("commentCountMap", commentCountMap);
-		//end of comment count section
+		System.out.println("tuuuuuuutaj lista");
+		System.out.println(tweetsComments);
 		
 		return "index";
 	}
