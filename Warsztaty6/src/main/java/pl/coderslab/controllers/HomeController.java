@@ -46,9 +46,10 @@ public class HomeController {
 			@RequestParam(required = false) Integer pageNumber) {
 		
 		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		User user = new User();
 		
 		if(session.getAttribute("loggedUser") != null ) {
-			User user = (User)session.getAttribute("loggedUser");
+			user = (User)session.getAttribute("loggedUser");
 			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
 			
 			//unread messages counter
@@ -69,6 +70,8 @@ public class HomeController {
 		
 		if(tweetsPerPage == null || tweetsPerPage < 10) {
 			tweetsPerPage = 10;
+		} else if (tweetsPerPage > 100 && (user != null || !user.isAdmin())) {
+			tweetsPerPage = 100;
 		}
 		
 		if(pageNumber == null || pageNumber < 1) {
