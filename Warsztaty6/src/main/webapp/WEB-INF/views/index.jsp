@@ -22,7 +22,7 @@
 			<input type="hidden" class="UserIsLogged" />
 		</c:if> 
 		
-		<br>Oto wszystkie tweety znajdujące się w bazie (razem: ${tweetCount}): <br><br>
+		<br>Liczba wyświetlanych tweetów: ${tweetsPerPage}<br>
 		
 		<table>
 			<c:forEach items="${tweets}" var="tweet">
@@ -97,7 +97,7 @@
 			</c:forEach>
 		</table>
 		
-		<h4>Liczba stron: ${numberOfPages}, obecna strona: ${pageNumber}</h4>
+		<h4>Liczba stron: ${numberOfPages}, obecna strona: ${pageNumber}, wszystkich tweetów w bazie: ${tweetCount}</h4>
 		<form style="display: inline-block">
 			Przejdź do strony numer: 
 			<input type="number" name="pageNumber" value=1">
