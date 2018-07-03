@@ -93,6 +93,7 @@ public class HomeController {
 		
 		model.addAttribute("tweetsPerPage", tweetsPerPage);
 		model.addAttribute("numberOfPages", numberOfPages);
+		model.addAttribute("pageNumber", pageNumber);
 	
 		
 		//end pagination

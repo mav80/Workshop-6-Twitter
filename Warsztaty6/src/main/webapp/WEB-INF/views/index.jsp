@@ -97,6 +97,34 @@
 			</c:forEach>
 		</table>
 		
+		<h4>Liczba stron: ${numberOfPages}, obecna strona: ${pageNumber}</h4>
+		<form>
+			Przejdź do strony numer: 
+			<input type="number" name="pageNumber" value=1">
+			<input type="hidden" name="tweetsPerPage" value="${tweetsPerPage}">
+			<input type="submit" value="przejdź">
+		</form>
+		<br>
+		<c:if test="${pageNumber > 1}">
+			<a href="<%out.print(request.getContextPath());%>?pageNumber=${pageNumber-1}&tweetsPerPage=${tweetsPerPage}"/>Poprzednia strona</a>
+		</c:if>
+		
+		<c:if test="${pageNumber < numberOfPages}">
+			<a href="<%out.print(request.getContextPath());%>?pageNumber=${pageNumber+1}&tweetsPerPage=${tweetsPerPage}"/>Następna strona</a>
+		</c:if>
+		
+		<c:if test="${pageNumber > 1}">
+			<a href="<%out.print(request.getContextPath());%>?pageNumber=1&tweetsPerPage=${tweetsPerPage}"/>Pierwsza strona</a>
+		</c:if>
+		
+		<c:if test="${pageNumber < numberOfPages}">
+			<a href="<%out.print(request.getContextPath());%>?pageNumber=${numberOfPages}&tweetsPerPage=${tweetsPerPage}"/>Ostatnia strona</a>
+		</c:if>
+		
+		<br>
+		
+		
+		
 	</body>
 </html>
 
