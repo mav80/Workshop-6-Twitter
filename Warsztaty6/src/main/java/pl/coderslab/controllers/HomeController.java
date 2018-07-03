@@ -122,7 +122,8 @@ public class HomeController {
 //		model.addAttribute("tweetsComments", tweetsComments);
 		//end of separate tweet comments
 		
-		model.addAttribute("comments", commentRepository.findAllFromNotDeletedUsersOrderByCreatedAscOnlyForTweetsFromNotDeletedUsers());
+		//model.addAttribute("comments", commentRepository.findAllFromNotDeletedUsersOrderByCreatedAscOnlyForTweetsFromNotDeletedUsers()); //not necessary since we have pagination
+		model.addAttribute("comments", commentRepository.findOnlyForTweetsOnPageFromNotDeletedUsersOrderByCreatedAscOnlyForTweetsFromNotDeletedUsers(tweetsPerPage, (pageNumber -1) * tweetsPerPage));
 		model.addAttribute("comment", new Comment()); //new tweet to bind with tweet adding form
 		
 		//comment count section
