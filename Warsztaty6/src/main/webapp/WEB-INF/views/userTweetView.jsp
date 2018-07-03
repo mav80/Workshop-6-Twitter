@@ -95,4 +95,5 @@
 		</c:if>
 	
 	</body>
+	<%@ include file="fragments/footer.jsp"%>
 </html>

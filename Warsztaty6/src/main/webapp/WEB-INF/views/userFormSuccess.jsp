@@ -14,4 +14,5 @@
 <h3>Gratulacje, dołączyłeś do Twittera :)</h3>
 
 </body>
+<%@ include file="fragments/footer.jsp"%>
 </html>

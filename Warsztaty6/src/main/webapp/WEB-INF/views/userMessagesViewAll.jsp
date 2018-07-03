@@ -98,4 +98,5 @@
 			</c:forEach>
 		</table>
 	</body>
+	<%@ include file="fragments/footer.jsp"%>
 </html>
