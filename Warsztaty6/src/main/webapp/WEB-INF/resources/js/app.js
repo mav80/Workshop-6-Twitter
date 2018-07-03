@@ -1,6 +1,9 @@
 
 $(document).ready(function(){
 	
+
+	
+	
 	//console.log("JS żyje!");
 	
     if ($(".UserIsLogged").length > 0) {
@@ -179,37 +182,46 @@ $(document).ready(function(){
 	var changeLoginEmailDiv = document.getElementById("changeLoginEmailDiv");
 	var changePasswordDiv = document.getElementById("changePasswordDiv");
     
-	changeLoginEmailButton.addEventListener("click",
-	        function () {
-			
-				if (changeLoginEmailDiv.style.display == "none") {
-					changeLoginEmailDiv.style.display = "block";
-					changePasswordDiv.style.display = "none";
-				} else {
-					changeLoginEmailDiv.style.display = "none";
-				}
-	   
-	}); //koniec event listenera
+	
+	if(changeLoginEmailButton != null) {
+		changeLoginEmailButton.addEventListener("click",
+		        function () {
+				
+					if (changeLoginEmailDiv.style.display == "none") {
+						changeLoginEmailDiv.style.display = "block";
+						changePasswordDiv.style.display = "none";
+					} else {
+						changeLoginEmailDiv.style.display = "none";
+					}
+		   
+		}); //end of event listener
+	}
+
+    
+    if(changePasswordButton != null) {
+    	changePasswordButton.addEventListener("click",
+    	        function () {
+    			
+    				if (changePasswordDiv.style.display == "none") {
+    					changePasswordDiv.style.display = "block";
+    					changeLoginEmailDiv.style.display = "none";
+    				} else {
+    					changePasswordDiv.style.display = "none";
+    				}
+    	   
+    	}); //end of event listener
+    }
+
     
     
-	changePasswordButton.addEventListener("click",
-	        function () {
-			
-				if (changePasswordDiv.style.display == "none") {
-					changePasswordDiv.style.display = "block";
-					changeLoginEmailDiv.style.display = "none";
-				} else {
-					changePasswordDiv.style.display = "none";
-				}
-	   
-	}); //koniec event listenera
     
     
-    
-    
-    
-    
-    
+    //here we change the number of tweets per page upon selecting it by user
+	var tweetsPerPageForm = document.getElementById("tweetsPerPageForm");
+	
+	$(tweetsPerPageForm).on('change', function() {
+		tweetsPerPageForm.submit();
+		});
     
     
     

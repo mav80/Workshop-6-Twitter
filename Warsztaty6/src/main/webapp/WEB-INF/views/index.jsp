@@ -98,13 +98,30 @@
 		</table>
 		
 		<h4>Liczba stron: ${numberOfPages}, obecna strona: ${pageNumber}</h4>
-		<form>
+		<form style="display: inline-block">
 			Przejdź do strony numer: 
 			<input type="number" name="pageNumber" value=1">
 			<input type="hidden" name="tweetsPerPage" value="${tweetsPerPage}">
 			<input type="submit" value="przejdź">
 		</form>
-		<br>
+		
+		<form style="display: inline-block" id="tweetsPerPageForm">
+			Liczba tweetów na stronę: 
+			<select name="tweetsPerPage">
+				<option value="${tweetsPerPage}">${tweetsPerPage}</option>
+			    <option value="10">10</option>
+			    <option value="20">20</option>
+			    <option value="30">30</option>
+			    <option value="40">40</option>
+			    <option value="50">50</option>
+			    <option value="75">75</option>
+			    <option value="100">100</option>
+			</select>
+			<input type="hidden" name="pageNumber" value="${pageNumber}">
+		</form>
+		
+		<br><br>
+		
 		<c:if test="${pageNumber > 1}">
 			<a href="<%out.print(request.getContextPath());%>?pageNumber=${pageNumber-1}&tweetsPerPage=${tweetsPerPage}"/>Poprzednia strona</a>
 		</c:if>
@@ -121,9 +138,7 @@
 			<a href="<%out.print(request.getContextPath());%>?pageNumber=${numberOfPages}&tweetsPerPage=${tweetsPerPage}"/>Ostatnia strona</a>
 		</c:if>
 		
-		<br>
-		
-		
+		<br><br>
 		
 	</body>
 </html>

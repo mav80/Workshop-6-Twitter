@@ -67,7 +67,6 @@ public class HomeController {
 		
 		
 		//pagination
-		
 		if(tweetsPerPage == null || tweetsPerPage < 10) {
 			tweetsPerPage = 10;
 		} else if (tweetsPerPage > 100 && (user != null || !user.isAdmin())) {
@@ -89,16 +88,12 @@ public class HomeController {
 			pageNumber = numberOfPages;
 		}
 		
-		
-		
 		tweetsToShow = tweetRepository.findAllFromNotDeletedUsersOrderByCreatedDescLimitOffset(tweetsPerPage, (pageNumber -1) * tweetsPerPage);
 		model.addAttribute("tweets", tweetsToShow);
 		
 		model.addAttribute("tweetsPerPage", tweetsPerPage);
 		model.addAttribute("numberOfPages", numberOfPages);
 		model.addAttribute("pageNumber", pageNumber);
-	
-		
 		//end pagination
 		
 		
@@ -140,11 +135,7 @@ public class HomeController {
 		model.addAttribute("commentCountMap", commentCountMap);
 		//end of comment count section
 		
-		
-		
-		
-		
-		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\nuuuuu tweetsPerPage = " + tweetsPerPage + ", pageNumber = " + pageNumber + ", tweetów łącznie: " + tweetCount + 
+		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\ntweetsPerPage = " + tweetsPerPage + ", pageNumber = " + pageNumber + ", tweetów łącznie: " + tweetCount + 
 				", liczba stron: " + numberOfPages);
 		
 		return "index";
