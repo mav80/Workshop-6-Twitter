@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.coderslab.app.Cookies;
 import pl.coderslab.app.MessageUtils;
@@ -40,7 +41,9 @@ public class HomeController {
 	MessageRepository messageRepository;
 	
 	@GetMapping("")
-	public String home(Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+	public String home(Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(required = false) Integer tweetsPerPage,
+			@RequestParam(required = false) Integer pageNumber) {
 		
 		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		
@@ -54,25 +57,69 @@ public class HomeController {
 		}
 		
 		List<Tweet> tweetsToShow = new ArrayList<>();
-		tweetsToShow = tweetRepository.findAllFromNotDeletedUsersOrderByCreatedDesc();
+		//tweetsToShow = tweetRepository.findAllFromNotDeletedUsersOrderByCreatedDesc(); //not necessary since we have pagination below
 		
 		model.addAttribute("tweets", tweetsToShow);
 		model.addAttribute("tweet", new Tweet()); //new tweet to bind with tweet adding form
-		model.addAttribute("tweetCount", tweetRepository.tweetCountFromNotDeletedUsers());
+		int tweetCount = tweetRepository.tweetCountFromNotDeletedUsers();
+		model.addAttribute("tweetCount", tweetCount);
 		
-		Map<Long, List<Comment>> tweetsComments = new HashMap<>();
+		
+		//pagination
+		
+		if(tweetsPerPage == null || tweetsPerPage < 10) {
+			tweetsPerPage = 10;
+		}
+		
+		if(pageNumber == null || pageNumber < 1) {
+			pageNumber = 1;
+		}
+		
+		int numberOfPages = tweetCount / tweetsPerPage;
+
+		if(tweetCount % tweetsPerPage != 0) {
+			System.out.println("Modulo tweetCount % tweetsPerPage: " + (tweetCount % tweetsPerPage));
+			numberOfPages++;
+		}
+		
+		if(pageNumber > numberOfPages) {
+			pageNumber = numberOfPages;
+		}
+		
+		
+		
+		tweetsToShow = tweetRepository.findAllFromNotDeletedUsersOrderByCreatedDescLimitOffset(tweetsPerPage, (pageNumber -1) * tweetsPerPage);
+		model.addAttribute("tweets", tweetsToShow);
+		
+		model.addAttribute("tweetsPerPage", tweetsPerPage);
+		model.addAttribute("numberOfPages", numberOfPages);
+	
+		
+		//end pagination
+		
+		
+		
+		
+
 		
 		//here we make separate list of comments for every tweet in our collection
-		for(Tweet singleTweet : tweetsToShow) {
-//			List<Comment> tweetComments = new ArrayList<>();
-//			tweetComments = commentRepository.findAllForAGivenTweetFromNotDeletedUsersOrderByCreatedAscOnlyForTweetsFromNotDeletedUsers(singleTweet.getId());
-//			model.addAttribute("tweet"+singleTweet.getId()+"comments", tweetComments);	
-			
-			List<Comment> singleTweetComments = new ArrayList<>();
-			singleTweetComments = commentRepository.findAllForAGivenTweetFromNotDeletedUsersOrderByCreatedAscOnlyForTweetsFromNotDeletedUsers(singleTweet.getId());
-			tweetsComments.put(singleTweet.getId(), singleTweetComments);
-		}
-		model.addAttribute("tweetsComments", tweetsComments);
+//		Map<Long, List<Comment>> tweetsComments = new HashMap<>();
+//		
+//		List<Comment> allComments = new ArrayList<>();
+//		allComments =  commentRepository.findAllFromNotDeletedUsersOrderByCreatedAscOnlyForTweetsFromNotDeletedUsers();
+//		
+//		for(Tweet singleTweet : tweetsToShow) {	
+//			List<Comment> singleTweetComments = new ArrayList<>();
+//			
+//			for(Comment comment: allComments) {
+//				if(comment.getTweet().getId() == singleTweet.getId()) {
+//					singleTweetComments.add(comment);
+//				}
+//			}
+//			tweetsComments.put(singleTweet.getId(), singleTweetComments);
+//		}
+//		model.addAttribute("tweetsComments", tweetsComments);
+		//end of separate tweet comments
 		
 		model.addAttribute("comments", commentRepository.findAllFromNotDeletedUsersOrderByCreatedAscOnlyForTweetsFromNotDeletedUsers());
 		model.addAttribute("comment", new Comment()); //new tweet to bind with tweet adding form
@@ -81,12 +128,19 @@ public class HomeController {
 		List<Tweet> tweets = tweetRepository.findAllFromNotDeletedUsersOrderByCreatedDesc();
 		
 		Map<Integer, Integer> commentCountMap = new HashMap<>();
-		for(Tweet tweet: tweets) {
-			commentCountMap.put((int) tweet.getId(), tweetRepository.findCommentCountFromNotDeletedUsersById(tweet.getId()));
+		for(Tweet tweeto: tweets) {
+			commentCountMap.put((int) tweeto.getId(), tweetRepository.findCommentCountFromNotDeletedUsersById(tweeto.getId()));
 		}
 		
-		System.out.println("tuuuuuuutaj lista");
-		System.out.println(tweetsComments);
+		model.addAttribute("commentCountMap", commentCountMap);
+		//end of comment count section
+		
+		
+		
+		
+		
+		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\nuuuuu tweetsPerPage = " + tweetsPerPage + ", pageNumber = " + pageNumber + ", tweetów łącznie: " + tweetCount + 
+				", liczba stron: " + numberOfPages);
 		
 		return "index";
 	}

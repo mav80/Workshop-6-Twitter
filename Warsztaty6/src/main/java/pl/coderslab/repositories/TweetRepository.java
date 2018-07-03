@@ -15,8 +15,11 @@ public interface TweetRepository extends JpaRepository<Tweet, Long>{
 	@Query(value = "SELECT * FROM `Warsztaty6Twitter`.Tweet ORDER BY created DESC", nativeQuery = true)
 	List<Tweet> findAllOrderByCreatedDesc();
 	
-	@Query(value = "SELECT Tweet.id, Tweet.created, receiver, text, user_id FROM Warsztaty6Twitter.Tweet JOIN Warsztaty6Twitter.User ON Tweet.user_id=User.id WHERE User.deleted = 0 ORDER BY Tweet.created DESC", nativeQuery = true)
+	@Query(value = "SELECT Tweet.id, Tweet.created, receiver, text, user_id FROM Warsztaty6Twitter.Tweet JOIN Warsztaty6Twitter.User ON Tweet.user_id=User.id WHERE User.deleted = 0 ORDER BY Tweet.id DESC", nativeQuery = true)
 	List<Tweet> findAllFromNotDeletedUsersOrderByCreatedDesc();
+	
+	@Query(value = "SELECT Tweet.id, Tweet.created, receiver, text, user_id FROM Warsztaty6Twitter.Tweet JOIN Warsztaty6Twitter.User ON Tweet.user_id=User.id WHERE User.deleted = 0 ORDER BY Tweet.id DESC LIMIT ?1 OFFSET ?2", nativeQuery = true)
+	List<Tweet> findAllFromNotDeletedUsersOrderByCreatedDescLimitOffset(int limit, int offset);
 	
 	Tweet findFirstById(long id);
 	
