@@ -12,6 +12,10 @@
 	<body>
 		<h1>Twitter</h1>
 		
+		<c:if test="${not empty param.operationInfo}">
+			<b style="color: blue"><h2>${param.operationInfo}</h2></b><br>
+		</c:if>
+		
 		<c:if test="${not empty info}">		
 			<form:form method="post" modelAttribute="tweet">
 				<span class="tweetCharCounter">Stwórz nowego tweeta. Pozostało 280 znaków do wpisania:</span><br>

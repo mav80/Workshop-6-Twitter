@@ -45,20 +45,20 @@ public class UserLoginController {
 			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
 			
 			model.addAttribute("info", "Zalogowano.");
-				//System.out.println("It matches.");
-				session.setAttribute("loggedUser", user);
-				
-				//cookie section
-				try {
-					Cookie userCookie = new Cookie("userCookie",URLEncoder.encode(user.getUsername(),"utf-8"));
-					userCookie.setPath("/");
-					userCookie.setMaxAge(60 * 60 * 24 * 7 * 4); //set cookie expiry time to ~1 month
-					response.addCookie(userCookie);
-				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				//end of cookie section
+			//System.out.println("It matches.");
+			session.setAttribute("loggedUser", user);
+			
+			//cookie section
+			try {
+				Cookie userCookie = new Cookie("userCookie",URLEncoder.encode(user.getUsername(),"utf-8"));
+				userCookie.setPath("/");
+				userCookie.setMaxAge(60 * 60 * 24 * 7 * 4); //set cookie expiry time to ~1 month
+				response.addCookie(userCookie);
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//end of cookie section
 				
 			
 		} else {
