@@ -10,8 +10,10 @@
 		<title>userForm</title>
 	</head>
 	<body>
-		<h1>To jest widok userRegisterForm.jsp</h1><br><br>
-		${error}<br>
+		<h3>Rejestracja nowego użytkownika</h3>
+		<c:if test="${not empty  error}">
+			${error}<br><br>
+		</c:if>
 	
 		<form:form method="post" modelAttribute="user">
 	
@@ -26,7 +28,7 @@
 			
 			<input type="submit" value="zarejestruj">
 	
-		</form:form>
+		</form:form><br>
 	
 	</body>
 	<%@ include file="fragments/footer.jsp"%>
