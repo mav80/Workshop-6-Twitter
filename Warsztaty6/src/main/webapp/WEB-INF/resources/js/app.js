@@ -17,15 +17,12 @@ $(document).ready(function(){
     var commentsLists = $('.commentListList');
     //console.log(commentsLists.length);
     //console.log(commentsLists);
-
-
-
-    var commentEntries = $(commentsLists[i]).find('li');
-    //console.log("comment entries:")
-    //console.log(commentEntries); 
-    
     
     for(var i = 0; i < commentsLists.length; i++) {
+    	
+        var commentEntries = $(commentsLists[i]).find('li');
+        //console.log("comment entries:")
+        //console.log(commentEntries); 
         
         //hide older comments, leave visible only 3 newest
         for(var x = 0; x < commentEntries.length - 3; x++) {

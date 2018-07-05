@@ -1,7 +1,9 @@
 package pl.coderslab.controllers;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +19,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import pl.coderslab.app.Cookies;
 import pl.coderslab.app.MessageUtils;
@@ -219,7 +223,9 @@ public class HomeController {
 	
 	
 	@PostMapping("/mainPageAddComment")
-	public String mainPageAddComment(@Valid Comment comment, BindingResult result, Tweet tweet, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+	public String mainPageAddComment(@Valid Comment comment, BindingResult result, Tweet tweet, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(required = false) Integer tweetsPerPage,
+			@RequestParam(required = false) Integer pageNumber) {
 		
 		comment.setId(0); //if not set to 0 it will overwrite existing comment
 		User user;
@@ -249,6 +255,10 @@ public class HomeController {
 			model.addAttribute("tweets", tweetRepository.findAllOrderByCreatedDesc());
 			model.addAttribute("comments", commentRepository.findAll());
 			comment.setText(null); //resets the comment window after post
+						
+			if(pageNumber != null && pageNumber > 0 && tweetsPerPage != null && tweetsPerPage > 0) {
+				return "redirect:/?pageNumber=" + pageNumber + "&tweetsPerPage=" + tweetsPerPage;
+			}
 			
 			return "redirect:/";
 			
