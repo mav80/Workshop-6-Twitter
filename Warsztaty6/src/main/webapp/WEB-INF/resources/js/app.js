@@ -15,14 +15,19 @@ $(document).ready(function(){
 	
 
     var commentsLists = $('.commentListList');
-    console.log(commentsLists.length);
+    //console.log(commentsLists.length);
+    //console.log(commentsLists);
 
 
+
+    var commentEntries = $(commentsLists[i]).find('li');
+    //console.log("comment entries:")
+    //console.log(commentEntries); 
+    
+    
     for(var i = 0; i < commentsLists.length; i++) {
-
-        var commentEntries = $(commentsLists[i]).find('li');
-        console.log(commentEntries); 
-
+        
+        //hide older comments, leave visible only 3 newest
         for(var x = 0; x < commentEntries.length - 3; x++) {
             $(commentEntries[x]).parent().parent().parent().hide();
 
@@ -38,15 +43,13 @@ $(document).ready(function(){
         if ($(".UserIsLogged").length > 0) {
         	$(commentsLists[i]).children().last().append($('<input type="submit" class="addNewCommentButton" value="Dodaj nowy">'));
         } 
-        
-       
 
     }
 
 
     //reveal all hidden comments and remove button
     var showAllCommentsButtons = $('.showAllCommentsButton');
-    console.log(showAllCommentsButtons);
+    //console.log(showAllCommentsButtons);
     
     showAllCommentsButtons.on("click", function(e) {
 
@@ -66,7 +69,6 @@ $(document).ready(function(){
         $(this).parent().parent().next('.commentForm').fadeIn();
         this.remove();
 
-
     });
     
     
@@ -74,9 +76,9 @@ $(document).ready(function(){
     //char counter for tweet form
     
     var area = $('.tweetTextArea');
-    console.log(area);
+    //console.log(area);
     var tweetCharCounter = $(area).siblings('.tweetCharCounter');
-    console.log(tweetCharCounter);
+    //console.log(tweetCharCounter);
     
     area.on("input", function () {
     	
@@ -115,7 +117,7 @@ $(document).ready(function(){
     
     //topic field
     var messageTopicArea = $('.messageTopicArea');
-    console.log(messageTopicArea);
+    //console.log(messageTopicArea);
     
     messageTopicArea.on("input", function () {
     	
@@ -126,9 +128,9 @@ $(document).ready(function(){
     
     //text field
     var messageArea = $('.messageTextArea');
-    console.log(messageArea);
+    //console.log(messageArea);
     var messageCharCounter = $(messageArea).siblings('.messageCharCounter');
-    console.log(tweetCharCounter);
+    //console.log(tweetCharCounter);
     
     messageArea.on("input", function () {
     	
@@ -145,7 +147,7 @@ $(document).ready(function(){
     
     // here we ask user for confirmation before deleting something
 	var confirms = document.getElementsByClassName('confirm');
-	console.log(confirms);
+	//console.log(confirms);
 	
 	var confirmIt = function (e) {
 	    if (!confirm('Jesteś pewien?')) e.preventDefault();
