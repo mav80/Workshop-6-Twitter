@@ -73,6 +73,11 @@
 													<input type="submit" value="Edytuj tego tweeta"><br><br>
 												</form>
 												</li>
+												<li>
+													<form action="<%out.print(request.getContextPath());%>/adminHardDeleteUserTweet/${tweet.id}">
+														<input type="submit" value="Usuń tego tweeta"><br><br>
+													</form>
+												</li>
 											</c:if>
 											
 											</ul>
