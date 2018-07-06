@@ -57,6 +57,7 @@
 													<c:if test="${not empty loggedUser}">
 														<c:if test="${loggedUser.admin == true}">
 															<a href="<%out.print(request.getContextPath());%>/adminHardDeleteUserTweet/${tweet.id}">usuń tweeta</a>
+															<a href="<%out.print(request.getContextPath());%>/adminEdit?tweetId=${tweet.id}">edytuj tweeta</a>
 														</c:if>
 													</c:if>
 				
