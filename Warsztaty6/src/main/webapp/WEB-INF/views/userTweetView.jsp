@@ -34,7 +34,10 @@
 					<input type="hidden" name="tweetId" value="${tweet.id}">
 					<input type="submit" value="Edytuj tego tweeta"><br><br>
 				</form>
-			</c:if> 
+				<form action="<%out.print(request.getContextPath());%>/adminHardDeleteUserTweet/${tweet.id}">
+					<input type="submit" value="Usuń tego tweeta"><br><br>
+				</form>
+		</c:if> 
 			
 			<c:if test="${not empty comments}">
 				Komentarze do tweeta:<br>
