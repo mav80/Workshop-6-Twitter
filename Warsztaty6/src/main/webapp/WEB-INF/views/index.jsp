@@ -50,9 +50,18 @@
 										</li>
 										
 										<li>Liczba komentarzy:		
-				<!-- 1 1 -->				<c:forEach items="${commentCountMap}" var="mapEntry"><c:if test="${mapEntry.key == tweet.id}">
+				<!-- 1 1 -->				<c:forEach items="${commentCountMap}" var="mapEntry">
+												<c:if test="${mapEntry.key == tweet.id}">
 				<!-- 1 3 -->						${mapEntry.value}
-				<!-- 1 4 -->					</c:if></c:forEach>
+				
+													<c:if test="${not empty loggedUser}">
+														<c:if test="${loggedUser.admin == true}">
+															<a href="<%out.print(request.getContextPath());%>/adminHardDeleteUserTweet/${tweet.id}">usuń tweeta</a>
+														</c:if>
+													</c:if>
+				
+				<!-- 1 4 -->					</c:if>
+											</c:forEach>
 										</li>
 									</ul>
 								</list>					
