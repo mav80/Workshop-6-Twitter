@@ -62,9 +62,13 @@ public class UserLoginController {
 				
 			
 		} else {
-			session.setAttribute("loggedUser", null);
-			model.addAttribute("infoError", "Dane logowania niepoprawne!");
-			//System.out.println("It doesn't match.");
+			if(user == null) {
+				session.setAttribute("loggedUser", null);
+				model.addAttribute("infoError", "Dane logowania niepoprawne!");
+				//System.out.println("It doesn't match.");
+				return "userLoginForm";
+			}
+
 			
 			if(!user.isEnabled()) {
 				model.addAttribute("infoError", "Ten użytkownik został zbanowany.");
