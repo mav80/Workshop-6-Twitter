@@ -72,6 +72,15 @@ h1 {
 	#myScrollToTopBtn:hover {
 	    background-color: #555; /* Add a dark-grey background on hover */
 	}
+	
+	#mainTitleLink {
+		color: red;
+		text-decoration: none;
+	
+	
+	
+	
+	}
 
 
 

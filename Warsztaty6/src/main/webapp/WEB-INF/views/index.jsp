@@ -10,7 +10,7 @@
 		<title>Twitter</title>
 	</head>
 	<body>
-		<h1>Twitter</h1>
+		<h1><a id="mainTitleLink" href="<%out.print(request.getContextPath());%>">Twatter</a></h1>
 		
 		<c:if test="${not empty param.operationInfo}">
 			<b style="color: blue"><h2>${param.operationInfo}</h2></b><br>
