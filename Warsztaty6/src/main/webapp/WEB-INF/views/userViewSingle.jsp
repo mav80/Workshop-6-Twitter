@@ -59,6 +59,14 @@
 												<c:forEach items="${commentCountMap}" var="mapEntry">
 													<c:if test="${mapEntry.key == tweet.id}">
 														${mapEntry.value}
+														
+														<c:if test="${not empty loggedUser}">
+															<c:if test="${tweet.user.username == loggedUser.username}">
+																<a class="confirm userDelete" href="<%out.print(request.getContextPath());%>/userDeleteUserTweet/${tweet.id}">usuń tweeta</a>
+																<a class="userEdit"href="<%out.print(request.getContextPath());%>/userEditTweet/${tweet.id}">edytuj tweeta</a>
+															</c:if>
+														</c:if>
+														
 													</c:if>
 												</c:forEach>
 											

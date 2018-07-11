@@ -76,10 +76,17 @@ h1 {
 	#mainTitleLink {
 		color: red;
 		text-decoration: none;
+	}
 	
+	.userDelete {
+		color: red;
+		font-weight: bold;
+		text-decoration: none;
+	}
 	
-	
-	
+		.userEdit {
+		color: magenta;
+		text-decoration: none;
 	}
 
 
