@@ -2,6 +2,7 @@ package pl.coderslab.controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -736,6 +737,11 @@ public class AdminController {
 			
 			List<String> popularWordList = new ArrayList<>(popularWordListHash); //moving to regular array makes pulling words from it easier
 			
+			//populates our list with some words in case it's empty (no internet connection etc)
+			if(popularWordList.isEmpty()) {
+				popularWordList = Arrays.asList("tak", "nie", "czyli", "że", "albo", "po co", "telefon", "marchewka", "lub", "młotek", "lubię", "schowaj", "zaczarowany", "fajny", "albo", "możliwe", "absolutnie", "samochód", "rower", "modny", "skąd");
+			}
+			
 			List<Tweet> newTweets = new ArrayList<>();
 			List<User> usersWithoutAdmins = new ArrayList<>();
 			usersWithoutAdmins = userRepository.findAllWithoutAdmins();
@@ -847,6 +853,12 @@ public class AdminController {
 			
 			
 			List<String> popularWordList = new ArrayList<>(popularWordListHash); //moving to regular array makes pulling words from it easier
+			
+			//populates our list with some words in case it's empty (no internet connection etc)
+			if(popularWordList.isEmpty()) {
+				popularWordList = Arrays.asList("tak", "nie", "czyli", "że", "albo", "po co", "telefon", "marchewka", "lub", "młotek", "lubię", "schowaj", "zaczarowany", "fajny", "albo", "możliwe", "absolutnie", "samochód", "rower", "modny", "skąd");
+			}
+			
 			List<Tweet> tweetsWithoutComment = new ArrayList<>();
 			tweetsWithoutComment = tweetRepository.findAllTweetsWithoutComments();
 			
