@@ -47,6 +47,7 @@
 		<c:if test="${not empty loggedUser}">
 			<a class="floatRight"  href="<%out.print(request.getContextPath());%>/logout">Wyloguj się</a>
 		</c:if>
-	
+		
+		<h1><a id="mainTitleLink" href="<%out.print(request.getContextPath());%>">Twatter</a></h1>
 	</body>
 </html>

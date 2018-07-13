@@ -42,5 +42,7 @@
 		
 		<a class="floatRight" href="<%out.print(request.getContextPath());%>/logout">Wyloguj się</a>
 		<a class="floatRight" href="<%out.print(request.getContextPath());%>">Powrót do strony głównej</a>
+		
+		<h1><a id="mainTitleLink" href="<%out.print(request.getContextPath());%>">Twatter</a></h1>
 	</body>
 </html>
