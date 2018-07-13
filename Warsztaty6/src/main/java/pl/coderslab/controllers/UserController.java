@@ -629,5 +629,41 @@ public class UserController {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@GetMapping("/userHardDeleteUserTweet/{id}")
+	public String userHardDeleteUserTweet(Model model, @PathVariable Long id, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+		
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		User user = (User) session.getAttribute("loggedUser");
+		Tweet tweetToDelete = tweetRepository.findFirstById(id);
+		
+		
+		if(user != null && tweetToDelete != null && user.getId() == tweetToDelete.getUser().getId()) {
+			tweetRepository.deleteById(id);
+			model.addAttribute("operationInfo", "Tweeta należącego do użytkownika " + tweetToDelete.getUser().getUsername() + " oraz wszystkie komentarze do niego skasowano pomyślnie.");
+			return "userDelete";
+			
+		}
+		
+		model.addAttribute("operationInfo", "Wystąpił błąd, tweet nie został usunięty.");
+		return "userDelete";
+
+		
+	}
+	
+	
+	
+	
+	
 
 }
