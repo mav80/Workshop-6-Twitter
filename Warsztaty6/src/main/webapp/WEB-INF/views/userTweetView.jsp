@@ -62,10 +62,9 @@
 											
 											<c:if test="${loggedUser.admin == true}">
 												<li>
-													<form action="<%out.print(request.getContextPath());%>/adminEdit">
-														<input type="hidden" name="commentId" value="${comment.id}">
-														<input type="submit" value="Edytuj ten komentarz"><br><br>
-													</form>
+													<a href="<%out.print(request.getContextPath());%>/adminEdit?commentId=${comment.id}">edytuj komentarz</a>
+													
+													<a class="confirm" href="<%out.print(request.getContextPath());%>/adminHardDeleteUserComment/${comment.id}">usuń komentarz</a>
 												</li>
 											</c:if> 
 											

@@ -90,7 +90,7 @@
 														<c:if test="${not empty loggedUser}">
 															<c:if test="${loggedUser.admin == true}">
 																<a class="confirm" href="<%out.print(request.getContextPath());%>/adminHardDeleteUserComment/${comment.id}">usuń komentarz</a>
-																<a href="<%out.print(request.getContextPath());%>/adminEdit?commentId=${tweet.id}">edytuj komentarz</a>
+																<a href="<%out.print(request.getContextPath());%>/adminEdit?commentId=${comment.id}">edytuj komentarz</a>
 															</c:if>
 														</c:if>
 													</li>

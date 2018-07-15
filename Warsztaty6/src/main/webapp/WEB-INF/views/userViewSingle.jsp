@@ -72,7 +72,9 @@
 											
 											</li>
 											<br>
-											<li><a href="<%out.print(request.getContextPath());%>/tweet/${tweet.id}">Zobacz szczegóły tweeta i komentarze do niego</a></li>
+											<li>
+											
+											<a href="<%out.print(request.getContextPath());%>/tweet/${tweet.id}">Zobacz szczegóły tweeta i komentarze do niego</a></li>
 	
 											<c:if test="${loggedUser.admin == true}">
 												<li>
@@ -82,7 +84,7 @@
 												</form>
 												</li>
 												<li>
-													<form action="<%out.print(request.getContextPath());%>/adminHardDeleteUserTweet/${tweet.id}">
+													<form class="confirm" action="<%out.print(request.getContextPath());%>/adminHardDeleteUserTweet/${tweet.id}">
 														<input type="submit" value="Usuń tego tweeta"><br><br>
 													</form>
 												</li>
