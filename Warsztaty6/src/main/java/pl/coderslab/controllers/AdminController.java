@@ -404,7 +404,7 @@ public class AdminController {
 			Comment commentToDelete = commentRepository.findFirstById(id);
 			if(commentToDelete != null) {
 				commentRepository.deleteCommentById(id);
-				model.addAttribute("operationInfo", "Komentarz należący do użytkownika " + commentToDelete.getUser().getUsername() + " oraz wszystkie komentarze do niego skasowano pomyślnie.");
+				model.addAttribute("operationInfo", "Komentarz należący do użytkownika " + commentToDelete.getUser().getUsername() + " skasowano pomyślnie.");
 			} else {
 				model.addAttribute("operationInfo", "Komentarz o takim id nie istnieje.");
 			}

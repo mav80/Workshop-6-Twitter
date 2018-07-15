@@ -54,7 +54,7 @@
 				
 													<c:if test="${not empty loggedUser}">
 														<c:if test="${loggedUser.admin == true}">
-															<a href="<%out.print(request.getContextPath());%>/adminHardDeleteUserTweet/${tweet.id}">usuń tweeta</a>
+															<a class="confirm" href="<%out.print(request.getContextPath());%>/adminHardDeleteUserTweet/${tweet.id}">usuń tweeta</a>
 															<a href="<%out.print(request.getContextPath());%>/adminEdit?tweetId=${tweet.id}">edytuj tweeta</a>
 														</c:if>
 													</c:if>
@@ -86,6 +86,13 @@
 														
 														Komentarz użytkownika <a href="<%out.print(request.getContextPath());%>/userView/${comment.user.id}"><b>${comment.user.username}</b></a>, data utworzenia: ${comment.created}s 
 														<pre class="preComment">${comment.text}</pre>
+														
+														<c:if test="${not empty loggedUser}">
+															<c:if test="${loggedUser.admin == true}">
+																<a class="confirm" href="<%out.print(request.getContextPath());%>/adminHardDeleteUserComment/${comment.id}">usuń komentarz</a>
+																<a href="<%out.print(request.getContextPath());%>/adminEdit?commentId=${tweet.id}">edytuj komentarz</a>
+															</c:if>
+														</c:if>
 													</li>
 												</ul>
 											</td>
