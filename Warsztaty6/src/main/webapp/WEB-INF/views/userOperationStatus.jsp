@@ -7,7 +7,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Usuwanie</title>
+		<title>Status operacji</title>
 	</head>
 	<body>
 	<h3>${operationInfo}</h3>

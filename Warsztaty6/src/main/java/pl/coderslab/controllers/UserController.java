@@ -38,6 +38,7 @@ import pl.coderslab.entities.Comment;
 import pl.coderslab.entities.Message;
 import pl.coderslab.entities.Tweet;
 import pl.coderslab.entities.User;
+import pl.coderslab.repositories.CommentRepository;
 import pl.coderslab.repositories.MessageRepository;
 import pl.coderslab.repositories.TweetRepository;
 import pl.coderslab.repositories.UserRepository;
@@ -47,6 +48,8 @@ public class UserController {
 	
 	@Autowired
 	TweetRepository tweetRepository;
+	@Autowired
+	CommentRepository commentRepository;
 	@Autowired
 	UserRepository userRepository;
 	@Autowired
@@ -651,13 +654,96 @@ public class UserController {
 		if(user != null && tweetToDelete != null && user.getId() == tweetToDelete.getUser().getId()) {
 			tweetRepository.deleteById(id);
 			model.addAttribute("operationInfo", "Tweeta należącego do użytkownika " + tweetToDelete.getUser().getUsername() + " oraz wszystkie komentarze do niego skasowano pomyślnie.");
-			return "userDelete";
+			return "userOperationStatus";
 			
 		}
 		
 		model.addAttribute("operationInfo", "Wystąpił błąd, tweet nie został usunięty.");
-		return "userDelete";
+		return "userOperationStatus";
 
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	@GetMapping("/userEdit")
+	public String adminEdit(Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(defaultValue="-1") long tweetId,
+			@RequestParam(defaultValue="-1") long commentId) { 
+		
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		User user = (User) session.getAttribute("loggedUser");
+		
+		if(user != null) {
+			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
+			//unread messages counter
+			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
+			model.addAttribute("operationInfo", "Tu edytujemy różne rzeczy jeśli są odpowiednie parametry w linku.");
+			
+			if(tweetId > 0) {
+				Tweet tweetToEdit = tweetRepository.findFirstById(tweetId);
+				if(tweetToEdit != null && user.getId() == tweetToEdit.getUser().getId()){
+					model.addAttribute("tweet", tweetToEdit);
+					model.addAttribute("operationInfo", "Edycja tweeta należącego do użytkownika " + tweetToEdit.getUser().getUsername() + ":");
+				}  else {
+					model.addAttribute("operationInfo", "Wystąpił błąd, edycja nieudana.");
+					return "userOperationStatus";
+					}
+			} 
+			
+			if(commentId > 0) {
+				Comment commentToEdit = commentRepository.findFirstById(commentId);
+				if(commentToEdit != null && user.getId() == commentToEdit.getUser().getId()){
+					model.addAttribute("comment", commentToEdit);
+					model.addAttribute("operationInfo", "Edycja komentarza należącego do użytkownika " + commentToEdit.getUser().getUsername() + ":");
+				}  else {
+					model.addAttribute("operationInfo", "Wystąpił błąd, edycja nieudana.");
+					return "userOperationStatus";
+					}
+			} 
+					
+			return "userEdit";
+	
+		} else {
+			model.addAttribute("operationInfo", "Wystąpił błąd, edycja nieudana.");
+			return "userOperationStatus";
+			}
+	}
+	
+	@PostMapping("/userEdit")
+	public String adminEdit(@Valid Tweet tweet, BindingResult result, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(defaultValue="-1") long tweetId) { 
+		
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		User user = (User) session.getAttribute("loggedUser");
+		
+		if(user != null && tweet.getUser().getId() == user.getId()) {
+			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
+			//unread messages counter
+			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
+			model.addAttribute("operationInfo", "Tu edytujemy różne rzeczy jeśli są odpowiednie parametry w linku.");
+
+			
+			if (result.hasErrors())
+			{
+				return "userEdit";
+			}
+
+			tweetRepository.save(tweet);
+			model.addAttribute("tweet", tweetRepository.findFirstById(tweet.getId()));
+			model.addAttribute("operationInfo", "Edycja tweeta przebiegła pomyślnie.");
+			return "userOperationStatus";
+	
+		} else {
+			model.addAttribute("operationInfo", "Wystąpił błąd, edycja nieudana.");
+			return "userOperationStatus";
+			}
+		
 		
 	}
 	
