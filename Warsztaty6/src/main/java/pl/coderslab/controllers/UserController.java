@@ -735,6 +735,11 @@ public class UserController {
 			}
 	}
 	
+	
+	
+	
+	
+	
 	@PostMapping("/userEdit")
 	public String adminEdit(@Valid Tweet tweet, BindingResult result, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(defaultValue="-1") long tweetId) { 
@@ -755,7 +760,7 @@ public class UserController {
 			}
 
 			tweetRepository.save(tweet);
-			model.addAttribute("tweet", tweetRepository.findFirstById(tweet.getId()));
+			//model.addAttribute("tweet", tweetRepository.findFirstById(tweet.getId()));
 			model.addAttribute("operationInfo", "Edycja tweeta przebiegła pomyślnie.");
 			return "userOperationStatus";
 	
@@ -763,9 +768,41 @@ public class UserController {
 			model.addAttribute("operationInfo", "Wystąpił błąd, edycja nieudana.");
 			return "userOperationStatus";
 			}
-		
-		
 	}
+	
+	
+	
+	
+	@PostMapping("/userEditComment")
+	public String adminEditComment(@Valid Comment comment, BindingResult result, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(defaultValue="-1") long tweetId) { 
+		
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		User user = (User) session.getAttribute("loggedUser");
+		
+		if(user != null && comment.getUser().getId() == user.getId()) {
+			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
+			//unread messages counter
+			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
+			model.addAttribute("operationInfo", "Tu edytujemy różne rzeczy jeśli są odpowiednie parametry w linku.");
+
+			
+			if (result.hasErrors())
+			{
+				return "userEditComment";
+			}
+
+			commentRepository.save(comment);
+			//model.addAttribute("comment", commentRepository.findFirstById(comment.getId()));
+			model.addAttribute("operationInfo", "Edycja komentarza przebiegła pomyślnie.");
+			return "userOperationStatus";
+	
+		} else {
+			model.addAttribute("operationInfo", "Wystąpił błąd, edycja nieudana.");
+			return "userOperationStatus";
+			}
+	}
+	
 	
 	
 	

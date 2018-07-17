@@ -58,7 +58,7 @@
 						
 											Komentarz użytkownika <a href="<%out.print(request.getContextPath());%>/userView/${comment.user.id}"><b>${comment.user.username}</b></a>, data utworzenia: ${comment.created}</li>
 											
-											<li><pre class="preComment">${comment.text}</pre></li>
+											<li><pre class="preComment ">${comment.text}</pre></li>
 											
 											<c:if test="${loggedUser.admin == true}">
 												<li>
@@ -71,9 +71,8 @@
 											<c:if test="${loggedUser.admin == false}">
 												<c:if test="${loggedUser.username == comment.user.username}">
 													<li>
-														<a href="<%out.print(request.getContextPath());%>/userEdit?commentId=${comment.id}">edytuj komentarz</a>
-														
-														<a class="confirm" href="<%out.print(request.getContextPath());%>/userHardDeleteUserComment/${comment.id}">usuń komentarz</a>
+														<a class="confirm userDelete" href="<%out.print(request.getContextPath());%>/userHardDeleteUserComment/${comment.id}">usuń komentarz</a>
+														<a class="userEdit"href="<%out.print(request.getContextPath());%>/userEdit?commentId=${comment.id}">edytuj komentarz</a>
 													</li>
 												</c:if>
 											</c:if> 

@@ -614,8 +614,6 @@ public class AdminController {
 			model.addAttribute("infoError", "Musisz mieć uprawnienia administratora aby wejść do panelu admina!");
 			return "userLoginForm";
 			}
-		
-		
 	}
 	
 	
