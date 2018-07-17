@@ -664,6 +664,26 @@ public class UserController {
 		
 	}
 	
+	@GetMapping("/userHardDeleteUserComment/{id}")
+	public String userHardDeleteUserComment(Model model, @PathVariable Long id, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+		
+		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
+		User user = (User) session.getAttribute("loggedUser");
+		Comment commentToDelete = commentRepository.findFirstById(id);
+		
+		
+		if(user != null && commentToDelete != null && user.getId() == commentToDelete.getUser().getId()) {
+			commentRepository.deleteCommentById(id);
+			model.addAttribute("operationInfo", "Komentarz należący do użytkownika " + commentToDelete.getUser().getUsername() + " skasowano pomyślnie.");
+			return "userOperationStatus";	
+		}
+		
+		model.addAttribute("operationInfo", "Wystąpił błąd, komentarz nie został usunięty.");
+		return "userOperationStatus";
+
+		
+	}
+	
 	
 	
 	
