@@ -90,6 +90,17 @@ h1 {
 		color: magenta;
 		text-decoration: none;
 	}
+	
+	.adminDelete {
+		color: red;
+		font-weight: bold;
+		text-decoration: none;
+	}
+	
+	.adminEdit {
+		color: magenta;
+		text-decoration: none;
+	}
 
 
 

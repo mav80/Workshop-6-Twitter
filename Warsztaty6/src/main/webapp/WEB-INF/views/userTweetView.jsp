@@ -62,9 +62,8 @@
 											
 											<c:if test="${loggedUser.admin == true}">
 												<li>
-													<a href="<%out.print(request.getContextPath());%>/adminEdit?commentId=${comment.id}">edytuj komentarz</a>
-													
-													<a class="confirm" href="<%out.print(request.getContextPath());%>/adminHardDeleteUserComment/${comment.id}">usuń komentarz</a>
+													<a class="confirm adminDelete" href="<%out.print(request.getContextPath());%>/adminHardDeleteUserComment/${comment.id}">usuń komentarz</a>
+													<a class="adminEdit" href="<%out.print(request.getContextPath());%>/adminEdit?commentId=${comment.id}">edytuj komentarz</a>
 												</li>
 											</c:if> 
 											

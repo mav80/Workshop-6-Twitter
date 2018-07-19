@@ -54,8 +54,8 @@
 				
 													<c:if test="${not empty loggedUser}">
 														<c:if test="${loggedUser.admin == true}">
-															<a class="confirm" href="<%out.print(request.getContextPath());%>/adminHardDeleteUserTweet/${tweet.id}">usuń tweeta</a>
-															<a href="<%out.print(request.getContextPath());%>/adminEdit?tweetId=${tweet.id}">edytuj tweeta</a>
+															<a class="confirm adminDelete" href="<%out.print(request.getContextPath());%>/adminHardDeleteUserTweet/${tweet.id}">usuń tweeta</a>
+															<a class="adminEdit" href="<%out.print(request.getContextPath());%>/adminEdit?tweetId=${tweet.id}">edytuj tweeta</a>
 														</c:if>
 														
 														<c:if test="${loggedUser.admin == false}">
@@ -96,9 +96,16 @@
 														
 														<c:if test="${not empty loggedUser}">
 															<c:if test="${loggedUser.admin == true}">
-																<a class="confirm" href="<%out.print(request.getContextPath());%>/adminHardDeleteUserComment/${comment.id}">usuń komentarz</a>
-																<a href="<%out.print(request.getContextPath());%>/adminEdit?commentId=${comment.id}">edytuj komentarz</a>
+																<a class="confirm adminDelete" href="<%out.print(request.getContextPath());%>/adminHardDeleteUserComment/${comment.id}">usuń komentarz</a>
+																<a class="adminEdit" href="<%out.print(request.getContextPath());%>/adminEdit?commentId=${comment.id}">edytuj komentarz</a>
 															</c:if>
+															
+														<c:if test="${loggedUser.admin == false}">
+															<c:if test="${comment.user.username == loggedUser.username}">
+																<a class="confirm userDelete" href="<%out.print(request.getContextPath());%>/userHardDeleteUserComment/${comment.id}">usuń komentarz</a>
+																<a class="userEdit"href="<%out.print(request.getContextPath());%>/userEdit?commentId=${comment.id}">edytuj komentarz</a>
+															</c:if>
+														</c:if>
 														</c:if>
 													</li>
 												</ul>
