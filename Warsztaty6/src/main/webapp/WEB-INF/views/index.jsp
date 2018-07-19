@@ -57,6 +57,13 @@
 															<a class="confirm" href="<%out.print(request.getContextPath());%>/adminHardDeleteUserTweet/${tweet.id}">usuń tweeta</a>
 															<a href="<%out.print(request.getContextPath());%>/adminEdit?tweetId=${tweet.id}">edytuj tweeta</a>
 														</c:if>
+														
+														<c:if test="${loggedUser.admin == false}">
+															 <c:if test="${tweet.user.username == loggedUser.username}">
+																<a class="confirm userDelete" href="<%out.print(request.getContextPath());%>/userHardDeleteUserTweet/${tweet.id}">usuń tweeta</a>
+																<a class="userEdit"href="<%out.print(request.getContextPath());%>/userEdit?tweetId=${tweet.id}">edytuj tweeta</a>
+															</c:if>
+														</c:if>
 													</c:if>
 				
 				<!-- 1 4 -->					</c:if>
