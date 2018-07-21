@@ -1,9 +1,7 @@
 package pl.coderslab.controllers;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,8 +18,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import pl.coderslab.app.Cookies;
 import pl.coderslab.app.MessageUtils;
@@ -34,6 +31,8 @@ import pl.coderslab.repositories.UserRepository;
 
 @Controller
 public class HomeController {
+	
+	final public int timeForEditingTweetsAndComments = 120; //in minutes
 	
 	@Autowired
 	TweetRepository tweetRepository;
@@ -64,7 +63,6 @@ public class HomeController {
 		List<Tweet> tweetsToShow = new ArrayList<>();
 		//tweetsToShow = tweetRepository.findAllFromNotDeletedUsersOrderByCreatedDesc(); //not necessary since we have pagination below
 		
-		model.addAttribute("tweets", tweetsToShow);
 		model.addAttribute("tweet", new Tweet()); //new tweet to bind with tweet adding form
 		int tweetCount = tweetRepository.tweetCountFromNotDeletedUsers();
 		model.addAttribute("tweetCount", tweetCount);
@@ -93,7 +91,17 @@ public class HomeController {
 		}
 		
 		tweetsToShow = tweetRepository.findAllFromNotDeletedUsersOrderByCreatedDescLimitOffset(tweetsPerPage, (pageNumber -1) * tweetsPerPage);
+		tweetsToShow = determineWhichTweetsAreEditable(tweetsToShow, timeForEditingTweetsAndComments);
+		
+		//debug
+		System.out.println("!tweets");
+		for(Tweet tweet : tweetsToShow) {
+			System.out.println(tweet.isEditable());
+		}
+		
 		model.addAttribute("tweets", tweetsToShow);
+		
+		
 		
 		model.addAttribute("tweetsPerPage", tweetsPerPage);
 		model.addAttribute("numberOfPages", numberOfPages);
@@ -103,29 +111,20 @@ public class HomeController {
 		
 		
 		
-
-		
-		//here we make separate list of comments for every tweet in our collection
-//		Map<Long, List<Comment>> tweetsComments = new HashMap<>();
-//		
-//		List<Comment> allComments = new ArrayList<>();
-//		allComments =  commentRepository.findAllFromNotDeletedUsersOrderByCreatedAscOnlyForTweetsFromNotDeletedUsers();
-//		
-//		for(Tweet singleTweet : tweetsToShow) {	
-//			List<Comment> singleTweetComments = new ArrayList<>();
-//			
-//			for(Comment comment: allComments) {
-//				if(comment.getTweet().getId() == singleTweet.getId()) {
-//					singleTweetComments.add(comment);
-//				}
-//			}
-//			tweetsComments.put(singleTweet.getId(), singleTweetComments);
-//		}
-//		model.addAttribute("tweetsComments", tweetsComments);
-		//end of separate tweet comments
-		
 		//model.addAttribute("comments", commentRepository.findAllFromNotDeletedUsersOrderByCreatedAscOnlyForTweetsFromNotDeletedUsers()); //not necessary since we have pagination
-		model.addAttribute("comments", commentRepository.findOnlyForTweetsOnPageFromNotDeletedUsersOrderByCreatedAscOnlyForTweetsFromNotDeletedUsers(tweetsPerPage, (pageNumber -1) * tweetsPerPage));
+		
+		List<Comment> comments = commentRepository.findOnlyForTweetsOnPageFromNotDeletedUsersOrderByCreatedAscOnlyForTweetsFromNotDeletedUsers(tweetsPerPage, (pageNumber -1) * tweetsPerPage);
+		
+		comments = determineWhichCommentsAreEditable(comments, timeForEditingTweetsAndComments);
+		
+		//debug
+		System.out.println("!comments");
+		for(Comment comment : comments) {
+			System.out.println(comment.isEditable());
+		}
+		
+		model.addAttribute("comments", comments);
+		
 		model.addAttribute("comment", new Comment()); //new tweet to bind with tweet adding form
 		
 		//comment count section
@@ -144,6 +143,10 @@ public class HomeController {
 		
 		return "index";
 	}
+	
+	
+	
+	
 	
 	
 	@PostMapping("")
@@ -272,6 +275,49 @@ public class HomeController {
  
 	
 		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	private static List<Tweet> determineWhichTweetsAreEditable(List<Tweet> tweets, int timeInMinutes) {
+
+		DateTime currentDate = new DateTime();
+		
+		for(Tweet tweet : tweets) {
+			DateTime tweetCreationDate = new DateTime(tweet.getCreated());
+
+			if(currentDate.isBefore(tweetCreationDate.plusMinutes(timeInMinutes))) {
+				tweet.setEditable(true);
+			} else {
+				tweet.setEditable(false);
+			}
+		}
+		return tweets;
+	}
+	
+	
+	
+	private static List<Comment> determineWhichCommentsAreEditable(List<Comment> comments, int timeInMinutes) {
+
+		DateTime currentDate = new DateTime();
+		
+		for(Comment comment : comments) {
+			DateTime commentCreationDate = new DateTime(comment.getCreated());
+			
+			if(currentDate.isBefore(commentCreationDate.plusMinutes(timeInMinutes))) {
+				comment.setEditable(true);
+			} else {
+				comment.setEditable(false);
+			}
+		}
+		return comments;
 	}
 	
 	
