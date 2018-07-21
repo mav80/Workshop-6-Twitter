@@ -50,6 +50,10 @@ public class Tweet {
 	@OneToMany(mappedBy = "tweet", fetch=FetchType.EAGER, cascade =  {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH, CascadeType.REMOVE})
 	private List<Comment> comments = new ArrayList<>();
 	
+	@NotNull
+	@Column
+	private boolean editable;
+	
 	
 	
 
@@ -101,7 +105,14 @@ public class Tweet {
 		this.comments = comments;
 	}
 	
-	
+	public boolean isEditable() {
+		return editable;
+	}
+
+	public void setEditable(boolean editable) {
+		this.editable = editable;
+	}
+
 	
 
 	
@@ -112,10 +123,64 @@ public class Tweet {
 //				user);
 //	}
 	
-
 	@Override
 	public String toString() {
-		return String.format("Dane tweeta bez usera (toString): [id=%s, text=%s, created=%s, receiver=%s]", id, text, created, receiver);
+		return String.format("Dane tweeta bez usera (toString): [id=%s, text=%s, created=%s, receiver=%s, editable=%s]", id, text, created, receiver, editable);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((comments == null) ? 0 : comments.hashCode());
+		result = prime * result + ((created == null) ? 0 : created.hashCode());
+		result = prime * result + (editable ? 1231 : 1237);
+		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((receiver == null) ? 0 : receiver.hashCode());
+		result = prime * result + ((text == null) ? 0 : text.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Tweet other = (Tweet) obj;
+		if (comments == null) {
+			if (other.comments != null)
+				return false;
+		} else if (!comments.equals(other.comments))
+			return false;
+		if (created == null) {
+			if (other.created != null)
+				return false;
+		} else if (!created.equals(other.created))
+			return false;
+		if (editable != other.editable)
+			return false;
+		if (id != other.id)
+			return false;
+		if (receiver == null) {
+			if (other.receiver != null)
+				return false;
+		} else if (!receiver.equals(other.receiver))
+			return false;
+		if (text == null) {
+			if (other.text != null)
+				return false;
+		} else if (!text.equals(other.text))
+			return false;
+		if (user == null) {
+			if (other.user != null)
+				return false;
+		} else if (!user.equals(other.user))
+			return false;
+		return true;
 	}
 	
 	

@@ -2,6 +2,7 @@ package pl.coderslab.entities;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -306,6 +307,98 @@ public class User {
 		return String.format(
 				"User [id=%s, username=%s, email=%s, enabled=%s, deleted=%s, tweeCount=%s, commentCount=%s, created=%s, admin=%s, password=%s]",
 				id, username, email, enabled, deleted, tweeCount, commentCount, created, admin, password);
+	}
+
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (admin ? 1231 : 1237);
+		result = prime * result + commentCount;
+		result = prime * result + ((comments == null) ? 0 : comments.hashCode());
+		result = prime * result + ((created == null) ? 0 : created.hashCode());
+		result = prime * result + (deleted ? 1231 : 1237);
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + (enabled ? 1231 : 1237);
+		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((receivedMessages == null) ? 0 : receivedMessages.hashCode());
+		result = prime * result + ((sentMessages == null) ? 0 : sentMessages.hashCode());
+		result = prime * result + tweeCount;
+		result = prime * result + ((tweets == null) ? 0 : tweets.hashCode());
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		result = prime * result + Arrays.hashCode(usrImg);
+		return result;
+	}
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (admin != other.admin)
+			return false;
+		if (commentCount != other.commentCount)
+			return false;
+		if (comments == null) {
+			if (other.comments != null)
+				return false;
+		} else if (!comments.equals(other.comments))
+			return false;
+		if (created == null) {
+			if (other.created != null)
+				return false;
+		} else if (!created.equals(other.created))
+			return false;
+		if (deleted != other.deleted)
+			return false;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (enabled != other.enabled)
+			return false;
+		if (id != other.id)
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (receivedMessages == null) {
+			if (other.receivedMessages != null)
+				return false;
+		} else if (!receivedMessages.equals(other.receivedMessages))
+			return false;
+		if (sentMessages == null) {
+			if (other.sentMessages != null)
+				return false;
+		} else if (!sentMessages.equals(other.sentMessages))
+			return false;
+		if (tweeCount != other.tweeCount)
+			return false;
+		if (tweets == null) {
+			if (other.tweets != null)
+				return false;
+		} else if (!tweets.equals(other.tweets))
+			return false;
+		if (username == null) {
+			if (other.username != null)
+				return false;
+		} else if (!username.equals(other.username))
+			return false;
+		if (!Arrays.equals(usrImg, other.usrImg))
+			return false;
+		return true;
 	}
 	
 	
