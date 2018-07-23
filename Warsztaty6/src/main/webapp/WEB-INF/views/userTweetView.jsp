@@ -68,7 +68,7 @@
 											</c:if> 
 											
 											<c:if test="${loggedUser.admin == false}">
-												<c:if test="${loggedUser.username == comment.user.username}">
+												<c:if test="${loggedUser.username == comment.user.username && comment.editable == true}">
 													<li>
 														<a class="confirm userDelete" href="<%out.print(request.getContextPath());%>/userHardDeleteUserComment/${comment.id}">usuń komentarz</a>
 														<a class="userEdit"href="<%out.print(request.getContextPath());%>/userEdit?commentId=${comment.id}">edytuj komentarz</a>

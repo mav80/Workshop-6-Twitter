@@ -66,7 +66,9 @@ public class UserController {
 			//unread messages counter
 			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
 			
-			model.addAttribute("tweets", tweetRepository.findByUserIdOrderByCreatedDesc(user.getId()));
+			List<Tweet> tweetsToShow = tweetRepository.findByUserIdOrderByCreatedDesc(user.getId());
+			tweetsToShow = HomeController.determineWhichTweetsAreEditable(tweetsToShow, HomeController.timeForEditingTweetsAndComments);
+			model.addAttribute("tweets", tweetsToShow);
 			
 			//comment count section
 			List<Tweet> tweets = tweetRepository.findAllByUserIdOrderByCreatedDesc(user.getId());
@@ -106,7 +108,9 @@ public class UserController {
 		User userToview = userRepository.findFirstById(id);
 		if(userToview != null && !userToview.isDeleted()) {
 			model.addAttribute("viewedUser", userToview);
-			model.addAttribute("tweets", tweetRepository.findByUserIdOrderByCreatedDesc(id));
+			List<Tweet> tweetsToShow = tweetRepository.findByUserIdOrderByCreatedDesc(user.getId());
+			tweetsToShow = HomeController.determineWhichTweetsAreEditable(tweetsToShow, HomeController.timeForEditingTweetsAndComments);
+			model.addAttribute("tweets", tweetsToShow);
 		}
 		
 		//comment count section

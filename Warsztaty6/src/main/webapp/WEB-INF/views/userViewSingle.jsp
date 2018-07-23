@@ -61,7 +61,7 @@
 														${mapEntry.value}
 														
 														<c:if test="${not empty loggedUser}">
-															<c:if test="${tweet.user.username == loggedUser.username}">
+															<c:if test="${tweet.user.username == loggedUser.username && tweet.editable == true}">
 																<a class="confirm userDelete" href="<%out.print(request.getContextPath());%>/userHardDeleteUserTweet/${tweet.id}">usuń tweeta</a>
 																<a class="userEdit"href="<%out.print(request.getContextPath());%>/userEdit?tweetId=${tweet.id}">edytuj tweeta</a>
 															</c:if>

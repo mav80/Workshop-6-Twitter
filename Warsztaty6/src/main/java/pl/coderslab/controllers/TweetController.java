@@ -1,5 +1,7 @@
 package pl.coderslab.controllers;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -53,7 +55,11 @@ public class TweetController {
 		
 		if(tweet != null) {
 			model.addAttribute("tweet", tweet); //new tweet to bind with tweet adding form
-			model.addAttribute("comments", commentRepository.findAllByTweetIdOrderByCreatedAsc(id));
+			
+			List<Comment> comments = commentRepository.findAllByTweetIdOrderByCreatedAsc(id);
+			
+			comments = HomeController.determineWhichCommentsAreEditable(comments, HomeController.timeForEditingTweetsAndComments);
+			model.addAttribute("comments", comments);
 			model.addAttribute("comment", new Comment()); //new comment to bind with comment adding form
 		}
 		

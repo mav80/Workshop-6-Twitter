@@ -92,13 +92,6 @@ public class HomeController {
 		
 		tweetsToShow = tweetRepository.findAllFromNotDeletedUsersOrderByCreatedDescLimitOffset(tweetsPerPage, (pageNumber -1) * tweetsPerPage);
 		tweetsToShow = determineWhichTweetsAreEditable(tweetsToShow, timeForEditingTweetsAndComments);
-		
-		//debug
-		System.out.println("!tweets");
-		for(Tweet tweet : tweetsToShow) {
-			System.out.println(tweet.isEditable());
-		}
-		
 		model.addAttribute("tweets", tweetsToShow);
 		
 		
@@ -116,12 +109,6 @@ public class HomeController {
 		List<Comment> comments = commentRepository.findOnlyForTweetsOnPageFromNotDeletedUsersOrderByCreatedAscOnlyForTweetsFromNotDeletedUsers(tweetsPerPage, (pageNumber -1) * tweetsPerPage);
 		
 		comments = determineWhichCommentsAreEditable(comments, timeForEditingTweetsAndComments);
-		
-		//debug
-		System.out.println("!comments");
-		for(Comment comment : comments) {
-			System.out.println(comment.isEditable());
-		}
 		
 		model.addAttribute("comments", comments);
 		
