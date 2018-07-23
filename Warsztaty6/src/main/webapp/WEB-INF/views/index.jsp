@@ -59,7 +59,7 @@
 														</c:if>
 														
 														<c:if test="${loggedUser.admin == false}">
-															 <c:if test="${tweet.user.username == loggedUser.username}">
+															 <c:if test="${tweet.user.username == loggedUser.username && tweet.editable == true}">
 																<a class="confirm userDelete" href="<%out.print(request.getContextPath());%>/userHardDeleteUserTweet/${tweet.id}">usuń tweeta</a>
 																<a class="userEdit"href="<%out.print(request.getContextPath());%>/userEdit?tweetId=${tweet.id}">edytuj tweeta</a>
 															</c:if>
@@ -91,7 +91,7 @@
 															<img class="commentPicture" src="<%out.print(request.getContextPath());%>/imageDisplay?id=${comment.user.id}"/> 							
 														</c:if> 
 														
-														Komentarz użytkownika <a href="<%out.print(request.getContextPath());%>/userView/${comment.user.id}"><b>${comment.user.username}</b></a>, data utworzenia: ${comment.created}s 
+														Komentarz użytkownika <a href="<%out.print(request.getContextPath());%>/userView/${comment.user.id}"><b>${comment.user.username}</b></a>, data utworzenia: ${comment.created} 
 														<pre class="preComment">${comment.text}</pre>
 														
 														<c:if test="${not empty loggedUser}">
@@ -101,7 +101,7 @@
 															</c:if>
 															
 														<c:if test="${loggedUser.admin == false}">
-															<c:if test="${comment.user.username == loggedUser.username}">
+															<c:if test="${comment.user.username == loggedUser.username && tweet.editable == true}">
 																<a class="confirm userDelete" href="<%out.print(request.getContextPath());%>/userHardDeleteUserComment/${comment.id}">usuń komentarz</a>
 																<a class="userEdit"href="<%out.print(request.getContextPath());%>/userEdit?commentId=${comment.id}">edytuj komentarz</a>
 															</c:if>

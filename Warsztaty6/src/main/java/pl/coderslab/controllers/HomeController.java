@@ -32,7 +32,7 @@ import pl.coderslab.repositories.UserRepository;
 @Controller
 public class HomeController {
 	
-	final public int timeForEditingTweetsAndComments = 120; //in minutes
+	final public static int timeForEditingTweetsAndComments = 120; //in minutes
 	
 	@Autowired
 	TweetRepository tweetRepository;
@@ -286,7 +286,7 @@ public class HomeController {
 	
 	
 	
-	private static List<Tweet> determineWhichTweetsAreEditable(List<Tweet> tweets, int timeInMinutes) {
+	static List<Tweet> determineWhichTweetsAreEditable(List<Tweet> tweets, int timeInMinutes) {
 
 		DateTime currentDate = new DateTime();
 		
@@ -304,7 +304,7 @@ public class HomeController {
 	
 	
 	
-	private static List<Comment> determineWhichCommentsAreEditable(List<Comment> comments, int timeInMinutes) {
+	static List<Comment> determineWhichCommentsAreEditable(List<Comment> comments, int timeInMinutes) {
 
 		DateTime currentDate = new DateTime();
 		
@@ -321,6 +321,32 @@ public class HomeController {
 	}
 	
 	
+	
+	static Boolean checkIfTweetIsEditable(Tweet tweet) {
+		
+		DateTime currentDate = new DateTime();
+		DateTime tweetCreationDate = new DateTime(tweet.getCreated());
+
+		if(currentDate.isBefore(tweetCreationDate.plusMinutes(timeForEditingTweetsAndComments))) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	
+	
+	static Boolean checkIfCommentIsEditable(Comment comment) {
+		
+		DateTime currentDate = new DateTime();
+		DateTime commentCreationDate = new DateTime(comment.getCreated());
+
+		if(currentDate.isBefore(commentCreationDate.plusMinutes(timeForEditingTweetsAndComments))) {
+			return true;
+		}
+		
+		return false;
+	}
 	
 	
 	

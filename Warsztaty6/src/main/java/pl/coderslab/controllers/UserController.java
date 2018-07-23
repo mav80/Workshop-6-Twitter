@@ -651,7 +651,7 @@ public class UserController {
 		Tweet tweetToDelete = tweetRepository.findFirstById(id);
 		
 		
-		if(user != null && tweetToDelete != null && user.getId() == tweetToDelete.getUser().getId()) {
+		if(user != null && tweetToDelete != null && user.getId() == tweetToDelete.getUser().getId() && HomeController.checkIfTweetIsEditable(tweetToDelete)) {
 			tweetRepository.deleteById(id);
 			model.addAttribute("operationInfo", "Tweeta należącego do użytkownika " + tweetToDelete.getUser().getUsername() + " oraz wszystkie komentarze do niego skasowano pomyślnie.");
 			return "userOperationStatus";
@@ -659,6 +659,9 @@ public class UserController {
 		}
 		
 		model.addAttribute("operationInfo", "Wystąpił błąd, tweet nie został usunięty.");
+		if(HomeController.checkIfTweetIsEditable(tweetToDelete) == false ) {
+			model.addAttribute("operationInfo", "Czas na edycję (" + HomeController.timeForEditingTweetsAndComments + " minut) upłynął.");
+		}
 		return "userOperationStatus";
 
 		
@@ -672,13 +675,16 @@ public class UserController {
 		Comment commentToDelete = commentRepository.findFirstById(id);
 		
 		
-		if(user != null && commentToDelete != null && user.getId() == commentToDelete.getUser().getId()) {
+		if(user != null && commentToDelete != null && user.getId() == commentToDelete.getUser().getId() && HomeController.checkIfCommentIsEditable(commentToDelete)) {
 			commentRepository.deleteCommentById(id);
 			model.addAttribute("operationInfo", "Komentarz należący do użytkownika " + commentToDelete.getUser().getUsername() + " skasowano pomyślnie.");
 			return "userOperationStatus";	
 		}
 		
 		model.addAttribute("operationInfo", "Wystąpił błąd, komentarz nie został usunięty.");
+		if(HomeController.checkIfCommentIsEditable(commentToDelete) == false ) {
+			model.addAttribute("operationInfo", "Czas na edycję (" + HomeController.timeForEditingTweetsAndComments + " minut) upłynął.");
+		}
 		return "userOperationStatus";
 
 		
@@ -707,22 +713,28 @@ public class UserController {
 			
 			if(tweetId > 0) {
 				Tweet tweetToEdit = tweetRepository.findFirstById(tweetId);
-				if(tweetToEdit != null && user.getId() == tweetToEdit.getUser().getId()){
+				if(tweetToEdit != null && user.getId() == tweetToEdit.getUser().getId() && HomeController.checkIfTweetIsEditable(tweetToEdit)){
 					model.addAttribute("tweet", tweetToEdit);
 					model.addAttribute("operationInfo", "Edycja tweeta należącego do użytkownika " + tweetToEdit.getUser().getUsername() + ":");
 				}  else {
 					model.addAttribute("operationInfo", "Wystąpił błąd, edycja nieudana.");
+					if(HomeController.checkIfTweetIsEditable(tweetToEdit) == false ) {
+						model.addAttribute("operationInfo", "Czas na edycję (" + HomeController.timeForEditingTweetsAndComments + " minut) upłynął.");
+					}
 					return "userOperationStatus";
 					}
 			} 
 			
 			if(commentId > 0) {
 				Comment commentToEdit = commentRepository.findFirstById(commentId);
-				if(commentToEdit != null && user.getId() == commentToEdit.getUser().getId()){
+				if(commentToEdit != null && user.getId() == commentToEdit.getUser().getId() && HomeController.checkIfCommentIsEditable(commentToEdit)){
 					model.addAttribute("comment", commentToEdit);
 					model.addAttribute("operationInfo", "Edycja komentarza należącego do użytkownika " + commentToEdit.getUser().getUsername() + ":");
 				}  else {
 					model.addAttribute("operationInfo", "Wystąpił błąd, edycja nieudana.");
+					if(HomeController.checkIfCommentIsEditable(commentToEdit) == false ) {
+						model.addAttribute("operationInfo", "Czas na edycję (" + HomeController.timeForEditingTweetsAndComments + " minut) upłynął.");
+					}
 					return "userOperationStatus";
 					}
 			} 
@@ -747,7 +759,7 @@ public class UserController {
 		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User user = (User) session.getAttribute("loggedUser");
 		
-		if(user != null && tweet.getUser().getId() == user.getId()) {
+		if(user != null && tweet.getUser().getId() == user.getId() && HomeController.checkIfTweetIsEditable(tweet)) {
 			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
 			//unread messages counter
 			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
@@ -766,6 +778,9 @@ public class UserController {
 	
 		} else {
 			model.addAttribute("operationInfo", "Wystąpił błąd, edycja nieudana.");
+			if(HomeController.checkIfTweetIsEditable(tweet) == false ) {
+				model.addAttribute("operationInfo", "Czas na edycję (" + HomeController.timeForEditingTweetsAndComments + " minut) upłynął.");
+			}
 			return "userOperationStatus";
 			}
 	}
@@ -780,7 +795,7 @@ public class UserController {
 		Cookies.CheckCookiesAndSetLoggedUserAttribute(request, response, userRepository, session); //static method to check user cookie and set session attribute accordingly to avoid repeating code
 		User user = (User) session.getAttribute("loggedUser");
 		
-		if(user != null && comment.getUser().getId() == user.getId()) {
+		if(user != null && comment.getUser().getId() == user.getId() && HomeController.checkIfCommentIsEditable(comment)) {
 			model.addAttribute("info", "Jesteś zalogowany jako " + user.getUsername());
 			//unread messages counter
 			MessageUtils.countUnreadMessagesAndSetInfoIfAny(model, user, messageRepository);
@@ -799,6 +814,9 @@ public class UserController {
 	
 		} else {
 			model.addAttribute("operationInfo", "Wystąpił błąd, edycja nieudana.");
+			if(HomeController.checkIfCommentIsEditable(comment) == false ) {
+				model.addAttribute("operationInfo", "Czas na edycję (" + HomeController.timeForEditingTweetsAndComments + " minut) upłynął.");
+			}
 			return "userOperationStatus";
 			}
 	}
