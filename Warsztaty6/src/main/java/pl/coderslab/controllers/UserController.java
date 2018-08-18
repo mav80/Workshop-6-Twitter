@@ -108,7 +108,7 @@ public class UserController {
 		User userToview = userRepository.findFirstById(id);
 		if(userToview != null && !userToview.isDeleted()) {
 			model.addAttribute("viewedUser", userToview);
-			List<Tweet> tweetsToShow = tweetRepository.findByUserIdOrderByCreatedDesc(user.getId());
+			List<Tweet> tweetsToShow = tweetRepository.findByUserIdOrderByCreatedDesc(id); 
 			tweetsToShow = HomeController.determineWhichTweetsAreEditable(tweetsToShow, HomeController.timeForEditingTweetsAndComments);
 			model.addAttribute("tweets", tweetsToShow);
 		}
